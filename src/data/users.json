@@ -1,0 +1,29 @@
+[
+    {
+        "id": "1",
+        "email": "test1@mail.com",
+        "password": "test1",
+        "firstName": "User",
+        "lastName": "Khoron",
+        "matricNo": "xxx/xxx/xxx",
+        "department": "1"
+    },
+    {
+        "id": "2",
+        "email": "test2@mail.com",
+        "password": "test2",
+        "firstName": "User2",
+        "lastName": "Khoron",
+        "matricNo": "xxx/xxx/xxx",
+        "department": "2"
+    },
+    {
+        "id": "3",
+        "email": "test3@mail.com",
+        "password": "test3",
+        "firstName": "User3",
+        "lastName": "Khoron",
+        "matricNo": "xxx/xxx/xxx",
+        "department": "3"
+    }
+]

@@ -1,0 +1,213 @@
+@use './variables' as *;
+@use './mixins' as mixins;
+
+
+
+/* -------------------- */
+/* Utility classes      */
+/* -------------------- */
+
+@include mixins.flex(".d-flex");
+@include mixins.flex-layout(".md");
+
+
+.relative {
+    position: relative;
+    // overflow: auto;
+}
+
+
+.border-none {
+    border: 0
+}
+
+
+// Texts
+
+.text {
+    &-center {
+        text-align: center;
+    }
+
+    &-capitalize {
+        text-transform: capitalize;
+    }
+}
+
+
+
+
+// Margins
+.ml {
+    &-07 {
+        margin-left: .5rem;
+    }
+
+    &-1 {
+        margin-left: 1rem;
+    }
+}
+
+.mr {
+    &-1 {
+        margin-right: 1rem;
+    }
+
+    &-07 {
+        margin-right: .5rem;
+    }
+}
+
+.my {
+    &-1 {
+        margin-block: 1rem;
+    }
+
+    &-1-07 {
+        margin-block: 1.5rem;
+    }
+
+    &-07 {
+        margin-block: .5rem;
+    }
+}
+
+
+.mt {
+    &-5,
+    &-md-5 {
+        margin-top: 5rem;
+    }
+    &-6,
+    &-md-6 {
+        margin-top: 6rem;
+    }
+}
+
+.mx {
+    &-auto {
+        margin-inline: auto;
+    }
+    &-1 {
+        margin-inline: 1rem;
+    }
+
+    &-1-07 {
+        margin-inline: 1.5rem;
+    }
+
+    &-07 {
+        margin-inline: .5rem;
+    }
+}
+
+
+// Padding
+.pt {
+    &-1 {
+        padding-block: 1rem;
+    }
+}
+
+.py {
+    &-1 {
+        padding-block: 1rem;
+    }
+
+    &-2 {
+        padding-block: 2.3rem;
+    }
+    &-5 {
+        padding-block: 5.3rem;
+    }
+}
+
+.px {
+    &-1 {
+        padding-inline: 1rem;
+    }
+}
+
+
+
+
+// Buttons
+.btn {
+    cursor: pointer;
+}
+
+
+
+// Font size and widths
+.fw {
+    &-300 {
+        font-weight: 300;
+    }
+
+    &-600 {
+        font-weight: 600;
+    }
+
+    &-800 {
+        font-weight: 800;
+    }
+}
+
+.fs {
+    &-1,
+    &-md-1 {
+        // font-size: 1rem;
+        font-size: clamp(1rem, 40%, 2rem);
+    }
+
+    &-2,
+    &-md-2 {
+        font-size: 2rem;
+    }
+
+    &-3,
+    &-md-3 {
+        font-size: clamp(3rem, 10vw, 550%);
+    }
+}
+
+
+// Layout
+
+.d-block {
+    display: block;
+}
+
+
+.w {
+    &-full {
+        width: 100%;
+    }
+}
+// Container
+.container {
+    width: $md-breakpoint;
+    overflow: hidden;
+    max-width: 100%;
+
+    margin-inline: auto;
+
+    padding-inline: 1rem;
+
+    @include mixins.md {
+        padding-inline: 2.5rem;
+    }
+
+
+    &.not-hidden {
+        overflow: visible !important;
+    }
+}
+
+
+// Box shadow
+.box-shadow {
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+    box-shadow: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+

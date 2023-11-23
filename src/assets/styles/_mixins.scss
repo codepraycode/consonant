@@ -1,0 +1,112 @@
+@use './variables' as *;
+@mixin fontFamily {
+    font-family: 'Nunito Sans', system-ui,
+        Avenir,
+        Helvetica,
+        Arial,
+        sans-serif;
+}
+
+@mixin xrem($property, $value, $unit: rem) {
+    #{$property}: #{$value}#{$unit};
+}
+
+@mixin sm() {
+
+    @media (max-width: 990px) {
+        @content;
+    }
+}
+
+@mixin md() {
+
+    @media (min-width: 1200px) {
+        @content;
+    }
+}
+
+
+@mixin flex($prop) {
+    #{$prop} {
+        display: flex;
+
+        &.wrap {
+            flex-wrap: wrap;
+        }
+
+        &.justify-between {
+            justify-content: space-between;
+        }
+
+        &.justify-around {
+            justify-content: space-around;
+        }
+
+        &.justify-evenly {
+            justify-content: space-evenly;
+        }
+
+        &.justify-center {
+            justify-content: center;
+        }
+
+
+        &.align-center {
+            align-items: center;
+        }
+
+        &.align-start {
+            align-items: flex-start;
+        }
+
+        &.align-end {
+            align-items: flex-end;
+        }
+
+        &.column {
+            flex-direction: column;
+        }
+
+        &.row {
+            flex-direction: row;
+        }
+
+
+        // @include flex-gap();
+    }
+}
+
+
+@mixin flex-layout($prefix) {
+    #{$prefix} {
+        &--column {
+            flex-direction: column !important;
+        }
+
+        &--row {
+            flex-direction: row !important;
+        }
+    }
+}
+
+
+@mixin set-color($selector, $property) {
+    #{$selector} {
+
+        &-white {
+            #{$property}: $white !important;
+        }
+
+        &-light {
+            #{$property}: $lm-bg;
+        }
+
+        &-dark {
+            #{$property}: $dm-bg;
+        }
+
+        &-transparent {
+            #{$property}: transparent;
+        }
+    }
+}

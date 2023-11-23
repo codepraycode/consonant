@@ -1,0 +1,89 @@
+@use './variables' as *;
+@use './mixins' as mixins;
+
+
+@include mixins.set-color (".bg", "background-color");
+@include mixins.set-color (".text", "color");
+
+
+
+body.dark-theme {
+    color: $dm-text;
+    background-color: $dm-bg;
+
+    .skip-to-content {
+        background: $dm-elem;
+    }
+
+    .bg {
+        background-color: $dm-bg;
+
+        &-elem {
+            background-color: $dm-elem;
+        }
+    }
+}
+
+
+body:not(.dark-theme) {
+    color: $lm-text;
+    background-color: $lm-bg;
+    
+
+    .skip-to-content {
+        background: $lm-elem;
+    }
+
+    .bg {
+        background-color: $lm-bg;
+
+        &-elem {
+            background-color: $lm-elem;
+        }
+    }
+}
+// @media (prefers-color-scheme: dark) {
+//     :root {
+//         color: $dm-text;
+//         background-color: $dm-bg;
+//     }
+
+
+//     .skip-to-content {
+//         background: $dm-elem;
+//     }
+
+//     .bg {
+//         background-color: $dm-bg;
+
+//         &-elem {
+//             background-color: $dm-elem;
+//         }
+//     }
+
+// }
+
+
+
+// @media (prefers-color-scheme: light) {
+//     :root {
+//         color: $lm-text;
+//         background-color: $lm-bg;
+//     }
+
+
+//     .skip-to-content {
+//         background: $lm-elem;
+//     }
+
+//     .bg {
+//         background-color: $lm-bg;
+
+//         &-elem {
+//             background-color: $lm-elem;
+//         }
+//     }
+
+// }
+
+

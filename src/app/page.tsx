@@ -2,10 +2,7 @@ import FileList from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
 
 export default function Home() {
-
     
-
-
     return (
         <>
             <header className="py-5">

@@ -19,7 +19,7 @@ const FilePreview = ({file}: {file: Content }) => (
             <div className="details-preview">
                 <h2>{file.title}</h2>
 
-                <Tags />
+                <Tags items={file.departments}/>
                 <p>By XXXXXX . 4 months ago</p>
             </div>
 

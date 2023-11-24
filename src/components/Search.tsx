@@ -27,7 +27,7 @@ const SearchFiles = (props: SearchProps) => {
                 onChange={(e)=>handleSearch(e.target.value)}
             />
             {/* Filters */}
-            <Tags />
+            {/* <Tags /> */}
         </form>
     )
 }

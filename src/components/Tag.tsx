@@ -1,18 +1,19 @@
 
 interface TagsProps {
-    small?: boolean
+    small?: boolean,
+    items: string[]
 }
 
 
 
-const Tags = ({ small = false }: TagsProps) => {
+const Tags = ({ small = false, items }: TagsProps) => {
     return (
         <ul className="tags d-flex" data-small={ small }>
-            <li className="bg-white box-shadow">
-                <a href="/">Past questions</a>
-            </li>
-            <li>Past questions</li>
-            <li>Past questions</li>
+            { items.map((item, i)=>(
+                <li key={i} className="bg-white box-shadow">
+                    <a href="#">{item.toUpperCase()}</a>
+                </li>
+            )) }
         </ul>
     )
 }

@@ -22,7 +22,7 @@ export default function RootLayout({ children }:IRootLayout ) {
                     <div className='gradient'/>
                 </div>
 
-                <main className='relative app d-flex d-flex--column justify-center align-center container mx-auto'>
+                <main className='relative app container mx-auto'>
                     {/* <Nav/> */}
                     {children}
                     

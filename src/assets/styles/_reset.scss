@@ -1,7 +1,6 @@
 @use './variables' as *;
 @use './mixins' as mixins;
 
-
 :root {
     @include mixins.fontFamily;
     line-height: 1.5;

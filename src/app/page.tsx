@@ -1,7 +1,12 @@
+import FileList from "@/components/FileLists";
 import Tags from "@/components/Tag"
-import Link from "next/link"
+import { useFiles } from "@/hooks"
 
 export default function Home() {
+
+    const [ contents ] = useFiles();
+
+
     return (
         <>
             <header className="py-5">
@@ -26,22 +31,7 @@ export default function Home() {
                 </div>
             </header>
 
-            <section className="file-listing">
-                {[1,2,3,4,5].map((i)=>(
-                    <Link href={`/files/${i}`} key={i} className="file-content box-shadow">
-                        <span className="icon icon-file"/>
-
-                        <div>
-                            <h3>SEN 201</h3>
-
-                            {/* <Tags small/> */}
-                            <p>By XXXXXX (4 months ago)</p>
-
-                            {/* <button>View</button> */}
-                        </div>
-                    </Link>
-                ))}
-            </section>
+            <FileList files={contents} />
         </>
     )
 }

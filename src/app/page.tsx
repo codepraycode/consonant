@@ -29,7 +29,7 @@ export default function Home() {
             <section className="file-listing">
                 {[1,2,3,4,5].map((i)=>(
                     <Link href={`/files/${i}`} key={i} className="file-content box-shadow">
-                        <span className="file-icon"/>
+                        <span className="icon icon-file"/>
 
                         <div>
                             <h3>SEN 201</h3>

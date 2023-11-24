@@ -259,18 +259,27 @@
 }
 
 
-.file-icon {
+.icon {
     display: block;
     width: 4rem;
     aspect-ratio: 1;
 
-    // background-color: grey;
-    background-image: url('/images/icons/file.svg');
-
     background-position: center;
     background-size: contain;
+
 }
 
+.icon {
+    &-file {
+        background-image: url('/images/icons/file.svg');
+    }
+    &-link {
+        background-image: url('/images/icons/link.svg');
+    }
+    &-download {
+        background-image: url('/images/icons/download.svg');
+    }
+}
 
 .file-listing {
     display: flex;
@@ -299,5 +308,42 @@
 
     p {
         font-size: .7rem;
+    }
+}
+
+
+.file-preview {
+    // background-color: red;
+
+    .img-preview {
+        width: 400px;
+    }
+
+
+    h2 {
+        font-size: 3rem;
+        margin: 0;
+    }
+    
+    p {
+        font-size: 1rem;
+    }
+
+
+    .cta {
+        display: flex;
+        gap: 1rem;
+
+
+        button {
+            padding: 1.5rem;
+            border-radius: .5rem;
+
+            display: block;
+            background-color: transparent;
+            border: 0;
+        
+            width: 40px;
+        }
     }
 }

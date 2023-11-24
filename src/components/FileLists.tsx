@@ -1,6 +1,12 @@
+'use client'
+import useSearch from "@/context/SearchContext";
 import { Content } from "@/types/content.types"
 import Link from "next/link"
 
+
+type FileListProps  = {
+    files?: Content[]
+} 
 
 const FileListItem = ({file}:{ file: Content}) => (
 
@@ -20,7 +26,8 @@ const FileListItem = ({file}:{ file: Content}) => (
 )
 
 
-const FileList = ({ files }: { files: Content[] }) => {
+const FileListing = ({ files }: FileListProps & { files: Content[]}) => {
+
     return (
         <div className="file-listing">
 
@@ -31,5 +38,14 @@ const FileList = ({ files }: { files: Content[] }) => {
     )
 };
 
+
+const FileList = ({ search, files }: FileListProps & { search?: boolean }) => {
+    const { searchResult } = useSearch();
+    
+    if (search) return <FileListing files={ searchResult }/>
+
+
+    return <FileListing files={files as Content[]}/>
+}
 
 export default FileList;

@@ -1,10 +1,9 @@
 import FileList from "@/components/FileLists";
-import Tags from "@/components/Tag"
-import { useFiles } from "@/hooks"
+import SearchFiles from "@/components/Search";
 
 export default function Home() {
 
-    const [ contents ] = useFiles();
+    
 
 
     return (
@@ -21,17 +20,11 @@ export default function Home() {
 
 
                 {/* Search input */}
-                <div className="form-group mt-md-5 mx-auto">
-                    <input
-                        className="w-full bg-white search_input d-block mx-auto box-shadow"
-                        placeholder="Search for resources"
-                    />
-                    {/* Filters */}
-                    <Tags />
-                </div>
+                <SearchFiles className="mt-md-5 mx-auto" />
+
             </header>
 
-            <FileList files={contents} />
+            <FileList search />
         </>
     )
 }

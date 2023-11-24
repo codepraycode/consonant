@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import '../assets/styles/styles.scss';
+import { SearchProvider } from '@/context/SearchContext';
 
 
 
@@ -24,7 +25,11 @@ export default function RootLayout({ children }:IRootLayout ) {
 
                 <main className='relative app container mx-auto'>
                     {/* <Nav/> */}
-                    {children}
+
+                    <SearchProvider>
+
+                        {children}
+                    </SearchProvider>
                     
                 </main>
             </body>

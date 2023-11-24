@@ -2,10 +2,6 @@ import FileList from "@/components/FileLists";
 import FilePreview from "@/components/FilePreview";
 import { useFile, useFileRecommendation, useFiles } from "@/hooks";
 import { DynamicRoute } from "@/types";
-import Link from "next/link";
-
-
-
 
 
 const FileInfoPage = ({params}: DynamicRoute) => {

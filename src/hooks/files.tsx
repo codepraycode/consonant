@@ -1,11 +1,12 @@
 import { Content } from '@/types/content.types';
-import contents from '../data/contents.json';
+import { fetchContents } from '@/utils/requestContent';
+// import contents from '../data/contents.json';
 import { useMemo } from 'react';
 
 
 const useFiles = (): [ Content[] ] => {
 
-
+    const contents = fetchContents();
     return [ contents ] as const;
 }
 

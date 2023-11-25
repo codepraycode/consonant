@@ -1,3 +1,4 @@
+import { User } from ".";
 
 
 export interface Content {
@@ -5,7 +6,7 @@ export interface Content {
     title: string,
     departments: Array<string>,
     link: string,
-    owner: string,
+    owner: User | undefined,
     createdAt: Date | string,
     updatedAt: Date | string,
 }

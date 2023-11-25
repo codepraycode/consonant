@@ -1,6 +1,7 @@
 import { Content } from "@/types";
 import Image from "next/image";
 import Tags from "./Tag";
+import { formatDateDistance } from "@/utils/time";
 
 
 const FilePreview = ({file}: {file: Content }) => (
@@ -20,7 +21,7 @@ const FilePreview = ({file}: {file: Content }) => (
                 <h2>{file.title}</h2>
 
                 <Tags items={file.departments}/>
-                <p>By XXXXXX . 4 months ago</p>
+                <p>By {file.owner?.firstName} <span className="fw-800 dot-sep">&#183;</span> { formatDateDistance(file.createdAt) }</p>
             </div>
 
 

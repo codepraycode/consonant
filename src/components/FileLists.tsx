@@ -1,6 +1,7 @@
 'use client'
 import useSearch from "@/context/SearchContext";
 import { Content } from "@/types/content.types"
+import { formatDateDistance } from "@/utils/time";
 import Link from "next/link"
 
 
@@ -20,7 +21,11 @@ const FileListItem = ({file}:{ file: Content}) => (
             <h3>{ file.title }</h3>
 
             {/* <Tags small/> */}
-            <p>By XXXXXX (4 months ago)</p>
+            <small className="text-small">
+                By {file.owner?.firstName}
+                <span className="fw-800 dot-sep">&#183;</span>
+                { formatDateDistance(file.createdAt) }
+            </small>
         </div>
     </Link>
 )

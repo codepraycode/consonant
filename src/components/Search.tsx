@@ -6,7 +6,7 @@ import debounce from 'lodash/debounce';
 
 
 interface SearchProps {
-    className: string,
+    className?: string,
 }
 
 const DEBOUNCE_TIMEOUT = 300;
@@ -19,7 +19,7 @@ const SearchFiles = (props: SearchProps) => {
     const handleSearch = useCallback(debounce(search, DEBOUNCE_TIMEOUT), [])
 
     return (
-        <form className={`form-group ${props.className}`}>
+        <form className={`search-group ${props.className}`}>
             <input
                 className="w-full bg-white search_input d-block mx-auto box-shadow"
                 placeholder="Search for resources"

@@ -194,14 +194,17 @@
 }
 
 
-// header {
-//     padding-block: 5rem;
-// }
+header {
+    padding-block: 3rem;
+
+    .search-group {
+        margin-top: 4rem;
+    }
 
 
-.form-group {
-    width: 90%;
-
+    @include mixins.md {
+        padding-top: 5rem;
+    }
 }
 
 .search_input {
@@ -347,6 +350,8 @@
 
 
 .file-preview {
+
+    padding-top: 3rem ;
     display: flex;
     align-items: center;
 

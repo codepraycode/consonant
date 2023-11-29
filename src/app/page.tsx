@@ -5,7 +5,7 @@ export default function Home() {
     
     return (
         <>
-            <header className="py-5">
+            <header>
                 <h1 className="fs-3 fw-800 text-center">
                     Consonant
                 </h1>
@@ -17,11 +17,12 @@ export default function Home() {
 
 
                 {/* Search input */}
-                <SearchFiles className="mt-md-5 mx-auto" />
+                <SearchFiles />
 
             </header>
 
             <FileList search />
+            <br/><br/><br/>
         </>
     )
 }

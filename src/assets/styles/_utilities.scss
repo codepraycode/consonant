@@ -58,7 +58,20 @@
     }
 }
 
+
+.mt {
+    &-5,
+    &-md-5 {
+        margin-top: 5rem;
+    }
+    &-6,
+    &-md-6 {
+        margin-top: 6rem;
+    }
+}
+
 .my {
+
     &-1 {
         margin-block: 1rem;
     }
@@ -70,17 +83,11 @@
     &-07 {
         margin-block: .5rem;
     }
-}
-
-
-.mt {
-    &-5,
-    &-md-5 {
-        margin-top: 5rem;
+    &-2 {
+        margin-block: 2rem;
     }
-    &-6,
-    &-md-6 {
-        margin-top: 6rem;
+    &-5 {
+        margin-block: 5rem;
     }
 }
 

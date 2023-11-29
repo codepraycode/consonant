@@ -11,8 +11,8 @@ const AdminPage = () => {
 
             <section className="mt-5">
 
-                <div className="d-flex align-center justify-between">
-                    <h1 className="fw-800 fs-2 my-1">Your files</h1>
+                <div className="d-flex align-center justify-between my-2">
+                    <h1 className="fw-800 fs-2">Your files</h1>
 
                     <Link
                         href={"/admin/upload"}

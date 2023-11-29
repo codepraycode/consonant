@@ -5,7 +5,7 @@ import { formatDateDistance } from "@/utils/time";
 
 
 const FilePreview = ({file}: {file: Content }) => (
-    <section className="file-preview d-flex align-center">
+    <section className="file-preview">
         <div className="img-preview">
             <Image
                 src={"/images/icons/file.svg"}

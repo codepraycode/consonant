@@ -84,6 +84,20 @@
     }
 }
 
+.mb {
+    &-1 {
+        margin-top: 1rem;
+    }
+    &-5,
+    &-md-5 {
+        margin-bottom: 5rem;
+    }
+    &-6,
+    &-md-6 {
+        margin-bottom: 6rem;
+    }
+}
+
 .mx {
     &-auto {
         margin-inline: auto;
@@ -187,7 +201,7 @@
 // Container
 .container {
     width: $md-breakpoint;
-    overflow: hidden;
+    // overflow-y: hidden;
     max-width: 100%;
 
     margin-inline: auto;

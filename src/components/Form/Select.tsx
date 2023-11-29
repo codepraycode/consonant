@@ -51,7 +51,7 @@ export const Select = (props: SelectInputProps) => {
                 type="button"
                 onClick={()=>setActive(p=>!p)}
             >
-                { placeholder || label }
+                <span className="placeholder">{ placeholder || label }</span>
                 <i className="icon icon-chevron-down"></i>
             </button>
 

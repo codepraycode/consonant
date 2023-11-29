@@ -1,5 +1,5 @@
 import FileList from "@/components/FileLists";
-import { Select, TextInput } from "@/components/Form";
+import { DocumentUpload, Select, TextInput } from "@/components/Form";
 
 
 const FileUpload = () => {
@@ -31,6 +31,8 @@ const FileUpload = () => {
                         label="Select departments"
                         multiple
                     />
+
+                    <DocumentUpload/>
                 </form>
             </section>
         </>

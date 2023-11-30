@@ -4,6 +4,7 @@ interface TextInputProps {
     label: string,
     value?: string,
     placeholder?: string,
+    className?: string
 }
 
 export const TextInput = (props: TextInputProps) => {
@@ -12,7 +13,7 @@ export const TextInput = (props: TextInputProps) => {
         name, label, value, placeholder
     } = props
     return(
-        <div className="form-group">
+        <div className={`form-group ${props.className || ''}`}>
             <label htmlFor={name} className="sr-only">{label}</label>
             <input
                 name={name}

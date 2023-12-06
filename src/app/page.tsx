@@ -1,10 +1,12 @@
 import FileList from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
+import { setUp } from "@/lib/superbase";
 // import { upload, fetchResource } from '@/lib/cloudinary';
 
 // upload("/home/codepraycode/Downloads/nobox.png")
 // upload("/home/codepraycode/Downloads/SEN-2-202 LECTURE NOTES-Copy (1).pdf")
 // fetchResource("vtfotty6pr8utpenemlc").then(data=>console.log("Asset", data));
+setUp()
 
 export default function Home() {
     

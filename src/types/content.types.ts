@@ -14,11 +14,11 @@ export interface Content {
     id: string,
     title: string,
     departments: Array<string>,
-    link: string,
+    link?: string,  // ! deprecated
     owner: User | undefined,
     createdAt: Date | string,
     updatedAt: Date | string,
     
-    asset_id: string,
+    assetId: string,
     asset?: Asset
 }

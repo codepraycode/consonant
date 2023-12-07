@@ -3,28 +3,31 @@ import { SuperBaseError, handleSuperBaseResponse } from '@/helpers/superbase';
 import { createClient } from '@supabase/supabase-js'
 
 
+const env = process.env;
+
 type Bucket = 'test-resource';
-interface BucketOptions {
-    bucket: Bucket,
-    is_public?: boolean,
-    maxSize?: number
-}
 
 export enum BucketType {
     RESOURCES = 'test-resource'
 }
 
 
-const SUPERBASE_URL="https://ztblyojgzikyvahapmgi.supabase.co"
+interface BucketOptions {
+    bucket: BucketType,
+    is_public?: boolean,
+    maxSize?: number
+}
+
+
+const SUPERBASE_URL = env.SUPERBASE_URL || 'https://zxkacyqasqjoafeeabbe.supabase.co'
+const SUPERBASE_API_KEY = env.SUPERBASE_API_KEY;
+
+
 // Create a single supabase client for interacting with your database
 
-const API_KEY = process.env.SUPERBASE_API_KEY;
+if (!SUPERBASE_API_KEY) throw new Error("SUPERBASE api key is required!!");
 
-if (!API_KEY) throw new Error("SUPERBASE api key is required!!");
-
-
-
-const supabase = createClient(SUPERBASE_URL, API_KEY);
+const supabase = createClient(SUPERBASE_URL, SUPERBASE_API_KEY);
 
 
 class BucketManager {
@@ -35,12 +38,13 @@ class BucketManager {
             maxSize = 512 // default to half of 1GB
         }: BucketOptions) => supabase
             .storage
-            .createBucket(bucket, 
-                // {
-                //     // public: is_public,
-                //     // fileSizeLimit: maxSize
-                //     // allowedMimeTypes: ['image/png'],
-                // }
+            .createBucket(
+                bucket,
+                {
+                    public: is_public,
+                    fileSizeLimit: maxSize
+                    // allowedMimeTypes: ['image/png'],
+                }
             );
 
     static getBucket = (bucket: Bucket) => supabase
@@ -51,43 +55,35 @@ class BucketManager {
     static setupBucket = async (options: BucketOptions) => {
         const { data, error } = handleSuperBaseResponse(await BucketManager.getBucket(BucketType.RESOURCES));
 
+        if (data) console.log("Bucket already setup")
         if (!error) return data;
 
         if (error.code === SuperBaseError.NOTFOUND) {
 
             console.log("Not bucket found!")
+
             const {data, error} = handleSuperBaseResponse(
                 await BucketManager.createBucket(options)
             )
 
-            // if (!error) return data;
+            if (!error) return data;
 
-            // if (error) throw Error(...error);
-
-            return data;
+            if (error) throw Error(...error);
         }
 
-        // else {
-        //     throw new Error(...error);
-        // }
+        throw new Error(...error);
 
     }
 
 }
 
-export async function setUp(){
+export async function setupSuperbase(){
 
-    const bucket = await BucketManager.setupBucket({
+    await BucketManager.setupBucket({
         bucket: BucketType.RESOURCES
     });
 
-    console.log(bucket)
-
-
-    // const {data, error} = await BucketManager.createBucket({bucket: BucketType.RESOURCES});
-
-    // if(error) console.error(error)
-    // else console.log(data)
+    console.log("Superbase all set")
 
 }
 

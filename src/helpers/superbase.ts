@@ -7,10 +7,13 @@ export function handleSuperBaseResponse({data, error}: Record<string, any>){
 
     const _parsed_error = {code: ''};
 
-    if (error?.stack?.includes("Bucket not found")) {
-        _parsed_error.code = SuperBaseError.NOTFOUND
-    }else {
-        console.log(error.stack)
+    if (error) {
+
+        if (error.stack?.includes("Bucket not found")) {
+            _parsed_error.code = SuperBaseError.NOTFOUND
+        }
+        
+        else console.log(error.stack)
     }
 
 

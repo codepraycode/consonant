@@ -1,4 +1,4 @@
-import { handleSuperBaseResponse } from "@/helpers/superbase";
+import { SuperBaseError, handleSuperBaseResponse } from "@/helpers/superbase";
 import { upload } from "@/lib/cloudinary";
 import SuperBase from "@/lib/superbase";
 import { validateNewAsset } from "@/utils/validators";
@@ -32,7 +32,8 @@ export async function POST(req: NextRequest) {
 
     if (error) {
         return NextResponse.json({
-            error: error.code || "Could not upload asset",
+            code: error.code || SuperBaseError.DEFAULT,
+            message: error.message || "Could not upload asset",
             // size: (assetFile as File).size / 1024
         }, { status: 500 })
     }

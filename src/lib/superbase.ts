@@ -89,7 +89,7 @@ class BucketManager extends SuperbaseMeta {
         if (data) console.log("Bucket already setup")
         if (!error) return data;
 
-        if (error.code === SuperBaseError.NOTFOUND) {
+        if (error.code === SuperBaseError.FILENOTFOUND) {
 
             console.log("Not bucket found!")
 

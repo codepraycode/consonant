@@ -13,6 +13,17 @@ export async function fetchContents(): Promise<Content[]> {
 }
 
 
+export async function fetchContent(id:any): Promise<Content> {
+    const res = await fetch(`/api/asset/${id}`);
+
+    const { data, error} = await res.json();
+
+    if (error) throw error;
+
+    return data
+}
+
+
 
 function fetchUsers(): User[] {
     return users

@@ -1,7 +1,6 @@
 'use client'
 import { FC, ReactNode, createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { Content } from '@/types/content.types';
-import { useFiles } from '@/hooks';
 import { fetchContents } from '@/utils/requestContent';
 import { useQuery } from '@tanstack/react-query';
 

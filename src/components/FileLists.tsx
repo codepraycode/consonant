@@ -24,7 +24,7 @@ const FileListItem = ({file}:{ file: Content}) => (
             <small className="text-small">
                 By {file.owner?.firstName}
                 <span className="fw-800 dot-sep">&#183;</span>
-                { formatDateDistance(file.createdAt) }
+                { formatDateDistance(file.createdAt as Date) }
             </small>
         </div>
     </Link>

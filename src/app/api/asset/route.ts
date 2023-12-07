@@ -3,10 +3,13 @@ import { SuperBaseError } from "@/helpers/superbase";
 import SuperBase from "@/lib/superbase";
 import { validateNewAsset } from "@/utils/validators";
 import { NextRequest, NextResponse } from "next/server";
+import contents from '@/data/contents.json';
+// import users from '@/data/users.json';
+
 
 
 export function GET(req: NextRequest, res:NextResponse) {
-    return NextResponse.json({msg: 'Hello world'}, {status: 200})
+    return ServerResponse.ok(contents)
 }
 
 

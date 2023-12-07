@@ -114,11 +114,25 @@ class BucketManager extends SuperbaseMeta {
     }
 
     async upload(config: UploadConfig, storage:Bucket=BucketType.RESOURCES){
-        const {data, error} = handleSuperBaseResponse(await this.instance.storage.from(storage).upload(
-            config.path,
-            config.asset,
-            config.fileOptions || {}
-        ));
+
+        let req;
+        try {
+            req = await this.instance.storage.from(storage).upload(
+                config.path,
+                config.asset,
+                config.fileOptions || {}
+            )
+        } catch(err){
+            console.error(err);
+            return {
+                data: null,
+                error: {
+                    code: null,
+                    message: null
+                }
+            }
+        }
+        const {data, error} = handleSuperBaseResponse(req);
         
         let access:string | null = null;
 

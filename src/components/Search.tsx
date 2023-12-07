@@ -13,7 +13,7 @@ const DEBOUNCE_TIMEOUT = 300;
 
 
 const SearchFiles = (props: SearchProps) => {
-    const { search } = useSearch() as SearchContextProps;
+    const { search, loading } = useSearch() as SearchContextProps;
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleSearch = useCallback(debounce(search, DEBOUNCE_TIMEOUT), [])
@@ -22,9 +22,10 @@ const SearchFiles = (props: SearchProps) => {
         <form className={`search-group ${props.className}`}>
             <input
                 className="w-full bg-white search_input d-block mx-auto box-shadow"
-                placeholder="Search for resources"
+                placeholder={loading ? "Loading...." : "Search for resources"}
                 name="search-files"
                 onChange={(e)=>handleSearch(e.target.value)}
+                disabled={loading}
             />
             {/* Filters */}
             {/* <Tags /> */}

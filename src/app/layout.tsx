@@ -2,6 +2,8 @@ import type { Metadata } from 'next';
 import '../assets/styles/styles.scss';
 import { SearchProvider } from '@/context/SearchContext';
 
+import AppLayout from '@/components/Layout/AppLayout';
+
 
 
 // Setup site Metadata
@@ -19,19 +21,23 @@ export default function RootLayout({ children }:IRootLayout ) {
     return (
         <html lang='en'>
             <body>
-                <div className='main-bg'>
-                    <div className='gradient'/>
-                </div>
 
-                <main className='relative app container mx-auto'>
-                    {/* <Nav/> */}
+                <AppLayout>
 
-                    <SearchProvider>
+                    <div className='main-bg'>
+                        <div className='gradient'/>
+                    </div>
 
-                        {children}
-                    </SearchProvider>
-                    
-                </main>
+                    <main className='relative app container mx-auto'>
+                        {/* <Nav/> */}
+                            
+                        <SearchProvider>
+                            {children}
+
+                        </SearchProvider>
+                        
+                    </main>
+                </AppLayout>
             </body>
         </html>
     )

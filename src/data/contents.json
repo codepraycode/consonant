@@ -3,27 +3,35 @@
         "id": "1",
         "title": "CSC 201",
         "departments": ["CSC", "SEN"],
-        "link": "",
-        "owner": "1",
-        "createdAt": "2022-10-10",
-        "updatedAt": "2022-10-12"
+        "asset": {
+            "path": "THE GIFT OF HEALING.docx",
+            "id": "33cd8e83-3b58-4012-a6f4-356f5e364930",
+            "fullPath": "test-resource/THE GIFT OF HEALING.docx",
+            "access": "https://zxkacyqasqjoafeeabbe.supabase.co/storage/v1/object/public/test-resource/THE%20GIFT%20OF%20HEALING.docx",
+            "dowload": "https://zxkacyqasqjoafeeabbe.supabase.co/storage/v1/object/public/test-resource/THE%20GIFT%20OF%20HEALING.docx?download="
+        }
     },
     {
         "id": "2",
         "title": "CSC 202",
         "departments": ["CSC", "SEN"],
-        "link": "",
-        "owner": "1",
-        "createdAt": "2022-10-10",
-        "updatedAt": "2022-10-12"
+        "asset": {
+            "path": "THE GIFT OF HEALING.docx",
+            "id": "33cd8e83-3b58-4012-a6f4-356f5e364930",
+            "fullPath": "test-resource/THE GIFT OF HEALING.docx",
+            "access": "https://zxkacyqasqjoafeeabbe.supabase.co/storage/v1/object/public/test-resource/THE%20GIFT%20OF%20HEALING.docx",
+            "dowload": "https://zxkacyqasqjoafeeabbe.supabase.co/storage/v1/object/public/test-resource/THE%20GIFT%20OF%20HEALING.docx?download="
+        }
     },
     {
         "id": "3",
         "title": "SEN 202",
-        "departments": ["IFT", "SEN"],
-        "link": "",
-        "owner": "1",
-        "createdAt": "2022-10-10",
-        "updatedAt": "2022-10-12"
+        "asset": {
+            "path": "THE GIFT OF HEALING.docx",
+            "id": "33cd8e83-3b58-4012-a6f4-356f5e364930",
+            "fullPath": "test-resource/THE GIFT OF HEALING.docx",
+            "access": "https://zxkacyqasqjoafeeabbe.supabase.co/storage/v1/object/public/test-resource/THE%20GIFT%20OF%20HEALING.docx",
+            "dowload": "https://zxkacyqasqjoafeeabbe.supabase.co/storage/v1/object/public/test-resource/THE%20GIFT%20OF%20HEALING.docx?download="
+        }
     }
 ]

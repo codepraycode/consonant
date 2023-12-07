@@ -1,13 +1,19 @@
 import { Content } from '@/types/content.types';
 import { fetchContents } from '@/utils/requestContent';
+import { useQuery } from '@tanstack/react-query';
 // import contents from '../data/contents.json';
-import { useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 
-const useFiles = (): [ Content[] ] => {
+const useFiles = () => {
 
-    const contents = fetchContents();
-    return [ contents ] as const;
+    const {isLoading, data, error} = useQuery({
+        queryKey: ['contents'],
+        queryFn: fetchContents
+    })
+
+    return {loading:isLoading, data, error}
+    // return {loading:true, data: null, error: null}
 }
 
 
@@ -18,51 +24,53 @@ type UseFile = {
 
 const useFile = (id:string): UseFile => {
 
-    const [contents] = useFiles();
+    // const {loading, data, error} = useFiles();
 
 
-    const file = useMemo(()=>{
-        const filter = contents.filter((item)=>item.id === id);
+    // const file = useMemo(()=>{
+    //     const filter = contents.filter((item)=>item.id === id);
 
-        if (filter.length < 1) return null;
+    //     if (filter.length < 1) return null;
 
-        return filter.pop() as Content;
-    }, [id, contents])
+    //     return filter.pop() as Content;
+    // }, [id, contents])
 
-    return { file } as const;
+    // return { file } as const;
+    return { file: null }
 }
 
 
 const useFileRecommendation = (file: Content | null) => {
 
-    const [ contents ] = useFiles();
+    // const [ contents ] = useFiles();
 
 
-    const {id, departments} = file || {};
+    // const {id, departments} = file || {};
 
 
-    const recommendations = useMemo(()=>{
-        if (!departments) return [];
+    // const recommendations = useMemo(()=>{
+    //     if (!departments) return [];
 
-        return contents.filter((item)=>{
-            if (item.id === id) return false
+    //     return contents.filter((item)=>{
+    //         if (item.id === id) return false
 
 
-            // The alogrithm is to combine the current item's department
-            //  with the departments given, then remove the recurring values
-            // If the length of the list is less that the combined length, that means
-            // there's something in common, otherwise, nothing in common.
+    //         // The alogrithm is to combine the current item's department
+    //         //  with the departments given, then remove the recurring values
+    //         // If the length of the list is less that the combined length, that means
+    //         // there's something in common, otherwise, nothing in common.
 
-            const combined_lst = [...departments, ...item.departments];
+    //         const combined_lst = [...departments, ...item.departments];
 
-            const uniq = Array.from(new Set(combined_lst));
+    //         const uniq = Array.from(new Set(combined_lst));
 
-            return uniq.length < combined_lst.length
-        });
+    //         return uniq.length < combined_lst.length
+    //     });
 
-    }, [id, departments, contents])
+    // }, [id, departments, contents])
 
-    return { recommendations } as const;
+    // return { recommendations } as const;
+    return { recommendations: null }
 }
 
 export {

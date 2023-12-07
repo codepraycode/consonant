@@ -1,5 +1,5 @@
-import { SuperBaseError, handleSuperBaseResponse } from "@/helpers/superbase";
-import { upload } from "@/lib/cloudinary";
+import ServerResponse from "@/helpers/response";
+import { SuperBaseError } from "@/helpers/superbase";
 import SuperBase from "@/lib/superbase";
 import { validateNewAsset } from "@/utils/validators";
 import { NextRequest, NextResponse } from "next/server";
@@ -18,10 +18,7 @@ export async function POST(req: NextRequest) {
 
     const validation_issues = validateNewAsset(body);
 
-    if (validation_issues) return NextResponse.json(
-        { error: validation_issues },
-        {status: 400}
-    )
+    if (validation_issues) return ServerResponse.error(validation_issues)
 
     const {asset:assetFile, ...rest} = Object.fromEntries(body)
 
@@ -31,11 +28,10 @@ export async function POST(req: NextRequest) {
     });
 
     if (error) {
-        return NextResponse.json({
+        return ServerResponse.error({
             code: error.code || SuperBaseError.DEFAULT,
             message: error.message || "Could not upload asset",
-            // size: (assetFile as File).size / 1024
-        }, { status: 500 })
+        })
     }
 
 
@@ -44,12 +40,8 @@ export async function POST(req: NextRequest) {
 
     console.log(data);
 
-    return NextResponse.json({
+    return ServerResponse.created({
         asset: data,
         ...rest
-    }, {status: 201})
+    })
 }
-
-/* 
-    ? Learn superbase!
-*/

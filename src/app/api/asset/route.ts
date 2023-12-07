@@ -1,4 +1,6 @@
+import { handleSuperBaseResponse } from "@/helpers/superbase";
 import { upload } from "@/lib/cloudinary";
+import SuperBase from "@/lib/superbase";
 import { validateNewAsset } from "@/utils/validators";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -6,6 +8,8 @@ import { NextRequest, NextResponse } from "next/server";
 export function GET(req: NextRequest, res:NextResponse) {
     return NextResponse.json({msg: 'Hello world'}, {status: 200})
 }
+
+
 
 
 export async function POST(req: NextRequest) {
@@ -19,12 +23,30 @@ export async function POST(req: NextRequest) {
         {status: 400}
     )
 
+    const {asset:assetFile, ...rest} = Object.fromEntries(body)
 
-    // const asset = await upload(body.asset);
+    const {data, error} = await SuperBase.bucket.upload({
+        path: (assetFile as File).name,
+        asset: (assetFile as File)
+    });
+
+    if (error) {
+        return NextResponse.json({
+            error: error.code || "Could not upload asset",
+            // size: (assetFile as File).size / 1024
+        }, { status: 500 })
+    }
 
 
+    data.dowload = `${data.access}?download=`;
 
-    return NextResponse.json(body, {status: 201})
+
+    console.log(data);
+
+    return NextResponse.json({
+        asset: data,
+        ...rest
+    }, {status: 201})
 }
 
 /* 

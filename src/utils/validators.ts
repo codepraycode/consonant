@@ -23,7 +23,7 @@ export const validateNewAsset = (assetDto: FormData): ValidationIssues | null =>
 
     if (!departments) return {
         field: 'departments',
-        message: 'Department is required'
+        message: 'Departments is required'
     }
     
     departments = JSON.parse(departments as string) as Array<string>;

@@ -1,6 +1,7 @@
 
-import { SuperBaseError, handleSuperBaseResponse } from '@/helpers/superbase';
+import { SuperBaseError, calculateStorageSpace, handleSuperBaseResponse } from '@/helpers/superbase';
 import { createClient } from '@supabase/supabase-js'
+import SupabaseClient from '@supabase/supabase-js/dist/module/SupabaseClient'
 
 
 const env = process.env;
@@ -25,17 +26,47 @@ const SUPERBASE_API_KEY = env.SUPERBASE_API_KEY;
 
 // Create a single supabase client for interacting with your database
 
-if (!SUPERBASE_API_KEY) throw new Error("SUPERBASE api key is required!!");
+const supabase = (()=>{
 
-const supabase = createClient(SUPERBASE_URL, SUPERBASE_API_KEY);
+    if (!SUPERBASE_API_KEY) throw new Error("SUPERBASE api key is required!!");
+
+    return global._superbaseInstance || createClient(SUPERBASE_URL, SUPERBASE_API_KEY);
+})()
 
 
-class BucketManager {
+
+
+class SuperbaseMeta {
+    protected instance: SupabaseClient = supabase;
+}
+
+
+// ? Refer to https://supabase.com/docs/reference/javascript/storage-from-upload
+interface UploadConfig {
+    path: string,
+    asset: File,
+    fileOptions?: {
+        cacheControl?: string,
+        contentType?: string,
+        duplex?: string,
+        upsert?: boolean
+    }
+}
+
+interface FileAccessConfig {
+    path: string,
+    options?: {
+        download?: string | boolean,
+        // ! Not supporting transform
+    }
+}
+
+class BucketManager extends SuperbaseMeta {
 
     static createBucket = ({
             bucket,
             is_public = true,
-            maxSize = 512 // default to half of 1GB
+            maxSize = calculateStorageSpace(25) // default 25mb
         }: BucketOptions) => supabase
             .storage
             .createBucket(
@@ -75,6 +106,41 @@ class BucketManager {
 
     }
 
+    async getFileLink(config:FileAccessConfig, storage:Bucket=BucketType.RESOURCES) {
+        const {data} =  this.instance.storage
+            .from(storage).getPublicUrl(config.path, config.options)
+        
+        return data.publicUrl
+    }
+
+    async upload(config: UploadConfig, storage:Bucket=BucketType.RESOURCES){
+        const {data, error} = handleSuperBaseResponse(await this.instance.storage.from(storage).upload(
+            config.path,
+            config.asset,
+            config.fileOptions || {}
+        ));
+        
+        let access:string | null = null;
+
+        if(data?.fullPath) access = await this.getFileLink({
+                path: data.path,
+                options: {
+                    download: false
+                }
+            });
+
+        return {
+            data: {...data, access},
+            error
+        }
+    }
+}
+
+
+class SuperBase {
+    
+    static bucket =  new BucketManager();
+
 }
 
 export async function setupSuperbase(){
@@ -87,4 +153,4 @@ export async function setupSuperbase(){
 
 }
 
-export default supabase;
+export default SuperBase;

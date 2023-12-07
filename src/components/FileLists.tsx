@@ -1,7 +1,9 @@
 'use client'
 import useSearch from "@/context/SearchContext";
 import { Content } from "@/types/content.types"
+import { fetchContents } from "@/utils/requestContent";
 import { formatDateDistance } from "@/utils/time";
+import { useQuery } from "@tanstack/react-query";
 import Link from "next/link"
 
 
@@ -44,13 +46,24 @@ const FileListing = ({ files }: FileListProps & { files: Content[]}) => {
 };
 
 
-const FileList = ({ search, files }: FileListProps & { search?: boolean }) => {
+export const SearchedFileList = () => {
     const { searchResult } = useSearch();
     
-    if (search) return <FileListing files={ searchResult }/>
-
-
-    return <FileListing files={files as Content[]}/>
+    return <FileListing files={ searchResult }/>    
 }
 
-export default FileList;
+export const UserFileList = () => {
+    const {isLoading:loading, data, error} = useQuery({
+        queryKey: ['user-files'],
+        queryFn: fetchContents
+    })
+
+    if (loading) return <h4 className="fs-3 fw-400">Loading your files...</h4>
+
+    if (error) return <h4 className="fs-3 fw-400">Error loading your files</h4>
+    
+    if (data) return <FileListing files={data}/>
+
+    return null;
+}
+

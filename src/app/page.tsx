@@ -1,4 +1,4 @@
-import FileList from "@/components/FileLists";
+import {SearchedFileList} from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
 import { setupSuperbase } from "@/lib/superbase";
 // import { upload, fetchResource } from '@/lib/cloudinary';
@@ -28,7 +28,7 @@ export default function Home() {
 
             </header>
 
-            <FileList search />
+            <SearchedFileList />
             <br/><br/><br/>
         </>
     )

@@ -1,10 +1,10 @@
-import FileList from "@/components/FileLists";
-import { useFiles } from "@/hooks";
+import { UserFileList } from "@/components/FileLists";
+
 import Link from "next/link";
 
 
 const AdminPage = () => {
-    const [ contents ] = useFiles();
+    
     return (
         <>
             {/* <h1>Admin page</h1> */}
@@ -23,7 +23,7 @@ const AdminPage = () => {
                     </Link>
                 </div>
                 
-                <FileList files={contents}/>
+                <UserFileList />
             </section>
         </>
     )

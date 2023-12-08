@@ -1,4 +1,4 @@
-export * from './content.types';
+export * from './entities';
 export * from './user.types';
 
 export interface DynamicRoute { 

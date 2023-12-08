@@ -7,6 +7,8 @@ interface TagsProps {
 
 
 const Tags = ({ small = false, items }: TagsProps) => {
+
+    if (!items) return null
     return (
         <ul className="tags d-flex" data-small={ small }>
             { items.map((item, i)=>(

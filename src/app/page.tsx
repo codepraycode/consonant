@@ -1,12 +1,12 @@
-import FileList from "@/components/FileLists";
+import {SearchedFileList} from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
-import { setUp } from "@/lib/superbase";
+import { setupSuperbase } from "@/lib/superbase";
 // import { upload, fetchResource } from '@/lib/cloudinary';
 
 // upload("/home/codepraycode/Downloads/nobox.png")
 // upload("/home/codepraycode/Downloads/SEN-2-202 LECTURE NOTES-Copy (1).pdf")
 // fetchResource("vtfotty6pr8utpenemlc").then(data=>console.log("Asset", data));
-setUp()
+setupSuperbase()
 
 export default function Home() {
     
@@ -28,7 +28,7 @@ export default function Home() {
 
             </header>
 
-            <FileList search />
+            <SearchedFileList />
             <br/><br/><br/>
         </>
     )

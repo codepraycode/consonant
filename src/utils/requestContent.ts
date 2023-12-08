@@ -1,21 +1,26 @@
 // Interact with data source
 import { Content, User } from '@/types';
-import contents from '../data/contents.json';
 import users from '../data/users.json';
 
-export function fetchContents(): Content[] {
+export async function fetchContents(): Promise<Content[]> {
+    const res = await fetch('/api/asset');
 
-    // Resolve content owners
-    const users = fetchUsers();
+    const { data, error} = await res.json();
+
+    if (error) throw error;
+
+    return data
+}
 
 
-    return contents.map((each)=>{
-        const { owner } = each;
+export async function fetchContent(id:any): Promise<Content> {
+    const res = await fetch(`/api/asset/${id}`);
 
-        const user = users.find((usr)=> usr.id === owner);
+    const { data, error} = await res.json();
 
-        return {...each, owner: user}        
-    });
+    if (error) throw error;
+
+    return data
 }
 
 

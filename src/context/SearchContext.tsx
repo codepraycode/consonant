@@ -1,11 +1,14 @@
 'use client'
-import { FC, ReactNode, createContext, useContext, useState } from 'react';
+import { FC, ReactNode, createContext, useCallback, useContext, useMemo, useState } from 'react';
 import { Content } from '@/types/content.types';
-import { useFiles } from '@/hooks';
+import { fetchContents } from '@/utils/requestContent';
+import { useQuery } from '@tanstack/react-query';
 
 export interface SearchContextProps {
     searchResult: Content[],
-    search: (searchString: string) => void
+    search: (searchString: string) => void,
+    loading: boolean,
+    error: any
 }
 
 
@@ -19,24 +22,33 @@ export default useSearch;
 
 export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
 
-    const [searchResult, setSearchResult] = useState<Content[]>([]);
-    const [ contents ] = useFiles();
+    const {isLoading:loading, data, error} = useQuery({
+        queryKey: ['contents'],
+        queryFn: fetchContents
+    })
 
-    const searchFiles = (searchString:string) => {
+    const [searchText, setSearchText] = useState<string | null>(null);
 
-        if (!searchString) return setSearchResult(()=>[])
-        const result = contents.filter((item)=> {
-            return item.title.includes(searchString)
-                    || item.departments.includes(searchString)
-        });
 
-        setSearchResult(()=> result);
-    }
+    const searchResult = useMemo(()=>{
+        if (!searchText) return []
+
+        // console.log(data);
+        if(!data) return []
+
+        return data.filter(item=> 
+            item.title.includes(searchText) ||
+            item.departments?.includes(searchText)
+        )
+
+    },[searchText, data])
 
 
     const context: SearchContextProps = {
         searchResult,
-        search: (str)=>searchFiles(str)
+        loading,
+        error,
+        search: (str)=>setSearchText(()=>str)
     }
     
     return (

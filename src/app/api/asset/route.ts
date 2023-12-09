@@ -1,9 +1,10 @@
 import ServerResponse from "@/helpers/response";
-import { SuperBaseError } from "@/helpers/superbase";
 import SuperBase from "@/lib/superbase";
 import { validateNewAsset } from "@/utils/validators";
 import { NextRequest, NextResponse } from "next/server";
 import contents from '@/data/contents.json';
+import { SuperBaseStorageError } from "@/helpers/superbase.helper";
+import logger from "@/utils/logger";
 // import users from '@/data/users.json';
 
 
@@ -21,7 +22,10 @@ export async function POST(req: NextRequest) {
 
     const validation_issues = validateNewAsset(body);
 
-    if (validation_issues) return ServerResponse.error(validation_issues)
+    if (validation_issues) {
+        logger.error("CREATE MATERIALS::DTO VALIDATION ERROR::", validation_issues);
+        return ServerResponse.error(validation_issues)
+    }
 
     const {asset:assetFile, ...rest} = Object.fromEntries(body)
 
@@ -31,17 +35,14 @@ export async function POST(req: NextRequest) {
     });
 
     if (error) {
+        logger.error("CREATE MATERIALS::UPLOAD ASSET ERROR::", data);
         return ServerResponse.error({
-            code: error.code || SuperBaseError.DEFAULT,
+            code: error.code || SuperBaseStorageError.DEFAULT,
             message: error.message || "Could not upload asset",
         })
     }
 
-
-    data.dowload = `${data.access}?download=`;
-
-
-    console.log(data);
+    logger.debug("CREATE MATERIALS::UPLOADED ASSET::", data);
 
     return ServerResponse.created({
         asset: data,

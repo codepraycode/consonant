@@ -41,16 +41,15 @@ export class SuperbaseMeta {
         const _parsed_error = {code: '', message:''};
 
         if (error) {
-
             if (error.stack?.includes("Bucket not found")) {
                 _parsed_error.code = SuperBaseStorageError.BUCKETNOTFOUND
                 _parsed_error.message = "Bucket does not exist"
             }
-            else if (error.message.includes('Payload too large')){
+            else if (error.message === 'Payload too large'){
                 _parsed_error.code = SuperBaseStorageError.FILETOOLARGE
                 _parsed_error.message = "File must not be more than 25mb"
             }
-            else if (error.message.includes('Duplicate')){
+            else if (error.error === 'Duplicate'){
                 _parsed_error.code = SuperBaseStorageError.FILEALREADYEXIST
                 _parsed_error.message = "File already exist"
             }

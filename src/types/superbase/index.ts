@@ -7,7 +7,12 @@ import {StorageError} from '@supabase/storage-js/src/lib/errors'
 
 export type SuperBaseClient = SupabaseClient;
 export type SuperBaseBucket = Record<string, any>//Bucket
-export type SuperBaseStorageError = StorageError
+export interface SuperBaseStorageError extends StorageError {
+    message: string,
+    statusCode?: string,
+    error?: string,
+    stack?: string
+}
 
 
 export type BucketName = 'test-resource';

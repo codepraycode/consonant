@@ -2,7 +2,7 @@ import { SuperBaseStorageError, SuperbaseMeta,
     calculateStorageSpace
 } from "@/helpers/superbase.helper";
 
-import { BucketName, BucketOptions,
+import { Asset, BucketName, BucketOptions,
         BucketType, StorageAccessConfig,
         StorageUploadConfig, SuperBaseStorageReponse
 } from "@/types/superbase";
@@ -38,7 +38,7 @@ class BucketManager extends SuperbaseMeta {
         return data.publicUrl
     }
 
-    async upload(config: StorageUploadConfig, storage:BucketName = BucketType.RESOURCES){
+    async upload(config: StorageUploadConfig, storage:BucketName = BucketType.RESOURCES) {
 
         let req;
         try {
@@ -59,18 +59,27 @@ class BucketManager extends SuperbaseMeta {
         }
 
         const {data, error} = this.handleStorageResponse(req);
-        
-        let access:string | null = null;
 
-        if(data?.fullPath) access = await this.getFileLink({
-                path: data.path,
-                options: {
-                    download: false
-                }
-            });
+        if (!data) return {data, error};
+
+
+        let access:string;
+
+        access = await this.getFileLink({
+            path: data.path,
+            options: {
+                download: false
+            }
+        });
+
+        const dowload: string = `${access}?download=`;
+
+
+        data.access = access;
+        data.dowload = dowload;
 
         return {
-            data: {...data, access},
+            data: {...(data as Asset)},
             error
         }
     }

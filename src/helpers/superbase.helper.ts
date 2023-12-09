@@ -103,35 +103,48 @@ export class BaseModel extends SuperbaseMeta implements BaseTb{
     created_at?: Date | string;
     updated_at?: Date | string;
 
-    _cls: SuperBaseDatbaseNames;
+    // _cls: SuperBaseDatbaseNames;
+    update_excludes = ['id', 'created_at', 'updated_at']
 
     constructor(){
         super()
-        throw new Error("Cannot initilize this class");
+        // throw new Error("Cannot initilize this class");
     
     }
 
+
+    // Get iupdate object with latest data
+    // private updateInstance(update_data: SuperBaseData) {}
+
+    // Get instance data object like that in databse
+    // private getInstanceData(exclude?: string[]) {}
 
 
     /* This are just interfaces, methods to be defined in all subclasses */
     static createInstance(instanceData:any): void { }
 
+    // Update instace and sycn with database
+    static update(upsert: false) { }
 
     // Fetch instance data
     static fetch(column: string) { }
 
     // Fetch just one instance
     static fetchOne(filter:QueryFilter, column: string) { }
+    
+    // Fetch a specific row in database
+    static fetchById(id: string) { }
+    
 
     // Create instance data
-    static create(data: SuperBaseData) { }
+    static insert(new_data: SuperBaseData) { }
     
-    // Update instance data
-    static update(id: string, data: SuperBaseData, upsert: false) { }
+    // Update data in database
+    static updateRow(id: string, updated_data: SuperBaseData, upsert: false) { }
     
-    // Delete instance by id
-    static deleteById(id: string) { }
+    // Delete data directly
+    static deleteRow(index:string, value:string) { }
     
-    // Delete instance by any column
-    static delete(index: string, value:string) { }
+    // Delete instance from databse
+    static delete(instance: any) { }
 }

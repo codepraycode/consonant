@@ -2,7 +2,7 @@ import { User } from "..";
 
 
 export interface BaseTb {
-    id: string,
+    id?: string,
     created_at?: Date | string,
     updated_at?: Date | string,
 }
@@ -33,7 +33,8 @@ export interface Asset extends BaseTb{
     path: string,
     fullPath: string,
     access: string,
-    download: string    
+    download: string,
+    storage_id: string  
 }
 
 

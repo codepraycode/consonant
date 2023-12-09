@@ -1,10 +1,9 @@
-import { SuperBaseStorageError, SuperbaseMeta,
-    calculateStorageSpace
+import { SuperbaseMeta, calculateStorageSpace
 } from "@/helpers/superbase.helper";
 
 import { Asset, BucketName, BucketOptions,
         BucketType, StorageAccessConfig,
-        StorageUploadConfig, SuperBaseStorageReponse
+        StorageUploadConfig, SuperBaseStorageErrorTypes, SuperBaseStorageReponse
 } from "@/types/superbase";
 import logger from "@/utils/logger";
 
@@ -106,7 +105,7 @@ class BucketManager extends SuperbaseMeta {
 
         logger.error("SETUP BUCKET::FETCHING BUCKET ERROR::", error);
 
-        if (error.code === SuperBaseStorageError.BUCKETNOTFOUND) {
+        if (error.code === SuperBaseStorageErrorTypes.BUCKETNOTFOUND) {
 
             logger.debug("SETUP BUCKET::CREATING BUCKET")
 

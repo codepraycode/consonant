@@ -1,4 +1,9 @@
-import { BaseTb, Database, SuperBaseClient, SuperBaseStorageReponse } from "@/types/superbase";
+import { BaseTb, Database,
+    QueryFilter,
+    SuperBaseClient, SuperBaseData,
+    SuperBaseDatabaseReponse, SuperBaseDatbaseNames,
+    SuperBaseStorageErrorTypes, SuperBaseStorageReponse
+} from "@/types/superbase";
 import logger from "@/utils/logger";
 import { createClient } from "@supabase/supabase-js";
 
@@ -18,16 +23,6 @@ const supabase: SuperBaseClient = (()=>{
 })()
 
 
-export enum SuperBaseStorageError {
-    DEFAULT = 'ERROR',
-    TIMEOUT = 'TIME-OUT',
-    BUCKETNOTFOUND = 'BUCKET-NOT-FOUND',
-    FILENOTFOUND="FILE-NOT-FOUND",
-    FILETOOLARGE="FILE-TOO-LARGE",
-    FILEALREADYEXIST="FILE-ALREADY-EXIST",
-}
-
-
 
 /**
  * Abstract class for main Superbase class main propertise
@@ -36,6 +31,7 @@ export enum SuperBaseStorageError {
  */
 export class SuperbaseMeta {
     protected instance: SuperBaseClient = supabase;
+    static db: SuperBaseClient = supabase
     
     
     handleStorageResponse({data, error}:SuperBaseStorageReponse) {
@@ -43,24 +39,44 @@ export class SuperbaseMeta {
 
         if (error) {
             if (error.stack?.includes("Bucket not found")) {
-                _parsed_error.code = SuperBaseStorageError.BUCKETNOTFOUND
+                _parsed_error.code = SuperBaseStorageErrorTypes.BUCKETNOTFOUND
                 _parsed_error.message = "Bucket does not exist"
             }
             else if (error.message === 'Payload too large'){
-                _parsed_error.code = SuperBaseStorageError.FILETOOLARGE
+                _parsed_error.code = SuperBaseStorageErrorTypes.FILETOOLARGE
                 _parsed_error.message = "File must not be more than 25mb"
             }
             else if (error.error === 'Duplicate'){
-                _parsed_error.code = SuperBaseStorageError.FILEALREADYEXIST
+                _parsed_error.code = SuperBaseStorageErrorTypes.FILEALREADYEXIST
                 _parsed_error.message = "File already exist"
             }
             
-            else logger.error("ERROR OBJECT::", error)
+            else logger.error("STORAGE ERROR OBJECT::", error)
         }
 
 
         return {data, error: error && {..._parsed_error, ...error}}
     }
+
+
+    static handleAllDatabaseResponse<T= SuperBaseData[]>({data, error}: SuperBaseDatabaseReponse<T>) {
+        const _parsed_error = {code: '', message:''};
+
+
+        // Error object seems nice already
+        if (error) {
+            logger.error("DATABASE ERROR OBJECT::", error)
+        }
+
+
+        return {data: data as T, error: error && {..._parsed_error, ...error}}
+    }
+
+    handleDatabaseReponse({data,error}: SuperBaseDatabaseReponse){
+        return SuperbaseMeta.handleAllDatabaseResponse({data, error})
+    }
+
+
 }
 
 
@@ -77,9 +93,45 @@ export function calculateStorageSpace(size: number) {
     return size * 1024 * 1024;
 }
 
-
-export class BaseModel implements BaseTb{
+/**
+ * BaseModel for all models that maps to database table
+ * 
+ * 
+ */
+export class BaseModel extends SuperbaseMeta implements BaseTb{
     id: string = ''
     created_at?: Date | string;
     updated_at?: Date | string;
+
+    _cls: SuperBaseDatbaseNames;
+
+    constructor(){
+        super()
+        throw new Error("Cannot initilize this class");
+    
+    }
+
+
+
+    /* This are just interfaces, methods to be defined in all subclasses */
+    static createInstance(instanceData:any): void { }
+
+
+    // Fetch instance data
+    static fetch(column: string) { }
+
+    // Fetch just one instance
+    static fetchOne(filter:QueryFilter, column: string) { }
+
+    // Create instance data
+    static create(data: SuperBaseData) { }
+    
+    // Update instance data
+    static update(id: string, data: SuperBaseData, upsert: false) { }
+    
+    // Delete instance by id
+    static deleteById(id: string) { }
+    
+    // Delete instance by any column
+    static delete(index: string, value:string) { }
 }

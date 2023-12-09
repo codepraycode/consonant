@@ -1,6 +1,7 @@
 
 import { BucketType } from '@/types/superbase';
 import BucketManager from './bucket';
+import AssetModel from './models/asset.model';
 
 
 
@@ -11,6 +12,8 @@ export const setupSuperbase = ()=> BucketManager.setupBucket({bucket: BucketType
 class SuperBase {
     
     static bucket =  new BucketManager();
+
+    static asset = AssetModel;
 
 }
 

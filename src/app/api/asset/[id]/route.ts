@@ -1,4 +1,4 @@
-import ServerResponse, { StatusCodes } from "@/helpers/response";
+import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
 import { NextRequest } from "next/server";
 import contents from '@/data/contents.json';
 import { SuperBaseError } from "@/helpers/superbase";

@@ -1,4 +1,4 @@
-import ServerResponse from "@/helpers/response";
+import ServerResponse from "@/helpers/response.helper";
 import SuperBase from "@/lib/superbase";
 import { validateNewAsset } from "@/utils/validators";
 import { NextRequest, NextResponse } from "next/server";

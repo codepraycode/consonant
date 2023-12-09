@@ -1,4 +1,5 @@
 import { BaseTb, Database, SuperBaseClient, SuperBaseStorageReponse } from "@/types/superbase";
+import logger from "@/utils/logger";
 import { createClient } from "@supabase/supabase-js";
 
 
@@ -54,7 +55,7 @@ export class SuperbaseMeta {
                 _parsed_error.message = "File already exist"
             }
             
-            else console.error("Error object:", error)
+            else logger.error("ERROR OBJECT::", error)
         }
 
 

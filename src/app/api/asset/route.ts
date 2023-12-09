@@ -84,3 +84,7 @@ export async function POST(req: NextRequest) {
         ...rest
     })
 }
+
+
+// TODO: Implement Query manager for many to many
+// TODO: Implement like interfaces for other entities

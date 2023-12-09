@@ -1,4 +1,4 @@
-export * from './entities';
+// export * from './superbase/entities.types';
 export * from './user.types';
 
 export interface DynamicRoute { 

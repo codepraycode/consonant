@@ -1,8 +1,9 @@
 import { BaseModel } from "@/helpers/superbase.helper";
-import { Department, Faculty, QueryFilter,
+import { Department, FetchParam,
     SuperBaseData, SuperBaseDatbaseNames,
     SuperBaseDatbaseTableColumns } from "@/types/superbase";
 import logger from "@/utils/logger";
+import FacultyModel from "./faculty.model";
 
 
 /**
@@ -12,8 +13,6 @@ import logger from "@/utils/logger";
 enum DepartmentProps {
     NAME = 'name',
     SHORT = 'short',
-    // FACULTY = 'departments',
-    // COURSES = 'departments',
     // Meta data
     ID = 'id',
     CREATED_AT = 'created_at',
@@ -27,8 +26,8 @@ class DepartmentModel extends BaseModel implements Department {
     /* =============== Class attributes ================ */
     name: string;
     short: string;
-    faculty?: Faculty;
-
+    // faculty?: Faculty;
+    private data: Department | null
 
     update_excludes: DepartmentProps[] = [
         DepartmentProps.ID, 
@@ -42,9 +41,12 @@ class DepartmentModel extends BaseModel implements Department {
 
 
     /* =============== Constructor ================ */
-    constructor(instanceData: Department){        
+    constructor(instanceData: Department){
 
         super();
+
+
+        this.data = instanceData;
 
         const {
             id,
@@ -69,6 +71,13 @@ class DepartmentModel extends BaseModel implements Department {
 
         this.name = name;
         this.short = short;
+    }
+
+
+    get faculty() {
+        if (!this.data?.faculty) return undefined
+
+        return new FacultyModel(this.data.faculty);
     }
 
 
@@ -156,7 +165,7 @@ class DepartmentModel extends BaseModel implements Department {
      * @param	string 	column  table columns seperated by comma
      * @return 	A list of Departments
      */
-    static async fetch(column: string = SuperBaseDatbaseTableColumns.DEPARTMENT): Promise<Department[]> {
+    static async fetch({column = SuperBaseDatbaseTableColumns.DEPARTMENT, deep = true}): Promise<Department[]> {
         const cls = DepartmentModel._cls;
         // const columnName = column || '*'
 
@@ -164,7 +173,10 @@ class DepartmentModel extends BaseModel implements Department {
         const { data, error } = DepartmentModel.handleAllDatabaseResponse<Department[]>(
             await DepartmentModel.db
             .from(cls)
-            .select(column)
+            .select(`
+                ${column}
+                ${!deep ? '': `, faculty( ${SuperBaseDatbaseTableColumns.FACULTY} )`}
+            `)
         );
         
 
@@ -179,9 +191,11 @@ class DepartmentModel extends BaseModel implements Department {
      * @param	QueryFilter 	filter	filters to search by
      * @return a new instance of DepartmentModel or null if data does not exist
      */
-    static async fetchOne(
-        filter:QueryFilter,
-        column: string = SuperBaseDatbaseTableColumns.DEPARTMENT): Promise<DepartmentModel | null> {
+    static async fetchOne({
+        filter,
+        deep = true,
+        column = SuperBaseDatbaseTableColumns.DEPARTMENT,
+    }: FetchParam ): Promise<DepartmentModel | null> {
         const cls = DepartmentModel._cls;
         // const columnName = column || '*'
 
@@ -189,7 +203,10 @@ class DepartmentModel extends BaseModel implements Department {
         const { data, error } = DepartmentModel.handleAllDatabaseResponse<SuperBaseData[]>(
             await DepartmentModel.db
             .from(cls)
-            .select(column)
+            .select(`
+                ${column}
+                ${!deep ? '': `, faculty( ${SuperBaseDatbaseTableColumns.FACULTY} )`}
+            `)
             .eq(filter.at, filter.is)
         );
         
@@ -209,8 +226,10 @@ class DepartmentModel extends BaseModel implements Department {
      */
     static async fetchById(id: string) {
         return DepartmentModel.fetchOne({
-            at: DepartmentProps.ID,
-            is: id
+            filter: {
+                at: DepartmentProps.ID,
+                is: id
+            }
         })
     }
 

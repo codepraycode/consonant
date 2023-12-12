@@ -9,7 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      asset_tb: {
+      asset: {
         Row: {
           access: string
           created_at: string
@@ -39,7 +39,7 @@ export interface Database {
         }
         Relationships: []
       }
-      course_tb: {
+      course: {
         Row: {
           code: string
           created_at: string
@@ -90,19 +90,19 @@ export interface Database {
             foreignKeyName: "courses_departments_course_id_fkey"
             columns: ["course_id"]
             isOneToOne: false
-            referencedRelation: "course_tb"
+            referencedRelation: "course"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "courses_departments_department_id_fkey"
             columns: ["department_id"]
             isOneToOne: false
-            referencedRelation: "department_tb"
+            referencedRelation: "department"
             referencedColumns: ["id"]
           }
         ]
       }
-      department_tb: {
+      department: {
         Row: {
           created_at: string
           faculty_id: string
@@ -129,15 +129,15 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "department_tb_faculty_id_fkey"
+            foreignKeyName: "department_faculty_id_fkey"
             columns: ["faculty_id"]
             isOneToOne: false
-            referencedRelation: "faculty_tb"
+            referencedRelation: "faculty"
             referencedColumns: ["id"]
           }
         ]
       }
-      faculty_tb: {
+      faculty: {
         Row: {
           created_at: string
           id: string
@@ -191,14 +191,14 @@ export interface Database {
             foreignKeyName: "materials_asset_id_fkey"
             columns: ["asset_id"]
             isOneToOne: false
-            referencedRelation: "asset_tb"
+            referencedRelation: "asset"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "materials_course_id_fkey"
             columns: ["course_id"]
             isOneToOne: false
-            referencedRelation: "course_tb"
+            referencedRelation: "course"
             referencedColumns: ["id"]
           }
         ]

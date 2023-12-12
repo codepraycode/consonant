@@ -3,7 +3,8 @@ import { Material, Faculty, QueryFilter,
     SuperBaseData, SuperBaseDatbaseNames,
     SuperBaseDatbaseTableColumns, 
     Asset,
-    Course} from "@/types/superbase";
+    Course,
+    FetchParam} from "@/types/superbase";
 import logger from "@/utils/logger";
 
 
@@ -152,7 +153,7 @@ class MaterialModel extends BaseModel implements Material {
      * @param	string 	column  table columns seperated by comma
      * @return 	A list of Materials
      */
-    static async fetch(column: string = SuperBaseDatbaseTableColumns.MATERIALS): Promise<Material[]> {
+    static async fetch({column = SuperBaseDatbaseTableColumns.MATERIALS}): Promise<Material[]> {
         const cls = MaterialModel._cls;
         // const columnName = column || '*'
 
@@ -175,9 +176,10 @@ class MaterialModel extends BaseModel implements Material {
      * @param	QueryFilter 	filter	filters to search by
      * @return a new instance of MaterialModel or null if data does not exist
      */
-    static async fetchOne(
-        filter:QueryFilter,
-        column: string = SuperBaseDatbaseTableColumns.MATERIALS): Promise<MaterialModel | null> {
+    static async fetchOne({
+        filter,
+        column = SuperBaseDatbaseTableColumns.MATERIALS
+    }: FetchParam): Promise<MaterialModel | null> {
         const cls = MaterialModel._cls;
         // const columnName = column || '*'
 
@@ -205,8 +207,10 @@ class MaterialModel extends BaseModel implements Material {
      */
     static async fetchById(id: string) {
         return MaterialModel.fetchOne({
-            at: MaterialProps.ID,
-            is: id
+            filter: {
+                at: MaterialProps.ID,
+                is: id
+            }
         })
     }
 

@@ -1,5 +1,5 @@
 import { BaseModel } from "@/helpers/superbase.helper";
-import { Faculty, QueryFilter,
+import { Faculty, FetchParam, QueryFilter,
     SuperBaseData, SuperBaseDatbaseNames,
     SuperBaseDatbaseTableColumns } from "@/types/superbase";
 import logger from "@/utils/logger";
@@ -153,7 +153,7 @@ class FacultyModel extends BaseModel implements Faculty {
      * @param	string 	column  table columns seperated by comma
      * @return 	A list of Facultys
      */
-    static async fetch(column: string = SuperBaseDatbaseTableColumns.FACULTY): Promise<Faculty[]> {
+    static async fetch({column = SuperBaseDatbaseTableColumns.FACULTY}): Promise<Faculty[]> {
         const cls = FacultyModel._cls;
         // const columnName = column || '*'
 
@@ -176,9 +176,10 @@ class FacultyModel extends BaseModel implements Faculty {
      * @param	QueryFilter 	filter	filters to search by
      * @return a new instance of FacultyModel or null if data does not exist
      */
-    static async fetchOne(
-        filter:QueryFilter,
-        column: string = SuperBaseDatbaseTableColumns.FACULTY): Promise<FacultyModel | null> {
+    static async fetchOne({
+        filter,
+        column = SuperBaseDatbaseTableColumns.FACULTY
+    }: FetchParam): Promise<FacultyModel | null> {
         const cls = FacultyModel._cls;
         // const columnName = column || '*'
 
@@ -206,9 +207,10 @@ class FacultyModel extends BaseModel implements Faculty {
      */
     static async fetchById(id: string) {
         return FacultyModel.fetchOne({
+            filter: {
             at: FacultyProps.ID,
             is: id
-        })
+        }})
     }
 
 

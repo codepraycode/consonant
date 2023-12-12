@@ -1,4 +1,5 @@
 import { BaseTb, Database,
+    FetchParam,
     QueryFilter,
     SuperBaseClient, SuperBaseData,
     SuperBaseDatabaseReponse, SuperBaseDatbaseNames,
@@ -127,10 +128,10 @@ export class BaseModel extends SuperbaseMeta implements BaseTb{
     static update(upsert: false) { }
 
     // Fetch instance data
-    static fetch(column: string) { }
+    static fetch({column, deep}: {column?: string, deep?: boolean}) { }
 
     // Fetch just one instance
-    static fetchOne(filter:QueryFilter, column: string) { }
+    static fetchOne({filter, column}: FetchParam ) { }
     
     // Fetch a specific row in database
     static fetchById(id: string) { }

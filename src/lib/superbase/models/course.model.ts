@@ -1,5 +1,5 @@
 import { BaseModel } from "@/helpers/superbase.helper";
-import { Course, Department, QueryFilter,
+import { Course, Department, FetchParam, QueryFilter,
     SuperBaseData, SuperBaseDatbaseNames,
     SuperBaseDatbaseTableColumns } from "@/types/superbase";
 import logger from "@/utils/logger";
@@ -165,7 +165,7 @@ class CourseModel extends BaseModel implements Course {
      * @param	string 	column  table columns seperated by comma
      * @return 	A list of Courses
      */
-    static async fetch(column: string = SuperBaseDatbaseTableColumns.COURSE): Promise<Course[]> {
+    static async fetch({column = SuperBaseDatbaseTableColumns.COURSE}): Promise<Course[]> {
         const cls = CourseModel._cls;
         // const columnName = column || '*'
 
@@ -188,9 +188,10 @@ class CourseModel extends BaseModel implements Course {
      * @param	QueryFilter 	filter	filters to search by
      * @return a new instance of CourseModel or null if data does not exist
      */
-    static async fetchOne(
-        filter:QueryFilter,
-        column: string = SuperBaseDatbaseTableColumns.COURSE): Promise<CourseModel | null> {
+    static async fetchOne({
+        filter,
+        column = SuperBaseDatbaseTableColumns.COURSE
+    }: FetchParam): Promise<CourseModel | null> {
         const cls = CourseModel._cls;
         // const columnName = column || '*'
 
@@ -218,8 +219,10 @@ class CourseModel extends BaseModel implements Course {
      */
     static async fetchById(id: string) {
         return CourseModel.fetchOne({
-            at: CourseProps.ID,
-            is: id
+            filter: {
+                at: CourseProps.ID,
+                is: id
+            }
         })
     }
 

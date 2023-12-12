@@ -1,5 +1,5 @@
 import { BaseModel } from "@/helpers/superbase.helper";
-import { Asset, QueryFilter, SuperBaseData, SuperBaseDatbaseNames, SuperBaseDatbaseTableColumns } from "@/types/superbase";
+import { Asset, FetchParam, QueryFilter, SuperBaseData, SuperBaseDatbaseNames, SuperBaseDatbaseTableColumns } from "@/types/superbase";
 import logger from "@/utils/logger";
 
 
@@ -188,7 +188,7 @@ class AssetModel extends BaseModel implements Asset {
      * @param	string 	column  table columns seperated by comma
      * @return 	A list of assets
      */
-    static async fetch(column: string = SuperBaseDatbaseTableColumns.ASSET): Promise<Asset[]> {
+    static async fetch({column = SuperBaseDatbaseTableColumns.ASSET}): Promise<Asset[]> {
         const cls = AssetModel._cls;
         // const columnName = column || '*'
 
@@ -211,9 +211,10 @@ class AssetModel extends BaseModel implements Asset {
      * @param	QueryFilter 	filter	filters to search by
      * @return a new instance of AssetModel or null if data does not exist
      */
-    static async fetchOne(
-        filter:QueryFilter,
-        column: string = SuperBaseDatbaseTableColumns.ASSET): Promise<AssetModel | null> {
+    static async fetchOne({
+        filter,
+        column = SuperBaseDatbaseTableColumns.ASSET
+    }: FetchParam): Promise<AssetModel | null> {
         const cls = AssetModel._cls;
         // const columnName = column || '*'
 
@@ -241,8 +242,10 @@ class AssetModel extends BaseModel implements Asset {
      */
     static async fetchById(id: string) {
         return AssetModel.fetchOne({
-            at: AssetProps.ID,
-            is: id
+            filter: {
+                at: AssetProps.ID,
+                is: id
+            }
         })
     }
 

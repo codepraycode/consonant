@@ -9,11 +9,11 @@ export interface BaseTb {
 
 
 
-export interface Courses extends BaseTb{
+export interface Course extends BaseTb{
     code: string,
     name?: string,
     title?: string,
-    departments?: string[]
+    departments?: Department[]
 }
 
 export interface Faculty extends BaseTb{
@@ -25,7 +25,7 @@ export interface Department extends BaseTb{
     name: string,
     short: string,
     faculty: Faculty,
-    courses?: Courses[]
+    courses?: Course[]
 }
 
 

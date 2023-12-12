@@ -5,6 +5,7 @@ import AssetModel from './models/asset.model';
 import FacultyModel from './models/faculty.model';
 import CourseModel from './models/course.model';
 import DepartmentModel from './models/department.model';
+import MaterialModel from './models/material.model';
 
 
 
@@ -20,6 +21,7 @@ class SuperBase {
     static faculty = FacultyModel;
     static course = CourseModel;
     static department = DepartmentModel;
+    static material = MaterialModel;
 
 }
 

@@ -26,10 +26,14 @@ export async function GET(req: NextRequest, res:NextResponse) {
     // const deps = await SuperBase.department.fetch({})
     // console.log(deps)
 
-    const department_id = "56471c0c-1b0f-47ae-9b4b-8ed24e041d04"
+    const department_id = "5440ad45-d618-476b-94ab-3afe5c25ecb3"
     const department = await SuperBase.department.fetchById(department_id)
     console.log(department)
     // console.log(department?.faculty)
+
+    const courses = await department?.load_courses()
+
+    console.log("Courses:", JSON.stringify(courses, null, 4))
 
     return ServerResponse.ok(contents)
 }

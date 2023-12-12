@@ -105,10 +105,10 @@ export enum SuperBaseDatbaseNames {
 export enum SuperBaseDatbaseTableColumns {
     ASSET   = 'id, created_at, updated_at, path, fullPath, access, download, storage_id',
     FACULTY = 'id, created_at, updated_at, name, short',
-    COURSE  = 'id, created_at, updated_at,',
+    COURSE  = 'id, created_at, updated_at, name, code, title',
     DEPARTMENT  = 'id, created_at, updated_at, name, short',
-    MATERIALS  = 'id, created_at, updated_at,',
-    COURSE_DEPARTMENT  = 'id, created_at, updated_at,'
+    MATERIALS  = 'id, created_at, updated_at, title, course, asset',
+    COURSE_DEPARTMENT  = 'id, created_at, course_id, department_id'
 }
 
 

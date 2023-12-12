@@ -80,6 +80,30 @@ class DepartmentModel extends BaseModel implements Department {
         return new FacultyModel(this.data.faculty);
     }
 
+    async load_courses () {
+
+        if (!this.data) return []
+
+        if (this.data.courses) return this.data.courses
+
+        // Resolve courses
+
+        const cls = DepartmentModel._cls;
+
+        const resp = await this.resolve(cls, `
+            course (
+                id,
+                title,
+                code
+            )
+        `, {key:'id', value:this.id})
+
+
+        this.data.courses = resp;
+
+        return resp;
+    }
+
 
     /* =============== Private Methods ================ */
 

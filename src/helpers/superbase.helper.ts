@@ -78,6 +78,28 @@ export class SuperbaseMeta {
     }
 
 
+    /**
+     * Resolve many to many relations
+     * @param	string 	db	    Database table name
+     * @param	string 	query	Database query string
+     * @return data	whatever good it returns
+     */
+    async resolve(db:string, query:string, filter:{key:string, value:string}) {
+
+        const {data, error} = this.handleDatabaseReponse(
+            await SuperbaseMeta.db
+            .from(db)
+            .select(query)
+            .eq(filter.key, filter.value)
+        );
+        
+
+        if (error) throw error;
+
+        return data;
+    }
+
+
 }
 
 
@@ -119,7 +141,6 @@ export class BaseModel extends SuperbaseMeta implements BaseTb{
 
     // Get instance data object like that in databse
     // private getInstanceData(exclude?: string[]) {}
-
 
     /* This are just interfaces, methods to be defined in all subclasses */
     static createInstance(instanceData:any): void { }

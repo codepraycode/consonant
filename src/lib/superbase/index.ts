@@ -4,6 +4,7 @@ import BucketManager from './bucket';
 import AssetModel from './models/asset.model';
 import FacultyModel from './models/faculty.model';
 import CourseModel from './models/course.model';
+import DepartmentModel from './models/department.model';
 
 
 
@@ -18,6 +19,7 @@ class SuperBase {
     static asset = AssetModel;
     static faculty = FacultyModel;
     static course = CourseModel;
+    static department = DepartmentModel;
 
 }
 

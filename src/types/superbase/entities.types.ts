@@ -24,7 +24,7 @@ export interface Faculty extends BaseTb{
 export interface Department extends BaseTb{
     name: string,
     short: string,
-    faculty: Faculty,
+    faculty?: Faculty,
     courses?: Course[]
 }
 

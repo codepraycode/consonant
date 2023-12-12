@@ -11,7 +11,6 @@ import AssetModel from "@/lib/superbase/models/asset.model";
 
 
 // TODO: implement automatic error handler for all routes
-// TODO: implement filtering on fetch
 export async function GET(req: NextRequest, res:NextResponse) {
 
 

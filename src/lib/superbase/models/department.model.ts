@@ -1,9 +1,10 @@
 import { BaseModel } from "@/helpers/superbase.helper";
-import { Department, FetchParam,
+import { Course, Department, FetchParam,
     SuperBaseData, SuperBaseDatbaseNames,
     SuperBaseDatbaseTableColumns } from "@/types/superbase";
 import logger from "@/utils/logger";
 import FacultyModel from "./faculty.model";
+import { ManyToManyManger } from "./relator";
 
 
 /**
@@ -37,8 +38,8 @@ class DepartmentModel extends BaseModel implements Department {
 
 
     /* =============== Static attributes ================ */
-    static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.DEPARTMENT;
-
+    // static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.DEPARTMENT;
+    static tb: SuperBaseDatbaseNames = SuperBaseDatbaseNames.DEPARTMENT;
 
     /* =============== Constructor ================ */
     constructor(instanceData: Department){
@@ -74,35 +75,16 @@ class DepartmentModel extends BaseModel implements Department {
     }
 
 
+    get tb() {
+        return DepartmentModel.tb
+    }
+
     get faculty() {
         if (!this.data?.faculty) return undefined
 
         return new FacultyModel(this.data.faculty);
     }
 
-    async load_courses () {
-
-        if (!this.data) return []
-
-        if (this.data.courses) return this.data.courses
-
-        // Resolve courses
-
-        const cls = DepartmentModel._cls;
-
-        const resp = await this.resolve(cls, `
-            course (
-                id,
-                title,
-                code
-            )
-        `, {key:'id', value:this.id})
-
-
-        this.data.courses = resp;
-
-        return resp;
-    }
 
 
     /* =============== Private Methods ================ */
@@ -190,7 +172,7 @@ class DepartmentModel extends BaseModel implements Department {
      * @return 	A list of Departments
      */
     static async fetch({column = SuperBaseDatbaseTableColumns.DEPARTMENT, deep = true}): Promise<Department[]> {
-        const cls = DepartmentModel._cls;
+        const cls = this.tb;
         // const columnName = column || '*'
 
         // logger.debug("FETCH FROM COLUMN", columnName)
@@ -220,7 +202,7 @@ class DepartmentModel extends BaseModel implements Department {
         deep = true,
         column = SuperBaseDatbaseTableColumns.DEPARTMENT,
     }: FetchParam ): Promise<DepartmentModel | null> {
-        const cls = DepartmentModel._cls;
+        const cls = this.tb;
         // const columnName = column || '*'
 
         logger.debug("FETCH FROM COLUMN", column, filter)
@@ -264,7 +246,7 @@ class DepartmentModel extends BaseModel implements Department {
      * @return  DepartmentModel	   Instance with newly created data
      */
     static async insert(new_data: SuperBaseData): Promise<DepartmentModel> {
-        const cls = DepartmentModel._cls;
+        const cls = this.tb;
 
         // logger.debug("FETCH FROM COLUMN", columnName)
         const { data, error } = DepartmentModel.handleAllDatabaseResponse(
@@ -291,7 +273,7 @@ class DepartmentModel extends BaseModel implements Department {
      * @return 	void
      */
     static async updateRow(id:string, updated_data:SuperBaseData, upsert = false): Promise<Department> {
-        const cls = DepartmentModel._cls;
+        const cls = this.tb;
 
         // logger.debug("FETCH FROM COLUMN", columnName)
         const { data, error } = DepartmentModel.handleAllDatabaseResponse<Department[]>(
@@ -320,7 +302,7 @@ class DepartmentModel extends BaseModel implements Department {
      * @return 	void
      */
     static async deleteRow(index:string, value:string): Promise<void> {
-        const cls = DepartmentModel._cls;
+        const cls = this.tb;
 
         // logger.debug("FETCH FROM COLUMN", columnName)
         const { data, error } = DepartmentModel.handleAllDatabaseResponse(

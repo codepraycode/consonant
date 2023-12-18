@@ -7,6 +7,8 @@ import contents from '@/data/contents.json';
 import logger from "@/utils/logger";
 import { SuperBaseStorageErrorTypes } from "@/types/superbase";
 import AssetModel from "@/lib/superbase/models/asset.model";
+import { ManyToManyManger } from "@/lib/superbase/models/relator";
+import CourseModel from "@/lib/superbase/models/course.model";
 // import users from '@/data/users.json';
 
 
@@ -28,12 +30,21 @@ export async function GET(req: NextRequest, res:NextResponse) {
 
     const department_id = "5440ad45-d618-476b-94ab-3afe5c25ecb3"
     const department = await SuperBase.department.fetchById(department_id)
-    console.log(department)
+    // console.log(department)
     // console.log(department?.faculty)
 
-    const courses = await department?.load_courses()
+    // const courses = await department?.load_courses()
+    // const courses = await department?.course_query.fetchOne({at:'id', is:'43fd45e8-103b-43a3-bca5-01a58460c2ff'});
+    const courses_manager = new ManyToManyManger(
+        department,
+        CourseModel
+    )
 
-    console.log("Courses:", JSON.stringify(courses, null, 4))
+
+    // const courses = await courses_manager.fetch();
+    const courses = await courses_manager.fetchOne({at:'id', is:'43fd45e8-103b-43a3-bca5-01a58460c2ff'});
+
+    console.log("Department Courses:", JSON.stringify(courses, null, 4))
 
     return ServerResponse.ok(contents)
 }
@@ -77,4 +88,3 @@ export async function POST(req: NextRequest) {
 
 
 // TODO: Implement Query manager for many to many
-// TODO: Implement like interfaces for other entities

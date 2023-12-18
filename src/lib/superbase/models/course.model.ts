@@ -1,5 +1,5 @@
 import { BaseModel } from "@/helpers/superbase.helper";
-import { Course, Department, FetchParam, QueryFilter,
+import { Course, FetchParam, QueryFilter,
     SuperBaseData, SuperBaseDatbaseNames,
     SuperBaseDatbaseTableColumns } from "@/types/superbase";
 import logger from "@/utils/logger";
@@ -28,7 +28,7 @@ class CourseModel extends BaseModel implements Course {
     name: string;
     code: string;
     title?: string | undefined;
-    departments?: Department[] | undefined;
+    // departments?: Department[] | undefined;
 
 
     update_excludes: CourseProps[] = [
@@ -39,7 +39,8 @@ class CourseModel extends BaseModel implements Course {
 
 
     /* =============== Static attributes ================ */
-    static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.COURSE;
+    // static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.COURSE;
+    static tb: SuperBaseDatbaseNames = SuperBaseDatbaseNames.COURSE;
 
 
     /* =============== Constructor ================ */
@@ -55,7 +56,7 @@ class CourseModel extends BaseModel implements Course {
             name, 
             code,
             title,
-            departments:departments_id
+            // departments:departments_id
         } = instanceData;
 
         if (!id) {
@@ -74,6 +75,10 @@ class CourseModel extends BaseModel implements Course {
         this.code = code as string;
         this.title = title as string;
         
+    }
+
+    get tb() {
+        return CourseModel.tb
     }
 
 
@@ -156,6 +161,7 @@ class CourseModel extends BaseModel implements Course {
      * @return  CourseModel      An instance of CourseModel 	
      */
     static createInstance(instanceData: Course): CourseModel {
+        console.log(instanceData)
         return new CourseModel(instanceData);
     }
 
@@ -166,7 +172,7 @@ class CourseModel extends BaseModel implements Course {
      * @return 	A list of Courses
      */
     static async fetch({column = SuperBaseDatbaseTableColumns.COURSE}): Promise<Course[]> {
-        const cls = CourseModel._cls;
+        const cls = this.tb;
         // const columnName = column || '*'
 
         // logger.debug("FETCH FROM COLUMN", columnName)
@@ -192,7 +198,7 @@ class CourseModel extends BaseModel implements Course {
         filter,
         column = SuperBaseDatbaseTableColumns.COURSE
     }: FetchParam): Promise<CourseModel | null> {
-        const cls = CourseModel._cls;
+        const cls = this.tb;
         // const columnName = column || '*'
 
         logger.debug("FETCH FROM COLUMN", column, filter)
@@ -233,7 +239,7 @@ class CourseModel extends BaseModel implements Course {
      * @return  CourseModel	   Instance with newly created data
      */
     static async insert(new_data: SuperBaseData): Promise<CourseModel> {
-        const cls = CourseModel._cls;
+        const cls = this.tb;
 
         // logger.debug("FETCH FROM COLUMN", columnName)
         const { data, error } = CourseModel.handleAllDatabaseResponse(
@@ -260,7 +266,7 @@ class CourseModel extends BaseModel implements Course {
      * @return 	void
      */
     static async updateRow(id:string, updated_data:SuperBaseData, upsert = false): Promise<Course> {
-        const cls = CourseModel._cls;
+        const cls = this.tb;
 
         // logger.debug("FETCH FROM COLUMN", columnName)
         const { data, error } = CourseModel.handleAllDatabaseResponse<Course[]>(
@@ -289,7 +295,7 @@ class CourseModel extends BaseModel implements Course {
      * @return 	void
      */
     static async deleteRow(index:string, value:string): Promise<void> {
-        const cls = CourseModel._cls;
+        const cls = this.tb;
 
         // logger.debug("FETCH FROM COLUMN", columnName)
         const { data, error } = CourseModel.handleAllDatabaseResponse(

@@ -1,21 +1,20 @@
 'use client'
-import { useState, useRef } from "react"
+import { useState, useRef, ChangeEvent } from "react"
 import axios from "axios"
 
 
-interface SelectInputProps {
+interface UploadProps {
     name: string,
-    label: string,
-    value?: string,
-    placeholder?: string,
-    multiple?:boolean
+    onChange:(val:any)=>void,
+    remove:()=>void,
+    value: File
 }
 
 
-export const DocumentUpload = () => {
+export const DocumentUpload = (props:UploadProps) => {
 
 
-    const [file, setFile] = useState<any>();
+    // const [file, setFile] = useState<any>();
     const [progress, setProgress] = useState({
         started: false, pc: 0
     });
@@ -23,40 +22,40 @@ export const DocumentUpload = () => {
 
     const elemRef = useRef<HTMLInputElement | null>(null)
 
-    const handleUpload = () => {
-        if (!file) return;
+    // const handleUpload = () => {
+    //     if (!file) return;
 
-        const fd = new FormData();
-        fd.append("file", file)
+    //     const fd = new FormData();
+    //     fd.append("file", file)
 
-        setMessage("Uploading...")
-        setProgress((prev)=>({
-            ...prev,
-            started: true,
-        }));
+    //     setMessage("Uploading...")
+    //     setProgress((prev)=>({
+    //         ...prev,
+    //         started: true,
+    //     }));
 
 
-        axios.post('https://httpbin.org/post', fd, {
-            onUploadProgress: (progressEvent) => {
+    //     axios.post('https://httpbin.org/post', fd, {
+    //         onUploadProgress: (progressEvent) => {
 
-                // console.log(progressEvent.progress! * 100)
-                setProgress((prev)=>({
-                    ...prev,
-                    pc: progressEvent.progress! * 100
-                }));
-            },
-            headers: {
-                "Custom-Header": "value"
-            }
-        }).then((res)=>{
-            setMessage("Uploaded!")
-            console.log(res.data)
-        })
-        .catch(err=>{
-            setMessage("Upload Failed!")
-            console.error(err)
-        })
-    }
+    //             // console.log(progressEvent.progress! * 100)
+    //             setProgress((prev)=>({
+    //                 ...prev,
+    //                 pc: progressEvent.progress! * 100
+    //             }));
+    //         },
+    //         headers: {
+    //             "Custom-Header": "value"
+    //         }
+    //     }).then((res)=>{
+    //         setMessage("Uploaded!")
+    //         console.log(res.data)
+    //     })
+    //     .catch(err=>{
+    //         setMessage("Upload Failed!")
+    //         console.error(err)
+    //     })
+    // }
 
     function onDragenter(e: any) {
         e.stopPropagation();
@@ -81,6 +80,7 @@ export const DocumentUpload = () => {
 
     // console.log(file)
 
+    const file = props.value;
 
 
     return(
@@ -121,7 +121,7 @@ export const DocumentUpload = () => {
                                 <button
                                     className="icon icon-times"
                                     title="Remove"
-                                    onClick={()=>setFile(null)}
+                                    onClick={()=>props.remove()}
                                 />
                             }
                         </p>
@@ -131,31 +131,22 @@ export const DocumentUpload = () => {
                 <label htmlFor="file" className="sr-only">Upload a file</label>
                 <input
                     type="file"
-                    name="file"
+                    name={props.name}
                     hidden
                     accept=".doc,.docx,.pdf"
                     ref={elemRef}
-                    onChange={(e)=>setFile(()=>e.target.files && e.target.files[0])}
+                    // onChange={(e)=>setFile(()=>e.target.files && e.target.files[0])}
+                    onChange={(e)=>props.onChange(e.target.files && (e.target.files[0] as File))}
 
                 />
-                {!file ? (
+                {!file && (
                     <button
                         type="button"
                         className="btn"
                         onClick={()=>elemRef.current!.click()}
                     >
                         Choose File
-                    </button>) :
-
-                    (<button
-                        type="button"
-                        className="btn"
-                        onClick={handleUpload}
-                        disabled={progress.started}
-                    >
-                        Upload File
                     </button>)
-
                 }
             </div>
 

@@ -168,6 +168,29 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
      * @param	string 	column  table columns seperated by comma
      * @return 	A list of Materials
      */
+    static async search({field, query}:Record<string, string>): Promise<MaterialTbRow[]> {
+        const cls = MaterialModel._cls;
+        // const columnName = column || '*'
+
+        // logger.debug("FETCH FROM COLUMN", columnName)
+        const { data, error } = this.handleAllDatabaseResponse<MaterialTbRow[]>(
+            await MaterialModel.db
+            .from(cls)
+            .select(SuperBaseDatbaseTableColumns.MATERIALS)
+            .textSearch(field, query)
+        );
+        
+
+        if (error) throw error;
+
+        return data;
+    }
+
+    /**
+     * Fetch data from database
+     * @param	string 	column  table columns seperated by comma
+     * @return 	A list of Materials
+     */
     static async fetch({column = SuperBaseDatbaseTableColumns.MATERIALS}): Promise<MaterialTbRow[]> {
         const cls = MaterialModel._cls;
         // const columnName = column || '*'

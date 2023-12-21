@@ -1,4 +1,4 @@
-import { User } from "..";
+import { User } from ".";
 
 
 export interface BaseTb {
@@ -40,8 +40,8 @@ export interface Asset extends BaseTb{
 
 export interface Material extends BaseTb{
     title: string,
-    course: string, // course id
-    asset: string, // asset id
+    course: Course | string, // course id
+    asset: Asset | string, // asset id
     owner?: User | undefined,
 }
 

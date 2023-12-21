@@ -1,6 +1,7 @@
 // Interact with data source
-import { Material } from '@/types/superbase';
+import { Asset, Material } from '@/types/superbase';
 import users from '../data/users.json';
+import { MaterialTbRow } from '@/types/superbase/table';
 
 type Content = Record<string, any>
 
@@ -26,7 +27,17 @@ export async function fetchContents(): Promise<Material[]> {
 }
 
 
-export async function fetchContent(id:any): Promise<Content> {
+export async function fetchMaterial(id:string): Promise<Material> {
+    const res = await fetch(`/api/materials/${id}`);
+
+    const { data, error} = await res.json();
+
+    if (error) throw error;
+
+    return data
+}
+
+export async function fetchAsset(id:string): Promise<Asset> {
     const res = await fetch(`/api/asset/${id}`);
 
     const { data, error} = await res.json();

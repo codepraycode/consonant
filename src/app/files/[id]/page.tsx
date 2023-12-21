@@ -1,6 +1,7 @@
 // import FileList from "@/components/FileLists";
 import FileDisplay from "@/components/FilePreview";
-import { Content, DynamicRoute } from "@/types";
+import { DynamicRoute } from "@/types";
+import { Material } from "@/types/superbase";
 
 
 
@@ -10,7 +11,7 @@ const FileInfoPage = ({params}: DynamicRoute) => {
 
     
     // const { recommendations } = useFileRecommendation(file);
-    const recommendations:Content[] = []
+    const recommendations:Material[] = []
 
     
     return (

@@ -48,8 +48,12 @@ const prepareResponseDTO = (
 
     if (error) {
         responseDTO.response.error = data;
+        responseDTO.response.data = null;
     }
-    else responseDTO.response.data = data;
+    else{
+        responseDTO.response.data = data;
+        responseDTO.response.error = null;
+    }
 
     responseDTO.response.status = status
     responseDTO.response.status = status
@@ -57,7 +61,6 @@ const prepareResponseDTO = (
 }
 
 
-// TODO: simplify this class methods
 class ServerResponse {
 
     static created(data:ResponseDataPayload = {}){

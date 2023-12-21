@@ -194,7 +194,7 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
     static async fetchOne({
         filter,
         column = SuperBaseDatbaseTableColumns.MATERIALS
-    }: FetchParam): Promise<MaterialModel | null> {
+    }: FetchParam): Promise<MaterialModel> {
         const cls = MaterialModel._cls;
         // const columnName = column || '*'
 
@@ -210,7 +210,10 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
         if (error) throw error;
 
         // console.log(data)
-        if (data.length < 1) return null;
+        if (data.length < 1) throw ({
+            code: 'NOT FOUND',
+            message: "Material not found"
+        });
         return MaterialModel.createInstance(data[0] as MaterialTbRow);
     }
 
@@ -312,10 +315,6 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
         
 
         if (error) throw error;
-
-        // console.log(data)
-        // return data;
-        // return null
 
         return data[0];
     }

@@ -161,7 +161,6 @@ class CourseModel extends BaseModel implements Course {
      * @return  CourseModel      An instance of CourseModel 	
      */
     static createInstance(instanceData: Course): CourseModel {
-        console.log(instanceData)
         return new CourseModel(instanceData);
     }
 

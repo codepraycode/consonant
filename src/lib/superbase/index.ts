@@ -15,10 +15,8 @@ export const setupSuperbase = ()=> BucketManager.setupBucket({bucket: BucketType
 
 
 class SuperBase {
-    
-    static bucket =  new BucketManager();
 
-    static asset = AssetModel;
+    // static asset = AssetModel;
     static faculty = FacultyModel;
     static course = CourseModel;
     static department = DepartmentModel;

@@ -1,7 +1,7 @@
 import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
 import { NextRequest } from "next/server";
 import contents from '@/data/contents.json';
-import { SuperBaseError } from "@/helpers/superbase";
+import { SuperBaseStorageErrorTypes } from "@/types/superbase";
 
 
 export function GET(req: NextRequest, { params }: { params: { id: string } }) {
@@ -11,7 +11,7 @@ export function GET(req: NextRequest, { params }: { params: { id: string } }) {
 
 
     if (!file) return ServerResponse.error({
-        code: SuperBaseError.FILENOTFOUND,
+        code: SuperBaseStorageErrorTypes.FILENOTFOUND,
         message: 'File not found or missing'
     }, StatusCodes.NOT_FOUND)
 

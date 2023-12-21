@@ -71,11 +71,11 @@ class BucketManager extends SuperbaseMeta {
             }
         });
 
-        const dowload: string = `${access}?download=`;
+        const download: string = `${access}?download=`;
 
 
         data.access = access;
-        data.dowload = dowload;
+        data.download = download;
 
         return {
             data: {...(data as Asset)},

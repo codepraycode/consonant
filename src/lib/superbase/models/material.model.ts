@@ -4,8 +4,11 @@ import { Material, Faculty, QueryFilter,
     SuperBaseDatbaseTableColumns, 
     Asset,
     Course,
-    FetchParam} from "@/types/superbase";
+    FetchParam,
+    ValidData} from "@/types/superbase";
 import logger from "@/utils/logger";
+import AssetModel from "./asset.model";
+import { MaterialTbRow } from "@/types/superbase/table";
 
 
 /**
@@ -24,12 +27,14 @@ enum MaterialProps {
 
 
 
-class MaterialModel extends BaseModel implements Material {
+class MaterialModel extends BaseModel implements MaterialTbRow {
 
     /* =============== Class attributes ================ */
     title: string;
-    course?: Course;
-    asset?: Asset;
+    course: string;  // course id
+    asset: string; // asset id
+    created_at: string | Date;
+    updated_at?: string | Date;
 
 
     update_excludes: MaterialProps[] = [
@@ -41,10 +46,10 @@ class MaterialModel extends BaseModel implements Material {
 
     /* =============== Static attributes ================ */
     static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.MATERIALS;
-
+    static assetManager = AssetModel
 
     /* =============== Constructor ================ */
-    constructor(instanceData: Material){        
+    constructor(instanceData: MaterialTbRow){        
 
         super();
 
@@ -54,7 +59,8 @@ class MaterialModel extends BaseModel implements Material {
             updated_at,
 
             title, 
-            // short,
+            asset,
+            course
         } = instanceData;
 
         if (!id) {
@@ -70,6 +76,8 @@ class MaterialModel extends BaseModel implements Material {
 
 
         this.title = title;
+        this.asset = asset;
+        this.course = course;
     }
 
 
@@ -109,6 +117,8 @@ class MaterialModel extends BaseModel implements Material {
             created_at: this.created_at,
             updated_at: this.updated_at,
             title: this.title,
+            asset: this.asset,
+            course: this.course,
         }
 
         if (exclude) exclude.forEach((field)=>{
@@ -117,6 +127,11 @@ class MaterialModel extends BaseModel implements Material {
         })
 
         return data
+    }
+
+
+    get data() {
+        return this.getInstanceData()
     }
 
 
@@ -143,7 +158,7 @@ class MaterialModel extends BaseModel implements Material {
      * @param	Material 	instanceData	Data from database
      * @return  MaterialModel      An instance of MaterialModel 	
      */
-    static createInstance(instanceData: Material): MaterialModel {
+    static createInstance(instanceData: MaterialTbRow): MaterialModel {
         return new MaterialModel(instanceData);
     }
 
@@ -196,7 +211,7 @@ class MaterialModel extends BaseModel implements Material {
 
         // console.log(data)
         if (data.length < 1) return null;
-        return MaterialModel.createInstance(data[0] as Material);
+        return MaterialModel.createInstance(data[0] as MaterialTbRow);
     }
 
 
@@ -220,14 +235,26 @@ class MaterialModel extends BaseModel implements Material {
      * @param	object 	new_data	Row data
      * @return  MaterialModel	   Instance with newly created data
      */
-    static async insert(new_data: SuperBaseData): Promise<MaterialModel> {
+    static async insert(new_data: ValidData): Promise<MaterialModel> {
         const cls = MaterialModel._cls;
+
+
+        const {asset, ...rest} = new_data;
+
+
+        // Create asset
+        const assetData = await this.saveAsset(asset as File);
+
+        const payload = {
+            ...rest,
+            asset: assetData.id
+        }
 
         // logger.debug("FETCH FROM COLUMN", columnName)
         const { data, error } = MaterialModel.handleAllDatabaseResponse(
             await MaterialModel.db
             .from(cls)
-            .upsert(new_data)
+            .upsert(payload)
             .select()
         );
         
@@ -236,6 +263,30 @@ class MaterialModel extends BaseModel implements Material {
 
         // console.log(data)
         return MaterialModel.createInstance(data[0]);
+    }
+
+
+    static async saveAsset(asset:File): Promise<AssetModel> {
+        // First upload Asset
+        // Link asset to material and upload
+        const {data, error} = await this.assetManager.bucket.upload({
+            path: (asset as File).name,
+            asset: (asset as File)
+        });
+
+        
+        if (error || !data) {
+            logger.error("UPLOAD ASSET ERROR::", error || data);
+            throw (error);
+        }
+
+        return this.assetManager.insert({
+            path: data.path,
+            fullPath: data.fullPath,
+            access: data.access,
+            download: data.download,
+            storage_id: data.id as string,
+        })
     }
 
 

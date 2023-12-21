@@ -7,8 +7,8 @@ import {StorageError} from '@supabase/storage-js/src/lib/errors'
 
 export type SuperBaseClient = SupabaseClient;
 export type SuperBaseBucket = Record<string, any>//Bucket
+export type ValidData = Record<string, File | string>;
 export type SuperBaseData = Record<string, any> | Array<Record<string, any>>
-
 
 export interface SuperBaseStorageError extends StorageError {
     message: string,
@@ -120,3 +120,10 @@ export type QueryFilter = {
 }
 
 export type FetchParam = { filter: QueryFilter, column?: string, deep?: boolean}
+
+export interface SupaBaseReqError {
+    code: string,
+    message: string,
+    statusCode: string | number,
+    error: string
+}

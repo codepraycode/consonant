@@ -24,51 +24,61 @@ interface ResponseDTO {
     
     status: StatusCodes
 }
+interface RequestResponse {response:ResponseDTO, meta:{status: StatusCodes}}
 
+const responseTemplate:RequestResponse = {
+    response:{ 
+        error: null,
+        data: null,
+        status: StatusCodes.OK
+    },
 
-const responseTemplate:ResponseDTO = {
-    error: null,
-    data: null,
-    status: StatusCodes.OK
+    meta: {
+        status: StatusCodes.OK
+    }
 }
 
 const prepareResponseDTO = (
     data: ResponseDataPayload | ResponseErrorPayload,
     status: StatusCodes,
     error:boolean = false
-    ): ResponseDTO => {
-    const response = {...responseTemplate}
+    ): RequestResponse => {
+    
+    const responseDTO = {...responseTemplate}
 
     if (error) {
-        response.error = data;
+        responseDTO.response.error = data;
     }
-    else response.data = data;
+    else responseDTO.response.data = data;
 
-    response.status = status
-    return response;
+    responseDTO.response.status = status
+    responseDTO.response.status = status
+    return responseDTO;
 }
 
-const responseMeta = (status: StatusCodes) => {
-    return {
-        status
-    }
-}
 
+// TODO: simplify this class methods
 class ServerResponse {
 
     static created(data:ResponseDataPayload = {}){
         
+        const {response, meta} = prepareResponseDTO(data, StatusCodes.CREATED)
+
+        // console.log(data, {response, meta})
         return NextResponse.json(
-            prepareResponseDTO(data, StatusCodes.CREATED),
-            responseMeta(StatusCodes.CREATED)
+            response,
+            // data,
+            // {status: 201}
+            meta
         )
     }
 
     static ok(data:ResponseDataPayload = {}){
 
+        const {response, meta} = prepareResponseDTO(data, StatusCodes.OK)
+
         return NextResponse.json(
-            prepareResponseDTO(data, StatusCodes.OK),
-            responseMeta(StatusCodes.OK)
+            response, meta
         )
     }
 
@@ -76,10 +86,10 @@ class ServerResponse {
         data:ResponseDataPayload = {},
         status:StatusCodes =  StatusCodes.BAD_REQUEST
         ){
-
+        
+            const {response, meta} = prepareResponseDTO(data, status, true)
         return NextResponse.json(
-            prepareResponseDTO(data, status, true),
-            responseMeta(status)
+            response, meta
         )
     }
 

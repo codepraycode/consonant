@@ -1,6 +1,9 @@
 import { BaseModel } from "@/helpers/superbase.helper";
-import { Asset, FetchParam, QueryFilter, SuperBaseData, SuperBaseDatbaseNames, SuperBaseDatbaseTableColumns } from "@/types/superbase";
+import { Asset, FetchParam, SuperBaseData, SuperBaseDatbaseNames, SuperBaseDatbaseTableColumns } from "@/types/superbase";
 import logger from "@/utils/logger";
+import BucketManager from "../bucket";
+import { AssetTbRow } from "@/types/superbase/table";
+import { AssetDto } from "@/types/dto";
 
 
 /**
@@ -39,6 +42,7 @@ class AssetModel extends BaseModel implements Asset {
 
     /* =============== Static attributes ================ */
     static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.ASSET;
+    static bucket =  new BucketManager();
 
 
     /* =============== Constructor ================ */
@@ -178,8 +182,8 @@ class AssetModel extends BaseModel implements Asset {
      * @param	Asset 	instanceData	Data from database
      * @return  AssetModel      An instance of AssetModel 	
      */
-    static createInstance(instanceData: Asset): AssetModel {
-        return new AssetModel(instanceData);
+    static createInstance(instanceData: AssetTbRow): AssetModel {
+        return new this(instanceData);
     }
 
 
@@ -231,7 +235,7 @@ class AssetModel extends BaseModel implements Asset {
 
         // console.log(data)
         if (data.length < 1) return null;
-        return AssetModel.createInstance(data[0] as Asset);
+        return AssetModel.createInstance(data[0] as AssetTbRow);
     }
 
 
@@ -255,11 +259,11 @@ class AssetModel extends BaseModel implements Asset {
      * @param	object 	new_data	Row data
      * @return  AssetModel	   Instance with newly created data
      */
-    static async insert(new_data: SuperBaseData): Promise<AssetModel> {
+    static async insert(new_data: AssetDto): Promise<AssetModel> {
         const cls = AssetModel._cls;
 
         // logger.debug("FETCH FROM COLUMN", columnName)
-        const { data, error } = AssetModel.handleAllDatabaseResponse(
+        const { data, error } = this.handleAllDatabaseResponse(
             await AssetModel.db
             .from(cls)
             .upsert(new_data)
@@ -270,7 +274,7 @@ class AssetModel extends BaseModel implements Asset {
         if (error) throw error;
 
         // console.log(data)
-        return AssetModel.createInstance(data[0]);
+        return this.createInstance(data[0] as AssetTbRow);
     }
 
 
@@ -286,7 +290,7 @@ class AssetModel extends BaseModel implements Asset {
         const cls = AssetModel._cls;
 
         // logger.debug("FETCH FROM COLUMN", columnName)
-        const { data, error } = AssetModel.handleAllDatabaseResponse<Asset[]>(
+        const { data, error } = this.handleAllDatabaseResponse<Asset[]>(
             await AssetModel.db
             .from(cls)
             .update(updated_data)

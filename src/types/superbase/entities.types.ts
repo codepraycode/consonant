@@ -40,8 +40,8 @@ export interface Asset extends BaseTb{
 
 export interface Material extends BaseTb{
     title: string,
-    course?: Course,
-    asset?: Asset
+    course: string, // course id
+    asset: string, // asset id
     owner?: User | undefined,
 }
 

@@ -6,7 +6,6 @@ import FacultyModel from './models/faculty.model';
 import CourseModel from './models/course.model';
 import DepartmentModel from './models/department.model';
 import MaterialModel from './models/material.model';
-import { ManyToManyManger } from './models/relator';
 
 
 

@@ -7,7 +7,7 @@ import { SuperbaseMeta } from "@/helpers/superbase.helper";
 import { QueryFilter } from "@/types/superbase";
 
 
-class ManyToManyManger extends SuperbaseMeta {
+class ManyToManyManger<T> extends SuperbaseMeta {
 
     constructor(private model: any, private target:any) {
         super()
@@ -46,17 +46,17 @@ class ManyToManyManger extends SuperbaseMeta {
         return normalFetch();
     }
 
-    async fetch() {
+    async fetch<R=T>() {
 
         const {data, error} = await this.runFetch();
         
 
         if (error) throw error;
 
-        if (data.length < 1) return null;
+        if (data.length < 1) return [];
 
 
-        return data[0][this.target.tb];
+        return data[0][this.target.tb] as R;
     
     }
 
@@ -69,11 +69,14 @@ class ManyToManyManger extends SuperbaseMeta {
 
         if (data.length < 1) return null;
 
-        const courses = data[0][this.target.tb]
+        const paylod = data[0][this.target.tb]
 
-        if (courses.length < 1) return null;
+        if (paylod.length < 1) throw({
+            code: 'NOT FOUND',
+            message: ''
+        });
 
-        return courses[0]
+        return paylod[0] as T
     }
 }
 

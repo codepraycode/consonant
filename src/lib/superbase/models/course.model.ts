@@ -2,7 +2,10 @@ import { BaseModel } from "@/helpers/superbase.helper";
 import { Course, FetchParam, QueryFilter,
     SuperBaseData, SuperBaseDatbaseNames,
     SuperBaseDatbaseTableColumns } from "@/types/superbase";
+import { CourseTbRow, DepartmentTbRow } from "@/types/superbase/table";
 import logger from "@/utils/logger";
+import { ManyToManyManger } from "./relator";
+import DepartmentModel from "./department.model";
 
 
 /**
@@ -22,12 +25,14 @@ enum CourseProps {
 
 
 
-class CourseModel extends BaseModel implements Course {
+class CourseModel extends BaseModel implements CourseTbRow {
 
     /* =============== Class attributes ================ */
     name: string;
     code: string;
-    title?: string | undefined;
+    title: string;
+    created_at: string | Date;
+    updated_at?: string | Date | undefined;
     // departments?: Department[] | undefined;
 
 
@@ -41,10 +46,13 @@ class CourseModel extends BaseModel implements Course {
     /* =============== Static attributes ================ */
     // static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.COURSE;
     static tb: SuperBaseDatbaseNames = SuperBaseDatbaseNames.COURSE;
-
+    departments = new ManyToManyManger<DepartmentTbRow>(
+        this,
+        DepartmentModel
+    )
 
     /* =============== Constructor ================ */
-    constructor(instanceData: Course){        
+    constructor(instanceData: CourseTbRow){        
 
         super();
 
@@ -142,7 +150,7 @@ class CourseModel extends BaseModel implements Course {
     }
 
 
-    /* =============== Instance Methods ================ */
+    /* ========ManyToManyManger======= Instance Methods ================ */
     /**
      * Synchronize instance data with database
      * @param	boolean     upsert 	Auto create if not exist
@@ -165,7 +173,7 @@ class CourseModel extends BaseModel implements Course {
      * @param	Course 	instanceData	Data from database
      * @return  CourseModel      An instance of CourseModel 	
      */
-    static createInstance(instanceData: Course): CourseModel {
+    static createInstance(instanceData: CourseTbRow): CourseModel {
         return new CourseModel(instanceData);
     }
 
@@ -175,12 +183,12 @@ class CourseModel extends BaseModel implements Course {
      * @param	string 	column  table columns seperated by comma
      * @return 	A list of Courses
      */
-    static async fetch({column = SuperBaseDatbaseTableColumns.COURSE}): Promise<Course[]> {
+    static async fetch({column = SuperBaseDatbaseTableColumns.COURSE}): Promise<CourseTbRow[]> {
         const cls = this.tb;
         // const columnName = column || '*'
 
         // logger.debug("FETCH FROM COLUMN", columnName)
-        const { data, error } = CourseModel.handleAllDatabaseResponse<Course[]>(
+        const { data, error } = CourseModel.handleAllDatabaseResponse<CourseTbRow[]>(
             await CourseModel.db
             .from(cls)
             .select(column)
@@ -221,7 +229,7 @@ class CourseModel extends BaseModel implements Course {
             code: 'NOT FOUND',
             message: "Course not found"
         });
-        return CourseModel.createInstance(data[0] as Course);
+        return CourseModel.createInstance(data[0] as CourseTbRow);
     }
 
 

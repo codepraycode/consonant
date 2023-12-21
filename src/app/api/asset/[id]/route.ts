@@ -6,7 +6,7 @@ import SuperBase from "@/lib/superbase";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import logger from "@/utils/logger";
 import CourseModel from "@/lib/superbase/models/course.model";
-import { DepartmentTbRow } from "@/types/superbase/table";
+import AssetModel from "@/lib/superbase/models/asset.model";
 
 
 type req = { params: { id: string } };
@@ -17,33 +17,25 @@ export async function GET(req: NextRequest, {params}: req) {
 
     if (!id) return ServerResponse.error({
         code: "BADREQUEST",
-        message: 'Course id is required'
+        message: 'Asset id is required'
     }, StatusCodes.BAD_REQUEST)
 
 
-    let course:CourseModel, departments: DepartmentTbRow[]
+    let asset:AssetModel
 
     try {
 
-        course = await SuperBase.course.fetchById(id);
-        departments = await course.departments.fetch<DepartmentTbRow[]>();
-
-        // console.log(departments)
+        asset = await SuperBase.material.assetManager.fetchById(id);
     } catch (error) {
         logger.error("FETCH COURSE BY ID::ERROR OCCURED", error);
         const err = error as SupaBaseReqError;
 
         return ServerResponse.error({
             code: err.code || "NOT FOUND",
-            message: err.message || 'Could not find course'
+            message: err.message || 'Could not find asset'
         }, StatusCodes.SERVER_ERROR)
     }
     
 
-    const payload = {
-        ...course.data,
-        departments
-    }
-
-    return ServerResponse.ok(payload)
+    return ServerResponse.ok(asset.data)
 }

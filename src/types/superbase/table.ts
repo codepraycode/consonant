@@ -19,3 +19,16 @@ export interface MaterialTbRow extends TbRow {
     course: string,
     asset: string,
 }
+
+
+export interface CourseTbRow extends TbRow {
+    name: string,
+    code: string,
+    title: string,
+}
+
+export interface DepartmentTbRow extends TbRow {
+    name: string,
+    short: string,
+    faculty: string,
+}

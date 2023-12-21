@@ -83,6 +83,11 @@ class AssetModel extends BaseModel implements Asset {
     }
 
 
+    get data() {
+        return this.getInstanceData()
+    }
+
+
     /* =============== Private Methods ================ */
 
     private updateInstance(updated_data: SuperBaseData) {
@@ -218,7 +223,7 @@ class AssetModel extends BaseModel implements Asset {
     static async fetchOne({
         filter,
         column = SuperBaseDatbaseTableColumns.ASSET
-    }: FetchParam): Promise<AssetModel | null> {
+    }: FetchParam): Promise<AssetModel> {
         const cls = AssetModel._cls;
         // const columnName = column || '*'
 
@@ -234,7 +239,10 @@ class AssetModel extends BaseModel implements Asset {
         if (error) throw error;
 
         // console.log(data)
-        if (data.length < 1) return null;
+        if (data.length < 1) throw ({
+            code: 'NOT FOUND',
+            message: 'Asset not found'
+        });
         return AssetModel.createInstance(data[0] as AssetTbRow);
     }
 

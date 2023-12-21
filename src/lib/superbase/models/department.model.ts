@@ -4,7 +4,7 @@ import { Course, Department, FetchParam,
     SuperBaseDatbaseTableColumns } from "@/types/superbase";
 import logger from "@/utils/logger";
 import FacultyModel from "./faculty.model";
-import { ManyToManyManger } from "./relator";
+// import { ManyToManyManger } from "./relator";
 
 
 /**

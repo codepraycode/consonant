@@ -82,6 +82,11 @@ class CourseModel extends BaseModel implements Course {
     }
 
 
+    get data() {
+        return this.getInstanceData();
+    }
+
+
     /* =============== Private Methods ================ */
 
     private updateInstance(updated_data: SuperBaseData) {
@@ -196,7 +201,7 @@ class CourseModel extends BaseModel implements Course {
     static async fetchOne({
         filter,
         column = SuperBaseDatbaseTableColumns.COURSE
-    }: FetchParam): Promise<CourseModel | null> {
+    }: FetchParam): Promise<CourseModel> {
         const cls = this.tb;
         // const columnName = column || '*'
 
@@ -212,7 +217,10 @@ class CourseModel extends BaseModel implements Course {
         if (error) throw error;
 
         // console.log(data)
-        if (data.length < 1) return null;
+        if (data.length < 1) throw ({
+            code: 'NOT FOUND',
+            message: "Course not found"
+        });
         return CourseModel.createInstance(data[0] as Course);
     }
 

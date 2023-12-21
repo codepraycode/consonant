@@ -5,7 +5,7 @@ import Image from "next/image";
 import Tags from "./Tag";
 import { formatDateDistance } from "@/utils/time";
 import { useQuery } from "@tanstack/react-query";
-import { fetchContent } from "@/utils/requestContent";
+import { fetchContent } from "@/utils/requests";
 
 
 const FilePreview = ({file}: {file: Content }) => (

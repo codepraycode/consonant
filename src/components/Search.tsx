@@ -3,6 +3,7 @@ import useSearch, { SearchContextProps } from "@/context/SearchContext";
 import Tags from "./Tag"
 import { useCallback } from "react";
 import debounce from 'lodash/debounce';
+import { searchMaterials } from "@/utils/requests";
 
 
 interface SearchProps {
@@ -13,7 +14,23 @@ const DEBOUNCE_TIMEOUT = 300;
 
 
 const SearchFiles = (props: SearchProps) => {
-    const { search, loading } = useSearch() as SearchContextProps;
+    const { updateSearch, setLoading, setError, loading } = useSearch() as SearchContextProps;
+
+
+    const search = async (query:string) => {
+
+        setLoading();
+        searchMaterials(query)
+        .then((results)=>{
+
+            updateSearch(results);
+        })
+        .catch((err)=>{
+            console.error(err)
+            setError(err);
+        })
+
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleSearch = useCallback(debounce(search, DEBOUNCE_TIMEOUT), [])
@@ -25,7 +42,8 @@ const SearchFiles = (props: SearchProps) => {
                 placeholder={loading ? "Loading...." : "Search for resources"}
                 name="search-files"
                 onChange={(e)=>handleSearch(e.target.value)}
-                disabled={loading}
+                autoComplete="off"
+                // disabled={loading}
             />
             {/* Filters */}
             {/* <Tags /> */}

@@ -31,10 +31,10 @@ export default function RootLayout({ children }:IRootLayout ) {
                     <main className='relative app container mx-auto'>
                         {/* <Nav/> */}
                             
-                        <SearchProvider>
+                        {/* <SearchProvider> */}
                             {children}
 
-                        </SearchProvider>
+                        {/* </SearchProvider> */}
                         
                     </main>
                 </AppLayout>

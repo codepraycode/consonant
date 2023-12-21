@@ -1,8 +1,21 @@
 // Interact with data source
-import { Content, User } from '@/types';
+import { Material } from '@/types/superbase';
 import users from '../data/users.json';
 
-export async function fetchContents(): Promise<Content[]> {
+type Content = Record<string, any>
+
+export async function searchMaterials(query:string){
+    const res = await fetch(`/api/course/search?q=${query}`);
+
+    const { data, error} = await res.json();
+
+    if (error) throw error;
+
+    return data.query
+}
+
+
+export async function fetchContents(): Promise<Material[]> {
     const res = await fetch('/api/asset');
 
     const { data, error} = await res.json();
@@ -25,6 +38,6 @@ export async function fetchContent(id:any): Promise<Content> {
 
 
 
-function fetchUsers(): User[] {
+function fetchUsers(): Content[] {
     return users
 }

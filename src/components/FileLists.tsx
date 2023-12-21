@@ -1,17 +1,15 @@
 'use client'
 import useSearch from "@/context/SearchContext";
-import { Content } from "@/types/content.types"
-import { fetchContents } from "@/utils/requestContent";
+import { Material } from "@/types/superbase";
+import { MaterialTbRow } from "@/types/superbase/table";
+import { fetchContents } from "@/utils/requests";
 import { formatDateDistance } from "@/utils/time";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link"
 
 
-type FileListProps  = {
-    files?: Content[]
-} 
 
-const FileListItem = ({file}:{ file: Content}) => (
+const FileListItem = ({file}: {file:Material}) => (
 
     <Link
         href={`/files/${file.id}`}
@@ -26,14 +24,14 @@ const FileListItem = ({file}:{ file: Content}) => (
             <small className="text-small">
                 By {file.owner?.firstName}
                 <span className="fw-800 dot-sep">&#183;</span>
-                { formatDateDistance(file.createdAt as Date) }
+                { formatDateDistance(file.created_at as Date) }
             </small>
         </div>
     </Link>
 )
 
 
-const FileListing = ({ files }: FileListProps & { files: Content[]}) => {
+const FileListing = ({ files }: { files: Material[]}) => {
 
     return (
         <div className="file-listing">
@@ -48,6 +46,8 @@ const FileListing = ({ files }: FileListProps & { files: Content[]}) => {
 
 export const SearchedFileList = () => {
     const { searchResult } = useSearch();
+
+    // TODO: Implement preloader for load state
     
     return <FileListing files={ searchResult }/>    
 }

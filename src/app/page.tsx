@@ -1,5 +1,6 @@
 import {SearchedFileList} from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
+import { SearchProvider } from "@/context/SearchContext";
 import { setupSuperbase } from "@/lib/superbase";
 // import { upload, fetchResource } from '@/lib/cloudinary';
 
@@ -11,7 +12,7 @@ setupSuperbase()
 export default function Home() {
     
     return (
-        <>
+        <SearchProvider>
             <header>
                 <h1 className="fs-3 fw-800 text-center">
                     Consonant
@@ -30,6 +31,6 @@ export default function Home() {
 
             <SearchedFileList />
             <br/><br/><br/>
-        </>
+        </SearchProvider>
     )
 }

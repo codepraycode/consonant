@@ -1,4 +1,4 @@
-import ServerResponse from "@/helpers/response.helper";
+import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
 import SuperBase from "@/lib/superbase";
 import { NextRequest, NextResponse } from "next/server";
 import contents from '@/data/contents.json';
@@ -7,16 +7,34 @@ import logger from "@/utils/logger";
 import { Material, SupaBaseReqError, SuperBaseStorageErrorTypes } from "@/types/superbase";
 import { PostMaterialDTO } from "@/utils/dto";
 import MaterialModel from "@/lib/superbase/models/material.model";
+import { MaterialTbRow } from "@/types/superbase/table";
 
 
 
 
-// TODO: implement automatic error handler for all routes
 export async function GET(req: NextRequest, res:NextResponse) {
 
-    const departments = await SuperBase.material.fetch({});
+    /* 
+        This covers get for admin
+    */
 
-    return ServerResponse.ok(departments)
+    let materials:MaterialTbRow[]
+
+    try {
+
+        materials = await SuperBase.material.fetch({});
+    } catch (error) {
+        logger.error("FETCH MATERIAL BY ID::ERROR OCCURED", error);
+        const err = error as SupaBaseReqError;
+
+        return ServerResponse.error({
+            code: err.code || "NOT FOUND",
+            message: err.message || 'Could not find material'
+        }, StatusCodes.SERVER_ERROR)
+    }
+    
+
+    return ServerResponse.ok(materials)
 }
 
 

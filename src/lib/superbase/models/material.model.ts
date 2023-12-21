@@ -168,12 +168,12 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
      * @param	string 	column  table columns seperated by comma
      * @return 	A list of Materials
      */
-    static async fetch({column = SuperBaseDatbaseTableColumns.MATERIALS}): Promise<Material[]> {
+    static async fetch({column = SuperBaseDatbaseTableColumns.MATERIALS}): Promise<MaterialTbRow[]> {
         const cls = MaterialModel._cls;
         // const columnName = column || '*'
 
         // logger.debug("FETCH FROM COLUMN", columnName)
-        const { data, error } = MaterialModel.handleAllDatabaseResponse<Material[]>(
+        const { data, error } = MaterialModel.handleAllDatabaseResponse<MaterialTbRow[]>(
             await MaterialModel.db
             .from(cls)
             .select(column)

@@ -1,4 +1,4 @@
-import { UserFileList } from "@/components/FileLists";
+import { AdminMaterials } from "@/components/FileLists";
 
 import Link from "next/link";
 
@@ -23,7 +23,7 @@ const AdminPage = () => {
                     </Link>
                 </div>
                 
-                <UserFileList />
+                <AdminMaterials />
             </section>
         </>
     )

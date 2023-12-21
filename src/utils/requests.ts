@@ -16,8 +16,8 @@ export async function searchMaterials(query:string){
 }
 
 
-export async function fetchContents(): Promise<Material[]> {
-    const res = await fetch('/api/asset');
+export async function fetchAdminMaterials(): Promise<Material[]> {
+    const res = await fetch('/api/materials');
 
     const { data, error} = await res.json();
 

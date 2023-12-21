@@ -2,17 +2,19 @@
 import useSearch from "@/context/SearchContext";
 import { Material } from "@/types/superbase";
 import { MaterialTbRow } from "@/types/superbase/table";
-import { fetchContents } from "@/utils/requests";
+import { getMaterialCacheKey } from "@/utils/cache";
+import { fetchAdminMaterials } from "@/utils/requests";
 import { formatDateDistance } from "@/utils/time";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link"
 
 
 
-const FileListItem = ({file}: {file:Material}) => (
+const FileListItem = ({file, admin}: {file:Material, admin?:boolean}) => (
 
     <Link
         href={`/files/${file.id}`}
+        onClick={(e)=>e.preventDefault()}
         className="file-content box-shadow"
     >
         <span className="icon icon-file"/>
@@ -31,13 +33,13 @@ const FileListItem = ({file}: {file:Material}) => (
 )
 
 
-const FileListing = ({ files }: { files: Material[]}) => {
+const FileListing = ({ files, admin}: { files: Material[], admin?:boolean}) => {
 
     return (
         <div className="file-listing">
 
             {
-                files.map((item)=> <FileListItem key={item.id} file={item}/>)
+                files.map((item)=> <FileListItem key={item.id} file={item} admin={admin}/>)
             }
         </div>
     )
@@ -52,17 +54,17 @@ export const SearchedFileList = () => {
     return <FileListing files={ searchResult }/>    
 }
 
-export const UserFileList = () => {
+export const AdminMaterials = () => {
     const {isLoading:loading, data, error} = useQuery({
-        queryKey: ['user-files'],
-        queryFn: fetchContents
+        queryKey: [getMaterialCacheKey('admin')],
+        queryFn: fetchAdminMaterials
     })
 
     if (loading) return <h4 className="fs-3 fw-400">Loading your files...</h4>
 
     if (error) return <h4 className="fs-3 fw-400">Error loading your files</h4>
     
-    if (data) return <FileListing files={data}/>
+    if (data) return <FileListing files={data} admin/>
 
     return null;
 }

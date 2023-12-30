@@ -7,6 +7,7 @@ import { fetchAdminMaterials } from "@/utils/requests";
 import { formatDateDistance } from "@/utils/time";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link"
+import SpinnerPreloader from "./Preloader";
 
 
 
@@ -33,11 +34,11 @@ const FileListItem = ({file, admin}: {file:Material, admin?:boolean}) => (
 )
 
 
-const FileListing = ({ files, admin}: { files: Material[], admin?:boolean}) => {
+const FileListing = ({ files, admin, altMessage}: { files: Material[], admin?:boolean, altMessage?:string}) => {
 
     return (
         <div className="file-listing">
-
+            {files.length < 1 && <h4>{altMessage}</h4>}
             {
                 files.map((item)=> <FileListItem key={item.id} file={item} admin={admin}/>)
             }
@@ -47,11 +48,16 @@ const FileListing = ({ files, admin}: { files: Material[], admin?:boolean}) => {
 
 
 export const SearchedFileList = () => {
-    const { searchResult } = useSearch();
+    const { searchResult, loading } = useSearch();
 
     // TODO: Implement preloader for load state
+    if (loading) return <section className="preloader-center">
+        <SpinnerPreloader/>
+    </section>
     
-    return <FileListing files={ searchResult }/>    
+    
+    
+    return <FileListing files={ searchResult } altMessage="No materials found"/>    
 }
 
 export const AdminMaterials = () => {

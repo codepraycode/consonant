@@ -41,6 +41,10 @@ body:not(.dark-theme) {
             background-color: $lm-elem;
         }
     }
+
+    .text-grey {
+        color: grey;
+    }
 }
 // @media (prefers-color-scheme: dark) {
 //     :root {

@@ -38,7 +38,7 @@ const FileListing = ({ files, admin, altMessage}: { files: Material[], admin?:bo
 
     return (
         <div className="file-listing">
-            {files.length < 1 && <h4>{altMessage}</h4>}
+            {files.length < 1 && <h4 className="preloader-center fs-2 text-grey">{altMessage}</h4>}
             {
                 files.map((item)=> <FileListItem key={item.id} file={item} admin={admin}/>)
             }

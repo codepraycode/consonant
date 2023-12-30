@@ -3,6 +3,7 @@ import '../assets/styles/styles.scss';
 import { SearchProvider } from '@/context/SearchContext';
 
 import AppLayout from '@/components/Layout/AppLayout';
+import Header from '@/components/Header';
 
 
 
@@ -28,7 +29,9 @@ export default function RootLayout({ children }:IRootLayout ) {
                         <div className='gradient'/>
                     </div>
 
-                    <main className='relative app container mx-auto'>
+                    <Header />
+
+                    <main className='relative app-container container mx-auto'>
                         {/* <Nav/> */}
                             
                         {/* <SearchProvider> */}

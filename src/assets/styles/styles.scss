@@ -184,8 +184,8 @@
 }
 
 
-.app {
-    z-index: 10;
+.app-container {
+    // z-index: 10;
 
     padding-inline: 2rem;
     @include mixins.sm {
@@ -194,17 +194,39 @@
 }
 
 
+
 header {
-    padding-block: 3rem;
+   position: relative;
 
-    .search-group {
-        margin-top: 4rem;
+   top: 0rem;
+
+   padding-inline: 1rem;
+
+   @include mixins.md(){
+    padding-inline: 4rem;
+   }
+   
+    .nav {
+        width: fit-content;
+        margin-left: auto;
+        padding-right: .8rem;
+        font-weight: 500;
+
+        padding-top: 1rem;
+        margin-bottom: 2rem;
+        // margin-bottom: 4rem;
+
+        @include mixins.md() {
+            margin-bottom: 4rem;
+
+            padding-top: 2rem;
+        }
     }
 
+}
 
-    @include mixins.md {
-        padding-top: 5rem;
-    }
+.search-group {
+    margin-top: 2rem;
 }
 
 .search_input {

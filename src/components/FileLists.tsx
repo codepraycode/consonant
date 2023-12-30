@@ -1,7 +1,6 @@
 'use client'
 import useSearch from "@/context/SearchContext";
 import { Material } from "@/types/superbase";
-import { MaterialTbRow } from "@/types/superbase/table";
 import { getMaterialCacheKey } from "@/utils/cache";
 import { fetchAdminMaterials } from "@/utils/requests";
 import { formatDateDistance } from "@/utils/time";

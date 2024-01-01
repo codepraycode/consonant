@@ -26,12 +26,14 @@ const LoginPage = () => {
                 <form onSubmit={handleLogin} className="mt-1">
                     <TextInput
                         name="email"
-                        label="Enter email address"                        
+                        label="Enter email address"
+                        onChange={(val)=>console.log(val)}
                     />
 
                     <TextInput
                         name="password"
                         label="Enter password"
+                        onChange={(val)=>console.log(val)}
                     />
 
                     <button>

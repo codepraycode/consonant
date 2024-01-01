@@ -1,8 +1,5 @@
 'use client'
-import { FC, ReactNode, createContext, useCallback, useContext, useMemo, useReducer, useState } from 'react';
-import { fetchContents } from '@/utils/requests';
-import { useQuery } from '@tanstack/react-query';
-import { Material } from '@/types/superbase';
+import { FC, ReactNode, createContext, useContext, useReducer } from 'react';
 import { MaterialTbRow } from '@/types/superbase/table';
 
 export interface SearchContextProps {

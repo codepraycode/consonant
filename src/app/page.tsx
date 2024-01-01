@@ -29,7 +29,11 @@ export default function Home() {
 
             </section>
 
-            <SearchedFileList />
+
+            <section className="container mx-auto mt-2">
+
+                <SearchedFileList />
+            </section>
             {/* <br/><br/><br/> */}
         </SearchProvider>
     )

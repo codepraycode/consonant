@@ -15,7 +15,9 @@ const FileInfoPage = ({params}: DynamicRoute) => {
 
     
     return (
-        <>
+        <section className="container mx-auto">
+
+
             <FileDisplay id={id}/>
 
             <section className="mt-5">
@@ -25,7 +27,7 @@ const FileInfoPage = ({params}: DynamicRoute) => {
             </section>
                 
 
-        </>
+        </section>
     )
 }
 

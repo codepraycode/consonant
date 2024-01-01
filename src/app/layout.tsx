@@ -31,7 +31,7 @@ export default function RootLayout({ children }:IRootLayout ) {
 
                     <Header />
 
-                    <main className='relative app-container container mx-auto'>
+                    <main className='relative'>
                         {/* <Nav/> */}
                             
                         {/* <SearchProvider> */}

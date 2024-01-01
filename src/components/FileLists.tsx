@@ -14,8 +14,9 @@ const FileListItem = ({file, admin}: {file:Material, admin?:boolean}) => (
 
     <Link
         href={`/files/${file.id}`}
-        onClick={(e)=>e.preventDefault()}
+        onClick={(e)=>admin && e.preventDefault()}
         className="file-content box-shadow"
+        // title={admin && 'Click to edit'}
     >
         <span className="icon icon-file"/>
 
@@ -36,7 +37,7 @@ const FileListItem = ({file, admin}: {file:Material, admin?:boolean}) => (
 const FileListing = ({ files, admin, altMessage}: { files: Material[], admin?:boolean, altMessage?:string}) => {
 
     return (
-        <div className="file-listing">
+        <div className="file-listing" data-admin={admin}>
             {files.length < 1 && <h4 className="preloader-center fs-2 text-grey">{altMessage}</h4>}
             {
                 files.map((item)=> <FileListItem key={item.id} file={item} admin={admin}/>)
@@ -49,7 +50,6 @@ const FileListing = ({ files, admin, altMessage}: { files: Material[], admin?:bo
 export const SearchedFileList = () => {
     const { searchResult, loading } = useSearch();
 
-    // TODO: Implement preloader for load state
     if (loading) return <section className="preloader-center">
         <SpinnerPreloader/>
     </section>
@@ -65,7 +65,7 @@ export const AdminMaterials = () => {
         queryFn: fetchAdminMaterials
     })
 
-    if (loading) return <h4 className="fs-3 fw-400">Loading your files...</h4>
+    if (loading) return <h4 className="fw-400">Loading your files...</h4>
 
     if (error) return <h4 className="fs-3 fw-400">Error loading your files</h4>
     

@@ -259,5 +259,9 @@
 .sticky {
     position: sticky;
     top: 0;
+    
+}
+
+.bg-blur {
     backdrop-filter: blur(5px);
 }

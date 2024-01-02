@@ -714,7 +714,6 @@ header {
 
 .admin-split {
 
-
     & .admin-files {
         margin-top: 6rem;
         & .file-content {
@@ -735,6 +734,12 @@ header {
             column-gap: 3rem;
 
             justify-content: space-evenly;
+        }
+
+        & .admin-upload {
+            position: sticky !important;
+            height: max-content;
+            top: 2rem;
         }
 
         & .admin-files {

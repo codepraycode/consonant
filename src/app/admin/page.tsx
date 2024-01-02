@@ -6,7 +6,7 @@ import Link from "next/link";
 
 
 const UploadSection = () => (
-    <div className="admin-upload ">
+    <div className="admin-upload">
 
         <h1 className="mt-5 px-1">Upload Resource</h1>
         <MaterialUploadForm />        
@@ -19,7 +19,7 @@ const UploadSection = () => (
 
 const AdminFileLists = () => (
     <div className="admin-files">
-        <div className="d-flex align-center justify-between sticky pb-1 px-1">
+        <div className="d-flex align-center justify-between sticky bg-blur py-1 px-1">
             <h1 className="fw-800 fs-md-2">Your files</h1>
 
             <button

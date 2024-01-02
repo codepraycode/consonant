@@ -1,6 +1,5 @@
 import type { Metadata } from 'next';
 import '../assets/styles/styles.scss';
-import { SearchProvider } from '@/context/SearchContext';
 
 import AppLayout from '@/components/Layout/AppLayout';
 import Header from '@/components/Header';
@@ -8,7 +7,7 @@ import Header from '@/components/Header';
 
 
 // Setup site Metadata
-export const metadata = {
+export const metadata:Metadata = {
     title: 'Consonant',
     description: ''
 }
@@ -32,13 +31,7 @@ export default function RootLayout({ children }:IRootLayout ) {
                     <Header />
 
                     <main className='relative'>
-                        {/* <Nav/> */}
-                            
-                        {/* <SearchProvider> */}
-                            {children}
-
-                        {/* </SearchProvider> */}
-                        
+                        {children}
                     </main>
                 </AppLayout>
             </body>

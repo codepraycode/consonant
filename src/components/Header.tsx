@@ -1,6 +1,6 @@
 'use client'
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
 
@@ -8,6 +8,13 @@ const Header = () => {
 
     const [showMenu, setShowMenu] = useState(false);
     const navigation = useRouter();
+
+    const params = usePathname()
+
+
+    // console.log(params)
+    if (params === '/login') return null;
+
 
     return (
         <header>

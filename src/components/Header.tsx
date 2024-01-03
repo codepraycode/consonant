@@ -1,15 +1,21 @@
 'use client'
+import useUser from "@/hooks/user";
 import Link from "next/link";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 
 const Header = () => {
 
     const [showMenu, setShowMenu] = useState(false);
-    const navigation = useRouter();
 
-    const params = usePathname()
+    const params = usePathname();
+
+    const user = useUser();
+
+    console.log(user);
+
+    // TODO: Implemenet authentication tracking
 
 
     // console.log(params)

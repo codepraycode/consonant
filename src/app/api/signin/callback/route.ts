@@ -17,9 +17,6 @@ export async function POST(req:NextRequest) {
 
     if (error) return ServerResponse.error(error);
 
-    console.log(data);
-
-
     return ServerResponse.ok({
         message: "You've been authenticated",
         redirect: '/admin',

@@ -39,7 +39,7 @@ const responseTemplate:RequestResponse = {
 }
 
 const prepareResponseDTO = (
-    data: ResponseDataPayload | ResponseErrorPayload,
+    data: ResponseDataPayload | ResponseErrorPayload | null,
     status: StatusCodes,
     error:boolean = false
     ): RequestResponse => {
@@ -77,7 +77,7 @@ class ServerResponse {
         )
     }
 
-    static ok(data:ResponseDataPayload = {}){
+    static ok(data:ResponseDataPayload | null = {}){
 
         const {response, meta} = prepareResponseDTO(data, StatusCodes.OK)
 

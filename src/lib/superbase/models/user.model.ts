@@ -104,6 +104,18 @@ class UserModel extends BaseModel {
         return {data,error};
 
     }
+
+    static async getUser() {
+        const cls = this.auth;
+
+        
+        const { data: { user } } = await cls.getUser()
+        // console.log({data, error})
+
+        console.log(user)
+        return user;
+
+    }
     
 }
 

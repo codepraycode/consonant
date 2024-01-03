@@ -1,4 +1,5 @@
 import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
+import { supabase } from "@/helpers/superbase.helper";
 import { NextRequest, NextResponse } from "next/server";
 
 
@@ -9,11 +10,15 @@ export async function POST(req:NextRequest) {
         This covers get for admin
     */
 
-    const params = await req.json();
+    const {hash:tokenHash, type} = await req.json();
 
-    console.log(params)
+    const { data, error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type})
 
-    // const { data, error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: 'email'})
+
+    if (error) return ServerResponse.error(error);
+
+    console.log(data);
+
 
     return ServerResponse.ok({
         message: "You've been authenticated",

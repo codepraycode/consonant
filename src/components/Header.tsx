@@ -45,12 +45,7 @@ const Header = () => {
 
                             <li>
                                 <Link
-                                    href={"/logout"}
-                                    onClick={(e)=>{
-                                        e.preventDefault();
-                                        // window.open('/login', null)
-                                        navigation.replace('/login')
-                                    }}
+                                    href={"/api/signout"}
                                 >Logout</Link>
                             </li>
                         </ul>

@@ -49,6 +49,7 @@ const prepareResponseDTO = (
     if (error) {
         responseDTO.response.error = data;
         responseDTO.response.data = null;
+        responseDTO.meta.status = status
     }
     else{
         responseDTO.response.data = data;

@@ -2,10 +2,15 @@
 
 import { parseHash } from "@/utils/url";
 import Link from "next/link";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 // const SE = RVER = typeof window === 'undefined';
-const location = window && window.location;
+let location: any | undefined;
+
+
+
+if (window) location = window.location;
 
 
 interface FeedBack {
@@ -19,12 +24,23 @@ const RedirectHandler = () => {
 
     const [feedback, setFeedback] = useState<FeedBack | null>(null);
 
+
+    const params = useSearchParams();
+    const router = useRouter();
+
+    // console.log(params.get('token_hash'), params.get('type'))
+
     const confirmToken = async () => {
         if(!window) return
 
         if(feedback) return
 
-        const hash_obj = parseHash(location.hash);
+        // const hash_obj = parseHash(location.hash);
+
+        // const hash_obj = {
+        //     token_hash: params.get('token_hash'),
+        //     type: params.get('type'),
+        // }
         
         fetch(`/api/signin/callback`, {
             method: 'POST',
@@ -32,13 +48,21 @@ const RedirectHandler = () => {
             //   'Content-type': 'application/json'
             // },
             body: JSON.stringify({
-                hash: hash_obj.access_token,
-                type: hash_obj.type
+                hash: params.get('token_hash'),
+                type: params.get('type')
             })
         })
         .then((res)=>res.json())
-        .then(({ data })=>{
-            setFeedback(()=>data);
+        .then(({ data, error })=>{
+            if (error) return setFeedback(()=>({
+                message: error.message || 'Authentication failed',
+                redirect:error.redirect || '/auth/login',
+                redirectLabel: error.redirectLabel || 'Login again',
+            }))
+
+
+            // setFeedback(()=>data);
+            router.push('/admin');
         }).catch((err: any)=>{
             console.error(err);
 

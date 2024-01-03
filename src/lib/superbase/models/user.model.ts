@@ -53,11 +53,7 @@ class UserModel extends BaseModel {
     }
 
     
-    /**
-     * Creates instance from data
-     * @param	Asset 	instanceData	Data from database
-     * @return  AssetModel      An instance of AssetModel 	
-     */
+    
     static async passwordlessSignIn(email: string) {
         const cls = this.auth;
 
@@ -70,6 +66,37 @@ class UserModel extends BaseModel {
                     shouldCreateUser: false
                 }
             })
+        )
+
+        // console.log({data, error})
+
+        return {data,error};
+
+    }
+
+
+    static async verifyOtp(tokenHash: string, type:any = 'email') {
+        const cls = this.auth;
+
+        
+        const { data, error } = this.handleAuthResponse(
+
+            await cls.verifyOtp({ token_hash: tokenHash, type})
+        )
+
+        // console.log({data, error})
+
+        return {data,error};
+
+    }
+
+    static async signOut() {
+        const cls = this.auth;
+
+        
+        const { data, error } = this.handleAuthResponse(
+
+            await cls.signOut()
         )
 
         // console.log({data, error})

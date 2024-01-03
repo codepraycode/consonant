@@ -11,9 +11,9 @@ export async function POST(req:NextRequest) {
         This covers get for admin
     */
 
-    const {authId, email} = await req.json()
+    const {email} = await req.json()
 
-    if (!authId || !email) return ServerResponse.error({
+    if (!email) return ServerResponse.error({
         code: "BADREQUEST",
         message: 'AuthId and Email is required'
     }, StatusCodes.BAD_REQUEST);

@@ -16,7 +16,7 @@ const SUPERBASE_API_KEY = env.SUPERBASE_API_KEY;
 
 
 // Create a single supabase client for interacting with your database
-const supabase: SuperBaseClient = (()=>{
+export const supabase: SuperBaseClient = (()=>{
 
     if (!SUPERBASE_API_KEY) throw new Error("SUPERBASE api key is required!!");
 

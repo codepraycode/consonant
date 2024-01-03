@@ -13,7 +13,7 @@ const Header = () => {
 
 
     // console.log(params)
-    if (params === '/login') return null;
+    if (params.includes('/auth')) return null;
 
 
     return (

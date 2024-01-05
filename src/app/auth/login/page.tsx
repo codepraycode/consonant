@@ -2,7 +2,6 @@
 import { TextInput } from "@/components/Form";
 import { passwordlessSignIn } from "@/helpers/auth.helper";
 import { useFormik } from "formik";
-import Link from "next/link";
 import { useState } from "react";
 
 
@@ -93,7 +92,10 @@ const LoginPage = () => {
 
                 </h2>
 
-                { feedback && <p>{feedback.message}</p> }
+                { feedback && <p>{feedback.message}
+                    <br/>
+                    {!feedback.error && <small>Please close this page as you go check your mail</small>}
+                    </p> }
                 { (!feedback || feedback.error) && formTemplate }
 
 

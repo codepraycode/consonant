@@ -203,6 +203,8 @@ header {
 
    padding-inline: 1rem;
 
+   z-index: 5;
+
    @include mixins.md(){
     padding-inline: 4rem;
    }

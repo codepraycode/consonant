@@ -1,7 +1,4 @@
 import RedirectHandler from "@/components/RedirectHandler";
-import { useRouter } from "next/navigation";
-
-
 
 
 const CallbackPage = () => {

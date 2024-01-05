@@ -1,22 +1,21 @@
 'use client'
+import { signOut } from "@/helpers/auth.helper";
 import {useUser} from "@/hooks/user";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
-
+import { useRouter } from "next/navigation";
 
 const Header = () => {
 
     
 
-    
+    const router = useRouter();
     const [showMenu, setShowMenu] = useState(false);
 
     
 
     const user = useUser();
-
-    // console.log(params)
 
 
     return (
@@ -25,7 +24,16 @@ const Header = () => {
             <nav className="nav" role="navigation">
                 {/* <h1>Consonant</h1> */}
                 <ul className="nav-list" role="list">
-                    <li>
+                    {!user && (
+                        <li>
+                            <Link
+                                href={"/auth/login"}
+                            >Log In</Link>
+                        </li>)
+                    }
+
+
+                    {user && <li>
                         <Link
                             href={"#"}
                             className="nav-list-dropdown-anchor"
@@ -39,7 +47,7 @@ const Header = () => {
 
                             onBlur={()=>setShowMenu(false)}
                         >
-                            codepraycode
+                            {user.email}
                         </Link>
                         <ul className="nav-list-dropdown" role="list">
                             <li>
@@ -49,10 +57,17 @@ const Header = () => {
                             <li>
                                 <Link
                                     href={"/api/signout"}
+                                    onClick={async (e)=>{
+                                        e.preventDefault();
+
+                                        await signOut();
+
+                                        router.replace('/auth/login');
+                                    }}
                                 >Logout</Link>
                             </li>
                         </ul>
-                    </li>
+                    </li>}
                 </ul>
             </nav>
             

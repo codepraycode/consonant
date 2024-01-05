@@ -1,9 +1,15 @@
 'use client'
-import { SuperBaseClient } from "@/types/superbase";
+// import { signOut } from "@/helpers/auth.helper";
 import { loadSupabase } from "@/utils/supabase-config";
 import { createContext, useContext } from "react";
+// import { useRouter } from "next/navigation";
 
-const AuthContext = createContext({});
+
+const initialAuthState = {
+    // logout: ()=>{}
+}
+
+const AuthContext = createContext(initialAuthState);
 
 export const useAuthContext = ()=>useContext(AuthContext);
 
@@ -14,7 +20,11 @@ if(!global._supabaseInstance){
 
 export const AuthContextProvider = ({children}: any)=>{
 
-    const context = {}
+    // const router = useRouter();
+
+
+    const context = {
+    }
 
     return (
         <AuthContext.Provider value={context}>

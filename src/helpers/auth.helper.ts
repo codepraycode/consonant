@@ -79,14 +79,16 @@ export async function signOut() {
     const auth = global._supabaseInstance.auth;
 
     
-    const { data, error } = handleAuthResponse(
+    const { error } = handleAuthResponse(
 
         await auth.signOut()
     )
 
     // console.log({data, error})
 
-    return {data,error};
+    if (error) throw (error);
+
+    return;
 
 }
 

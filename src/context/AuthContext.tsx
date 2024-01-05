@@ -1,6 +1,6 @@
 'use client'
 import { SuperBaseClient } from "@/types/superbase";
-import { nsupabase } from "@/utils/supabase-config";
+import { loadSupabase } from "@/utils/supabase-config";
 import { createContext, useContext } from "react";
 
 const AuthContext = createContext({});
@@ -8,13 +8,9 @@ const AuthContext = createContext({});
 export const useAuthContext = ()=>useContext(AuthContext);
 
 
-
-let supabase:SuperBaseClient;
-
-
-(async()=>{
-    supabase = await nsupabase();   
-})()
+if(!global._supabaseInstance){
+    (async ()=>await loadSupabase())()
+}
 
 export const AuthContextProvider = ({children}: any)=>{
 

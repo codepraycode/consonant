@@ -1,5 +1,6 @@
 'use client'
 import { TextInput } from "@/components/Form";
+import { passwordlessSignIn } from "@/helpers/auth.helper";
 import { useFormik } from "formik";
 import Link from "next/link";
 import { useState } from "react";
@@ -36,20 +37,18 @@ const LoginPage = () => {
     const handleLogin = (email:string) => {
 
         setLoading(true)
-        fetch('/api/signin', {
-            method: 'POST',
-            body: JSON.stringify({email})
-        })
-        .then(res=>res.json())
-        .then(({error, data})=>{
-
-            if (error) return setFeedback(()=>({message:error.message, error:true}))
+        passwordlessSignIn(email)        
+        .then((data)=>{
             setFeedback(()=>({message:data.message}))
         })
-        .catch(err=>{
-            console.error(err);
+        .catch(error=>{
+            console.error(error)
 
-            setFeedback(()=>({message:"Could not authenticate", error:true}))
+            return setFeedback(()=>({
+                message:error.message || 'Could not authenticate',
+                error:true
+            }))
+
         })
         .finally(()=>setLoading(false))
     }

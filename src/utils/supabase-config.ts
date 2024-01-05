@@ -3,7 +3,7 @@ import axios from "axios";
 
 
 
-export const nsupabase = async () =>{
+const _loadSupabase = async () =>{
 
 
     if (!global._supabaseInstance) {
@@ -27,6 +27,12 @@ export const nsupabase = async () =>{
     // console.log("Something", global._supabaseInstance)
     return global._supabaseInstance;
 }
+
+
+export const loadSupabase = async()=>{
+    return await _loadSupabase();   
+};
+
 
 
 

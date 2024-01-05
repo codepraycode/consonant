@@ -32,11 +32,12 @@ export default function RootLayout({ children }:IRootLayout ) {
 
                     <AuthContextProvider>
                         <Header />
+                        
+                        <main className='relative'>
+                            {children}
+                        </main>
                     </AuthContextProvider>
 
-                    <main className='relative'>
-                        {children}
-                    </main>
                 </AppLayout>
             </body>
         </html>

@@ -1,27 +1,27 @@
-import { nsupabase } from "@/utils/supabase-config";
+import { getUser } from "@/helpers/auth.helper";
+import { loadSupabase } from "@/utils/supabase-config";
 import { useEffect, useState } from "react";
 
 
-const useUser = () => {
+
+export const useUser = () => {
     const [user, setUser] = useState<any | null>(null);
 
 
     
-    // useEffect(()=>{
-    //     (()=>{
+    useEffect(()=>{
+        (async ()=>{
 
-    //         // fetch('/api/user')
-    //         // .then((res)=>res.json())
-    //         // .then(({data})=>{
-    //         //     setUser(data);
-    //         // })
+            
 
+            // const user = await UserModel.getUser()
 
-    //         // setUser(user);
-    //     })()
-    // }, [])
+            const user = await getUser();
+
+            console.log("user", user)
+            setUser(user);
+        })()
+    }, [user])
 
     return user;
 }
-
-export default useUser;

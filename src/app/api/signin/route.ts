@@ -19,10 +19,10 @@ export async function POST(req:NextRequest) {
     }, StatusCodes.BAD_REQUEST);
 
 
-    const { error } = await UserModel.passwordlessSignIn(email);
+    // const { error } = await UserModel.passwordlessSignIn(email);
 
 
-    if (error) return ServerResponse.error(error);
+    // if (error) return ServerResponse.error(error);
     
 
     return ServerResponse.ok({

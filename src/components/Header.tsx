@@ -1,5 +1,5 @@
 'use client'
-import useUser from "@/hooks/user";
+import {useUser} from "@/hooks/user";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
@@ -7,19 +7,16 @@ import { useState } from "react";
 
 const Header = () => {
 
+    
+
+    
     const [showMenu, setShowMenu] = useState(false);
 
-    const params = usePathname();
+    
 
     const user = useUser();
 
-    console.log(user);
-
-    // TODO: Implemenet authentication tracking
-
-
     // console.log(params)
-    if (params.includes('/auth')) return null;
 
 
     return (
@@ -63,4 +60,13 @@ const Header = () => {
     )
 }
 
-export default Header;
+
+
+const AppHeader = () => {
+
+    const params = usePathname();
+    if (params.includes('/auth')) return null;
+
+    return <Header/>;
+}
+export default AppHeader;

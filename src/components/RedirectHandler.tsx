@@ -7,10 +7,13 @@ import { useEffect, useState } from "react";
 
 // const SE = RVER = typeof window === 'undefined';
 let location: any | undefined;
+let localstorage: any |undefined;
 
 
-
-if (window) location = window.location;
+if (window) {
+    location = window.location;
+    localstorage = window.localStorage;
+}
 
 
 interface FeedBack {
@@ -35,44 +38,49 @@ const RedirectHandler = () => {
 
         if(feedback) return
 
-        // const hash_obj = parseHash(location.hash);
+        // console.log(window.location.href);
+
+        const hash_obj = parseHash(location.hash);
+        console.log(hash_obj)
+
+        // localstorage.setItem('supabase.auth.token', JSON.stringify(hash_obj))
 
         // const hash_obj = {
         //     token_hash: params.get('token_hash'),
         //     type: params.get('type'),
         // }
         
-        fetch(`/api/signin/callback`, {
-            method: 'POST',
-            // headers: {
-            //   'Content-type': 'application/json'
-            // },
-            body: JSON.stringify({
-                hash: params.get('token_hash'),
-                type: params.get('type')
-            })
-        })
-        .then((res)=>res.json())
-        .then(({ data, error })=>{
-            if (error) return setFeedback(()=>({
-                message: error.message || 'Authentication failed',
-                redirect:error.redirect || '/auth/login',
-                redirectLabel: error.redirectLabel || 'Login again',
-            }))
+        // fetch(`/api/signin/callback`, {
+        //     method: 'POST',
+        //     // headers: {
+        //     //   'Content-type': 'application/json'
+        //     // },
+        //     body: JSON.stringify({
+        //         hash: params.get('token_hash'),
+        //         type: params.get('type')
+        //     })
+        // })
+        // .then((res)=>res.json())
+        // .then(({ data, error })=>{
+        //     if (error) return setFeedback(()=>({
+        //         message: error.message || 'Authentication failed',
+        //         redirect:error.redirect || '/auth/login',
+        //         redirectLabel: error.redirectLabel || 'Login again',
+        //     }))
 
 
-            // setFeedback(()=>data);
-            router.push('/admin');
-        }).catch((err: any)=>{
-            console.error(err);
+        //     // setFeedback(()=>data);
+        //     router.push('/admin');
+        // }).catch((err: any)=>{
+        //     console.error(err);
 
 
-            setFeedback(()=>({
-                message: 'Could not authenticated',
-                redirectLabel: 'Login again',
-                redirect:'/auth/login'
-            }))
-        })
+        //     setFeedback(()=>({
+        //         message: 'Could not authenticated',
+        //         redirectLabel: 'Login again',
+        //         redirect:'/auth/login'
+        //     }))
+        // })
 
         // setLoading(true)
     }

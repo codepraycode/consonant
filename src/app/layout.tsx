@@ -3,6 +3,7 @@ import '../assets/styles/styles.scss';
 
 import AppLayout from '@/components/Layout/AppLayout';
 import Header from '@/components/Header';
+import { AuthContextProvider } from '@/context/AuthContext';
 
 
 
@@ -28,7 +29,10 @@ export default function RootLayout({ children }:IRootLayout ) {
                         <div className='gradient'/>
                     </div>
 
-                    <Header />
+
+                    <AuthContextProvider>
+                        <Header />
+                    </AuthContextProvider>
 
                     <main className='relative'>
                         {children}

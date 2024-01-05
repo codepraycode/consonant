@@ -1,4 +1,4 @@
-import { supabase } from "@/helpers/superbase.helper";
+import { nsupabase } from "@/utils/supabase-config";
 import { useEffect, useState } from "react";
 
 
@@ -6,18 +6,20 @@ const useUser = () => {
     const [user, setUser] = useState<any | null>(null);
 
 
-    useEffect(()=>{
-        (()=>{
-            fetch('/api/user')
-            .then((res)=>res.json())
-            .then(({data})=>{
-                setUser(data);
-            })
+    
+    // useEffect(()=>{
+    //     (()=>{
+
+    //         // fetch('/api/user')
+    //         // .then((res)=>res.json())
+    //         // .then(({data})=>{
+    //         //     setUser(data);
+    //         // })
 
 
-            // setUser(user);
-        })()
-    }, [user])
+    //         // setUser(user);
+    //     })()
+    // }, [])
 
     return user;
 }

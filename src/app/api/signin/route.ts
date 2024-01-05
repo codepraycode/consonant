@@ -15,7 +15,7 @@ export async function POST(req:NextRequest) {
 
     if (!email) return ServerResponse.error({
         code: "BADREQUEST",
-        message: 'AuthId and Email is required'
+        message: 'Email is required'
     }, StatusCodes.BAD_REQUEST);
 
 

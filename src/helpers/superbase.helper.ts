@@ -7,6 +7,7 @@ import { BaseTb, Database,
 } from "@/types/superbase";
 import logger from "@/utils/logger";
 import { createClient } from "@supabase/supabase-js";
+import axios from "axios";
 
 
 
@@ -20,7 +21,13 @@ export const supabase: SuperBaseClient = (()=>{
 
     if (!SUPERBASE_API_KEY) throw new Error("SUPERBASE api key is required!!");
 
-    return global._superbaseInstance || createClient<Database>(SUPERBASE_URL, SUPERBASE_API_KEY);
+    return global._superbaseInstance || createClient<Database>(SUPERBASE_URL, SUPERBASE_API_KEY,{
+        // auth: {
+        //     autoRefreshToken: false,
+        //     persistSession: false,
+        //     detectSessionInUrl: false
+        // }
+    });
 })()
 
 

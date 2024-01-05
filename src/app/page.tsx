@@ -5,6 +5,9 @@ import { setupSuperbase } from "@/lib/superbase";
 
 setupSuperbase()
 
+
+console.log('process', process)
+
 export default function Home() {
     
     return (

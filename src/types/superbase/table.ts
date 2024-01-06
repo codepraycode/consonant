@@ -2,7 +2,7 @@
 interface TbRow {
     id: string,
     created_at: string | Date,
-    updated_at?: string | Date,
+    updated_at: string | Date,
 }
 
 export interface AssetTbRow extends TbRow {
@@ -31,4 +31,9 @@ export interface DepartmentTbRow extends TbRow {
     name: string,
     short: string,
     faculty: string,
+}
+
+export interface FacultyTbRow extends TbRow {
+    name: string,
+    short: string,    
 }

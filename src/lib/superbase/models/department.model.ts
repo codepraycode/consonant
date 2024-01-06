@@ -1,9 +1,10 @@
-import { BaseModel } from "@/helpers/superbase.helper";
-import { Course, Department, FetchParam,
-    SuperBaseData, SuperBaseDatbaseNames,
-    SuperBaseDatbaseTableColumns } from "@/types/superbase";
+import { Department, FetchParam,
+    SupaBaseTableNames,
+    SuperBaseData } from "@/types/superbase";
 import logger from "@/utils/logger";
 import FacultyModel from "./faculty.model";
+import { BaseModel } from "./base";
+import { DepartmentTbRow } from "@/types/superbase/table";
 // import { ManyToManyManger } from "./relator";
 
 
@@ -22,32 +23,25 @@ enum DepartmentProps {
 
 
 
-class DepartmentModel extends BaseModel implements Department {
+class DepartmentModel extends BaseModel implements DepartmentTbRow {
 
     /* =============== Class attributes ================ */
+    id: string;
+    created_at: string | Date;
+    updated_at: string | Date;
+    faculty: string;
+
     name: string;
     short: string;
-    // faculty?: Faculty;
-    private data: Department | null
-
-    update_excludes: DepartmentProps[] = [
-        DepartmentProps.ID, 
-        DepartmentProps.CREATED_AT,
-        DepartmentProps.UPDATED_AT
-    ]
 
 
-    /* =============== Static attributes ================ */
-    // static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.DEPARTMENT;
-    static tb: SuperBaseDatbaseNames = SuperBaseDatbaseNames.DEPARTMENT;
+    table =  SupaBaseTableNames.DEPARTMENT;
+
 
     /* =============== Constructor ================ */
-    constructor(instanceData: Department){
+    constructor(instanceData: DepartmentTbRow){
 
         super();
-
-
-        this.data = instanceData;
 
         const {
             id,
@@ -56,6 +50,7 @@ class DepartmentModel extends BaseModel implements Department {
 
             name, 
             short,
+            faculty
         } = instanceData;
 
         if (!id) {
@@ -72,24 +67,21 @@ class DepartmentModel extends BaseModel implements Department {
 
         this.name = name;
         this.short = short;
+        this.faculty = faculty
     }
 
 
-    get tb() {
-        return DepartmentModel.tb
-    }
+    // get faculty() {
+    //     if (!this.data?.faculty) return ''
 
-    get faculty() {
-        if (!this.data?.faculty) return undefined
-
-        return new FacultyModel(this.data.faculty);
-    }
+    //     return new FacultyModel(this.data.faculty);
+    // }
 
 
 
     /* =============== Private Methods ================ */
 
-    private updateInstance(updated_data: SuperBaseData) {
+    updateInstance(updated_data: DepartmentTbRow) {
 
         Object.entries(updated_data).forEach(([field, value])=>{
             
@@ -119,9 +111,9 @@ class DepartmentModel extends BaseModel implements Department {
 
 
 
-    private getInstanceData(exclude?: DepartmentProps[]): Department {
+    getInstanceData(exclude = false ): DepartmentTbRow {
 
-        const data = {
+        const data: Record<string, any> = {
             id: this.id,
             created_at: this.created_at,
             updated_at: this.updated_at,
@@ -129,207 +121,13 @@ class DepartmentModel extends BaseModel implements Department {
             short: this.short,
         }
 
-        if (exclude) exclude.forEach((field)=>{
+        if (exclude) this.exclude_on_update.forEach((field)=>{
             
             delete data[field]
         })
 
-        return data
+        return data as DepartmentTbRow;
     }
-
-
-    /* =============== Instance Methods ================ */
-    /**
-     * Synchronize instance data with database
-     * @param	boolean     upsert 	Auto create if not exist
-     * @todo    Implement upsert functionality
-     * @return 	void
-     */
-    async update(upsert = false): Promise<void> {
-        // const cls = DepartmentModel._cls;
-
-        const instance_data = this.getInstanceData(this.update_excludes)
-
-        const new_data = await DepartmentModel.updateRow(this.id, instance_data)
-
-        this.updateInstance(new_data)
-    }
-
-    /* =============== Static Methods ================ */
-    /**
-     * Creates instance from data
-     * @param	Department 	instanceData	Data from database
-     * @return  DepartmentModel      An instance of DepartmentModel 	
-     */
-    static createInstance(instanceData: Department): DepartmentModel {
-        return new DepartmentModel(instanceData);
-    }
-
-
-    /**
-     * Fetch data from database
-     * @param	string 	column  table columns seperated by comma
-     * @return 	A list of Departments
-     */
-    static async fetch({column = SuperBaseDatbaseTableColumns.DEPARTMENT, deep = true}): Promise<Department[]> {
-        const cls = this.tb;
-        // const columnName = column || '*'
-
-        // logger.debug("FETCH FROM COLUMN", columnName)
-        const { data, error } = DepartmentModel.handleAllDatabaseResponse<Department[]>(
-            await DepartmentModel.db
-            .from(cls)
-            .select(`
-                ${column}
-                ${!deep ? '': `, faculty( ${SuperBaseDatbaseTableColumns.FACULTY} )`}
-            `)
-        );
-        
-
-        if (error) throw error;
-
-        return data;
-    }
-
-
-    /**
-     * Fetch specific row from database
-     * @param	QueryFilter 	filter	filters to search by
-     * @return a new instance of DepartmentModel or null if data does not exist
-     */
-    static async fetchOne({
-        filter,
-        deep = true,
-        column = SuperBaseDatbaseTableColumns.DEPARTMENT,
-    }: FetchParam ): Promise<DepartmentModel | null> {
-        const cls = this.tb;
-        // const columnName = column || '*'
-
-        logger.debug("FETCH FROM COLUMN", column, filter)
-        const { data, error } = DepartmentModel.handleAllDatabaseResponse<SuperBaseData[]>(
-            await DepartmentModel.db
-            .from(cls)
-            .select(`
-                ${column}
-                ${!deep ? '': `, faculty( ${SuperBaseDatbaseTableColumns.FACULTY} )`}
-            `)
-            .eq(filter.at, filter.is)
-        );
-        
-
-        if (error) throw error;
-
-        // console.log(data)
-        if (data.length < 1) return null;
-        return DepartmentModel.createInstance(data[0] as Department);
-    }
-
-
-    /**
-     * Fetch specific row from database by Id
-     * @param	string 	id	frow id
-     * @return a new instance of DepartmentModel or null if data does not exist
-     */
-    static async fetchById(id: string) {
-        return DepartmentModel.fetchOne({
-            filter: {
-                at: DepartmentProps.ID,
-                is: id
-            }
-        })
-    }
-
-
-    /**
-     * Inserts new data into database
-     * @param	object 	new_data	Row data
-     * @return  DepartmentModel	   Instance with newly created data
-     */
-    static async insert(new_data: SuperBaseData): Promise<DepartmentModel> {
-        const cls = this.tb;
-
-        // logger.debug("FETCH FROM COLUMN", columnName)
-        const { data, error } = DepartmentModel.handleAllDatabaseResponse(
-            await DepartmentModel.db
-            .from(cls)
-            .upsert(new_data)
-            .select()
-        );
-        
-
-        if (error) throw error;
-
-        // console.log(data)
-        return DepartmentModel.createInstance(data[0]);
-    }
-
-
-    /**
-     * Synchronize instance data with database
-     * @param	string          id 	    Row id to update
-     * @param	SuperBaseData   upsert 	Data to update in row
-     * @param	boolean     upsert 	Auto create if not exist
-     * @todo    Implement upsert functionality
-     * @return 	void
-     */
-    static async updateRow(id:string, updated_data:SuperBaseData, upsert = false): Promise<Department> {
-        const cls = this.tb;
-
-        // logger.debug("FETCH FROM COLUMN", columnName)
-        const { data, error } = DepartmentModel.handleAllDatabaseResponse<Department[]>(
-            await DepartmentModel.db
-            .from(cls)
-            .update(updated_data)
-            .eq("id", id)
-            .select()
-        );
-        
-
-        if (error) throw error;
-
-        // console.log(data)
-        // return data;
-        // return null
-
-        return data[0];
-    }
-
-
-    /**
-     * Delete row from database
-     * @param	string 	index	Value to use to delete row
-     * @param	string 	value	value to compare to delete
-     * @return 	void
-     */
-    static async deleteRow(index:string, value:string): Promise<void> {
-        const cls = this.tb;
-
-        // logger.debug("FETCH FROM COLUMN", columnName)
-        const { data, error } = DepartmentModel.handleAllDatabaseResponse(
-            await DepartmentModel.db
-            .from(cls)
-            .delete()
-            .eq(index, value)
-        );
-        
-
-        if (error) throw error;
-    }
-
-
-    /**
-     * Delete instance from database
-     * @param	DepartmentModel 	instance	Instance to delete
-     * @return 	void
-     */
-    static async delete(instance: DepartmentModel): Promise<void> {
-        
-        await DepartmentModel.deleteRow(
-            DepartmentProps.ID,
-            instance.id
-        )
-    }
-
     
 }
 

@@ -1,21 +1,23 @@
-import { SuperbaseMeta, calculateStorageSpace
-} from "@/helpers/superbase.helper";
+
 
 import { Asset, BucketName, BucketOptions,
         BucketType, StorageAccessConfig,
         StorageUploadConfig, SuperBaseStorageErrorTypes, SuperBaseStorageReponse
 } from "@/types/superbase";
 import logger from "@/utils/logger";
+import { calculateStorageSpace, handleStorageResponse } from "@/utils/supabase-handlers";
 
 
 
-class BucketManager extends SuperbaseMeta {
+const supabase = global._supabaseInstance;
+
+class BucketManager {
 
     createBucket = ({
             bucket,
             is_public = true,
             maxSize = calculateStorageSpace(25) // default 25mb
-        }: BucketOptions) => this.instance
+        }: BucketOptions) => supabase
             .storage
             .createBucket(
                 bucket,
@@ -26,12 +28,12 @@ class BucketManager extends SuperbaseMeta {
                 }
             );
 
-    getBucket = (bucket: BucketName) => this.instance
+    getBucket = (bucket: BucketName) => supabase
             .storage
             .getBucket(bucket);
 
     async getFileLink(config:StorageAccessConfig, storage:BucketName = BucketType.RESOURCES) {
-        const {data} =  this.instance.storage
+        const {data} =  supabase.storage
             .from(storage).getPublicUrl(config.path, config.options)
         
         return data.publicUrl
@@ -41,7 +43,7 @@ class BucketManager extends SuperbaseMeta {
 
         let req;
         try {
-            req = await this.instance.storage.from(storage).upload(
+            req = await supabase.storage.from(storage).upload(
                 config.path,
                 config.asset,
                 config.fileOptions || {}
@@ -57,7 +59,7 @@ class BucketManager extends SuperbaseMeta {
             }
         }
 
-        const {data, error} = this.handleStorageResponse(req);
+        const {data, error} = handleStorageResponse(req);
 
         if (!data) return {data, error};
 
@@ -89,7 +91,7 @@ class BucketManager extends SuperbaseMeta {
         // Optimize setup
         if (global.__alreadySetupStorage) return;
 
-        const { data, error } = this.handleStorageResponse(
+        const { data, error } = handleStorageResponse(
             await this.getBucket(BucketType.RESOURCES) as SuperBaseStorageReponse
         );
 
@@ -109,7 +111,7 @@ class BucketManager extends SuperbaseMeta {
 
             logger.debug("SETUP BUCKET::CREATING BUCKET")
 
-            const {data, error} = this.handleStorageResponse(
+            const {data, error} = handleStorageResponse(
                 await this.createBucket(options) as SuperBaseStorageReponse
             )
 

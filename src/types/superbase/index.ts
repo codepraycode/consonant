@@ -93,7 +93,7 @@ export enum SuperBaseDatabaseErrorTypes {
 }
 
 
-export enum SuperBaseDatbaseNames {
+export enum SupaBaseTableNames {
     ASSET   = 'asset',
     FACULTY = 'faculty',
     COURSE  = 'course',
@@ -102,7 +102,7 @@ export enum SuperBaseDatbaseNames {
     COURSE_DEPARTMENT  = 'courses_departments'
 }
 
-export enum SuperBaseDatbaseTableColumns {
+export enum SupaBaseDatbaseTableColumns {
     ASSET   = 'id, created_at, updated_at, path, fullPath, access, download, storage_id',
     FACULTY = 'id, created_at, updated_at, name, short',
     COURSE  = 'id, created_at, updated_at, name, code, title',

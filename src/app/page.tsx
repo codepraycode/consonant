@@ -1,9 +1,6 @@
 import {SearchedFileList} from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
 import { SearchProvider } from "@/context/SearchContext";
-import { setupSuperbase } from "@/lib/superbase";
-
-setupSuperbase()
 
 
 export default function Home() {

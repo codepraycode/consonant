@@ -16,18 +16,20 @@ export async function GET() {
 
     try {
 
-        courses = await SuperBase.course.fetch({});
+        courses = await SuperBase.course.fetchAll();
 
     } catch (error) {
         logger.error("FETCH COURSE BY ID::ERROR OCCURED", error);
         const err = error as SupaBaseReqError;
 
-        return ServerResponse.error({
+
+        const errorObj = {
             code: err.code || "NOT FOUND",
             message: err.message || 'Could not find course'
-        }, StatusCodes.SERVER_ERROR)
+        }
+
+        return ServerResponse.error(errorObj, StatusCodes.SERVER_ERROR)
     }
-    
 
     return ServerResponse.ok(courses)
 }

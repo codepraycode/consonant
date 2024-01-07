@@ -3,7 +3,7 @@ import { SupaBaseTableNames } from "@/types/superbase";
 import { CourseTbRow, DepartmentTbRow } from "@/types/superbase/table";
 import logger from "@/utils/logger";
 import DepartmentModel from "./department.model";
-import { BaseModel } from "../../../utils/supabase-table";
+import { BaseModel, fetchDbRow, fetchDbRows } from "../../../utils/supabase-table";
 import { ManyToManyManger } from "@/utils/supabase-relation";
 
 
@@ -43,10 +43,10 @@ class CourseModel extends BaseModel implements CourseTbRow {
         DepartmentModel
     )
     
-    table = SupaBaseTableNames.FACULTY;
+    table = SupaBaseTableNames.COURSE;
 
     static get table() {
-        return SupaBaseTableNames.FACULTY
+        return SupaBaseTableNames.COURSE
     }
 
     /* =============== Constructor ================ */
@@ -137,6 +137,24 @@ class CourseModel extends BaseModel implements CourseTbRow {
 
         return data as CourseTbRow
     }
+
+    static async fetchById(id:string) {
+
+        return fetchDbRow<CourseModel>(
+            this.table,
+            {
+                where: 'id',
+                is: id
+            }
+        )
+    }
+
+
+    static async fetchAll() {
+
+        return fetchDbRows<CourseModel>(this.table);
+    }
+    
 
 
 

@@ -35,7 +35,7 @@ export const passwordlessSignIn = async (email: string) => {
         await auth.signInWithOtp({
             email,
             options: {
-                emailRedirectTo: 'http://localhost:3020/auth/callback/',
+                emailRedirectTo: 'https://consonant.codepraycode.me/auth/callback/',
                 shouldCreateUser: false
             }
         })

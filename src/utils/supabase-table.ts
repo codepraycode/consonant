@@ -5,8 +5,6 @@ import { handleDatabaseReponse } from "@/utils/supabase-handlers";
 
 type SupabaseData = Record<string, any>;
 
-const supabase = global._supabaseInstance;
-
 
 
 /**
@@ -15,6 +13,7 @@ const supabase = global._supabaseInstance;
  * @return  FacultyModel	   Instance with newly created data
  */
 export async function insertDbRow<T=SupabaseData>(table:SupaBaseTableNames, doc: T): Promise<T> {
+    const supabase = global._supabaseInstance;
 
     const { data, error } =  handleDatabaseReponse(
         await supabase
@@ -39,7 +38,7 @@ export async function insertDbRow<T=SupabaseData>(table:SupaBaseTableNames, doc:
  * @return a new instance of FacultyModel or null if data does not exist
  */
 export async function fetchDbRow<T=SupabaseData>(table:SupaBaseTableNames, column:SupaBaseDatbaseTableColumns, filter:QueryFilter): Promise<T | null> {
-
+    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
@@ -62,7 +61,7 @@ export async function fetchDbRow<T=SupabaseData>(table:SupaBaseTableNames, colum
  * @return 	A list of Facultys
  */
 export async function fetchDbRows<T=SupabaseData>(table:SupaBaseTableNames, column = SupaBaseDatbaseTableColumns): Promise<T[]> {
-    
+    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
@@ -83,6 +82,7 @@ export async function updateDbRow<T=SupabaseData>(
     doc: T,
     upsert: boolean = false
     ): Promise<T> {
+    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
@@ -110,7 +110,7 @@ export async function updateDbRow<T=SupabaseData>(
  */
 export async function deleteDbRow(table:SupaBaseTableNames, index:string, value:string): Promise<void> {
 
-    // logger.debug("FETCH FROM COLUMN", columnName)
+    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
@@ -132,7 +132,7 @@ export async function searchMaterials({field, query}:Record<string, string>): Pr
     const table = SupaBaseTableNames.MATERIALS
     // const columnName = column || '*'
 
-    // logger.debug("FETCH FROM COLUMN", columnName)
+    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
@@ -156,6 +156,9 @@ export abstract class BaseModel {
         'created_at', 'updated_at', 'id'
     ]
     abstract table: SupaBaseTableNames;
+
+
+    protected supabase = global._supabaseInstance;
 
     constructor() {
         // if(this.constructor === BaseModel) {

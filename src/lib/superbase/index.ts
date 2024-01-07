@@ -50,7 +50,7 @@ export const loadSupabase = async()=>{
 // export const supabase = global._supabaseInstance;
 
 
-export const setupSuperbase = ()=> BucketManager.setupBucket({bucket: BucketType.RESOURCES});
+export const setupSuperbase = async ()=> BucketManager.setupBucket({bucket: BucketType.RESOURCES});
 
 
 class SuperBase {

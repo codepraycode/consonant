@@ -1,5 +1,6 @@
 import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
 import SuperBase from "@/lib/superbase";
+import CourseModel from "@/lib/superbase/models/course.model";
 import { SupaBaseReqError } from "@/types/superbase";
 import { CourseTbRow } from "@/types/superbase/table";
 import logger from "@/utils/logger";
@@ -16,7 +17,7 @@ export async function GET() {
 
     try {
 
-        courses = await SuperBase.course.fetchAll();
+        courses = await CourseModel.fetchAll();
 
     } catch (error) {
         logger.error("FETCH COURSE BY ID::ERROR OCCURED", error);

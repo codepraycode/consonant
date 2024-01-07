@@ -5,7 +5,7 @@ import {
 import logger from "@/utils/logger";
 import AssetModel from "./asset.model";
 import { AssetTbRow, MaterialTbRow } from "@/types/superbase/table";
-import { BaseModel, insertDbRow } from "../../../utils/supabase-table";
+import { BaseModel, fetchDbRow, fetchDbRows, insertDbRow } from "../../../utils/supabase-table";
 
 
 /**
@@ -156,7 +156,7 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
     }
 
 
-    static async saveAsset(asset:File): Promise<AssetTbRow> {
+    protected static async saveAsset(asset:File): Promise<AssetTbRow> {
         // First upload Asset
         // Link asset to material and upload
         const {data, error} = await this.assetManager.bucket.upload({
@@ -187,6 +187,24 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
         )
     }
 
+
+    static async fetchById(id:string) {
+
+        return fetchDbRow<MaterialModel>(
+            this.table,
+            {
+                where: 'id',
+                is: id
+            }
+        )
+    }
+
+    static async fetchAll() {
+
+        return fetchDbRows<MaterialModel>(
+            this.table            
+        )
+    }
     
 }
 

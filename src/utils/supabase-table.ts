@@ -1,3 +1,4 @@
+import { supabase } from "@/lib/superbase";
 import { QueryFilter, SupaBaseDatbaseTableColumns, SupaBaseTableNames } from "@/types/superbase";
 import { MaterialTbRow } from "@/types/superbase/table";
 import { handleDatabaseReponse } from "@/utils/supabase-handlers";
@@ -13,7 +14,6 @@ type SupabaseData = Record<string, any>;
  * @return  FacultyModel	   Instance with newly created data
  */
 export async function insertDbRow<T=SupabaseData>(table:SupaBaseTableNames, doc: T): Promise<T> {
-    const supabase = global._supabaseInstance;
 
     const { data, error } =  handleDatabaseReponse(
         await supabase
@@ -41,8 +41,8 @@ export async function fetchDbRow<T=SupabaseData>(
     table:SupaBaseTableNames,
     // column:SupaBaseDatbaseTableColumns = SupaBaseDatbaseTableColumns.ALL,
     filter:QueryFilter): Promise<T | null> {
-    const supabase = global._supabaseInstance;
-    const { data, error } = handleDatabaseReponse(
+    
+        const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
         .select()
@@ -64,7 +64,6 @@ export async function fetchDbRow<T=SupabaseData>(
  * @return 	A list of Facultys
  */
 export async function fetchDbRows<T=SupabaseData>(table:SupaBaseTableNames, column = SupaBaseDatbaseTableColumns): Promise<T[]> {
-    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
@@ -85,7 +84,6 @@ export async function updateDbRow<T=SupabaseData>(
     doc: T,
     upsert: boolean = false
     ): Promise<T> {
-    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
@@ -113,7 +111,6 @@ export async function updateDbRow<T=SupabaseData>(
  */
 export async function deleteDbRow(table:SupaBaseTableNames, index:string, value:string): Promise<void> {
 
-    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
@@ -134,12 +131,10 @@ export async function deleteDbRow(table:SupaBaseTableNames, index:string, value:
 export async function searchMaterials(field: string, query: string): Promise<MaterialTbRow[]> {
     const table = SupaBaseTableNames.MATERIALS
     // const columnName = column || '*'
-
-    const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
-        .select(SupaBaseTableNames.MATERIALS)
+        .select()
         .textSearch(field, query)
     );
     
@@ -159,9 +154,6 @@ export abstract class BaseModel {
         'created_at', 'updated_at', 'id'
     ]
     abstract table: SupaBaseTableNames;
-
-
-    protected supabase = global._supabaseInstance;
 
     constructor() {
         // if(this.constructor === BaseModel) {

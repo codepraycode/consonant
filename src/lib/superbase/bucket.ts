@@ -6,18 +6,18 @@ import { Asset, BucketName, BucketOptions,
 } from "@/types/superbase";
 import logger from "@/utils/logger";
 import { calculateStorageSpace, handleStorageResponse } from "@/utils/supabase-handlers";
+import { supabase } from ".";
 
 
 
 
 class BucketManager {
-    protected supabase = global._supabaseInstance;
 
     createBucket = ({
             bucket,
             is_public = true,
             maxSize = calculateStorageSpace(25) // default 25mb
-        }: BucketOptions) => this.supabase
+        }: BucketOptions) => supabase
             .storage
             .createBucket(
                 bucket,
@@ -30,12 +30,12 @@ class BucketManager {
 
     getBucket = (bucket: BucketName) => {
         
-        return this.supabase
+        return supabase
             .storage
             .getBucket(bucket);}
 
     async getFileLink(config:StorageAccessConfig, storage:BucketName = BucketType.RESOURCES) {
-        const {data} =  this.supabase.storage
+        const {data} =  supabase.storage
             .from(storage).getPublicUrl(config.path, config.options)
         
         return data.publicUrl
@@ -45,7 +45,7 @@ class BucketManager {
 
         let req;
         try {
-            req = await this.supabase.storage.from(storage).upload(
+            req = await supabase.storage.from(storage).upload(
                 config.path,
                 config.asset,
                 config.fileOptions || {}

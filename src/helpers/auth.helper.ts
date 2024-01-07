@@ -1,3 +1,4 @@
+import { supabase } from "@/lib/superbase";
 import logger from "@/utils/logger";
 
 
@@ -27,7 +28,7 @@ function handleAuthResponse({data, error}: Record<string, any>) {
 
 
 export const passwordlessSignIn = async (email: string) => {
-    const auth = global._supabaseInstance.auth;
+    const auth = supabase.auth;
 
     
     const { data, error } = handleAuthResponse(
@@ -52,7 +53,7 @@ export const passwordlessSignIn = async (email: string) => {
 }
 
 export async function getUser() {
-    const auth = global._supabaseInstance.auth;
+    const auth = supabase.auth;
     
     const { data: { user } } = await auth.getUser()
     // console.log({data, error})
@@ -62,7 +63,7 @@ export async function getUser() {
 
 
 export async function sessionAvailable(): Promise<boolean> {
-    const auth = global._supabaseInstance.auth;
+    const auth = supabase.auth;
     
     
     const { data, error } = await auth.getSession()
@@ -76,7 +77,7 @@ export async function sessionAvailable(): Promise<boolean> {
 }
 
 export async function signOut() {
-    const auth = global._supabaseInstance.auth;
+    const auth = supabase.auth;
 
     
     const { error } = handleAuthResponse(

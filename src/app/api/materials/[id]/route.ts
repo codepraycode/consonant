@@ -19,19 +19,26 @@ export async function GET(req: NextRequest, {params}: req) {
     }, StatusCodes.BAD_REQUEST)
 
 
-    let material:MaterialModel
+    let material:MaterialModel | null;
 
     try {
 
-        material = await SuperBase.material.fetchById(id);
+        material = await MaterialModel.fetchById(id);
     } catch (error) {
         logger.error("FETCH MATERIAL BY ID::ERROR OCCURED", error);
         const err = error as SupaBaseReqError;
 
         return ServerResponse.error({
-            code: err.code || "NOT FOUND",
-            message: err.message || 'Could not find material'
+            code: err.code || "SERVER ERROR",
+            message: err.message || 'Could not to find asset'
         }, StatusCodes.SERVER_ERROR)
+    }
+
+    if (!material) {
+        return ServerResponse.error({
+            code: "NOT FOUND",
+            message: 'Could not find material'
+        }, StatusCodes.NOT_FOUND)
     }
     
 

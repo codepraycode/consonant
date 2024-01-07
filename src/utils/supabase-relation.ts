@@ -1,9 +1,9 @@
+import { supabase } from "@/lib/superbase";
 import { QueryFilter } from "@/types/superbase";
 
 
 
 export class ManyToManyManger<T> {
-    protected supabase = global._supabaseInstance;
 
     constructor(private model: any, private target:any) {
 
@@ -21,17 +21,17 @@ export class ManyToManyManger<T> {
 
     private async runFetch(filter?:QueryFilter) {
 
-        const normalFetch = () => this.supabase
+        const normalFetch = () => supabase
             .from(this.model.tb)
             .select(`${this.target.table}(*)`)
             .eq('id', this.model.id)
 
-        const filterFetch = () => this.supabase
+        const filterFetch = () => supabase
         .from(this.model.tb)
         .select(`${this.target.table}(*)`)
         .eq('id', this.model.id)
         .eq(
-            this.prefix_query(filter!.at),
+            this.prefix_query(filter!.where),
             filter!.is
         )
 

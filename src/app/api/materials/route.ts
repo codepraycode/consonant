@@ -8,6 +8,7 @@ import { Material, SupaBaseReqError, SuperBaseStorageErrorTypes } from "@/types/
 import { PostMaterialDTO } from "@/utils/dto";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import { MaterialTbRow } from "@/types/superbase/table";
+import CourseModel from "@/lib/superbase/models/course.model";
 
 
 
@@ -18,18 +19,18 @@ export async function GET(req: NextRequest, res:NextResponse) {
         This covers get for admin
     */
 
-    let materials:MaterialTbRow[]
+    let materials:MaterialTbRow[];
 
     try {
 
-        materials = await SuperBase.material.fetch({});
+        materials = await MaterialModel.fetchAll();
     } catch (error) {
         logger.error("FETCH MATERIAL BY ID::ERROR OCCURED", error);
         const err = error as SupaBaseReqError;
 
         return ServerResponse.error({
-            code: err.code || "NOT FOUND",
-            message: err.message || 'Could not find material'
+            code: err.code || "SERVER ERROR",
+            message: err.message || 'Could not load materials'
         }, StatusCodes.SERVER_ERROR)
     }
     
@@ -61,7 +62,7 @@ export async function POST(req: NextRequest) {
     let courseResolveError = null, courseData;
     try {
 
-        courseData = await SuperBase.course.fetchById(course as string);
+        courseData = await CourseModel.fetchById(course as string);
     } catch(err) {
         courseResolveError = err;
     }
@@ -78,7 +79,7 @@ export async function POST(req: NextRequest) {
     let material:MaterialModel;
     try {
 
-        material = await SuperBase.material.insert(validData)
+        material = await MaterialModel.save(validData)
         
     } catch (error) {
         logger.error("ERROR CREATING MATERIALS", error);

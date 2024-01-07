@@ -1,8 +1,6 @@
 import { SuperBaseData, SuperBaseDatabaseReponse, SuperBaseStorageErrorTypes, SuperBaseStorageReponse } from "@/types/superbase";
 import logger from "./logger";
-
-
-const supabase = global._supabaseInstance;
+import { supabase } from "@/lib/superbase";
 
 
 export function handleStorageResponse({data, error}:SuperBaseStorageReponse) {

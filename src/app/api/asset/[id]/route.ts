@@ -25,8 +25,6 @@ export async function GET(req: NextRequest, {params}: req) {
     let asset:AssetModel | null;
 
     try {
-
-        // asset = await SuperBase.material.assetManager.fetchById(id);
         asset = await AssetModel.fetchById(id);
     } catch (error) {
         logger.error("FETCH COURSE BY ID::ERROR OCCURED", error);

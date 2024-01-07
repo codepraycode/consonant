@@ -1,7 +1,7 @@
 import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
 import { NextRequest } from "next/server";
 import contents from '@/data/contents.json';
-import { SupaBaseReqError, SuperBaseStorageErrorTypes } from "@/types/superbase";
+import { SupaBaseReqError } from "@/types/superbase";
 import SuperBase from "@/lib/superbase";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import logger from "@/utils/logger";
@@ -21,29 +21,56 @@ export async function GET(req: NextRequest, {params}: req) {
     }, StatusCodes.BAD_REQUEST)
 
 
-    let course:CourseModel, departments: DepartmentTbRow[]
+    let course:CourseModel | null;
 
     try {
 
-        course = await SuperBase.course.fetchById(id);
-        departments = await course.departments.fetch<DepartmentTbRow[]>();
-
+        course = await CourseModel.fetchById(id);
         // console.log(departments)
     } catch (error) {
         logger.error("FETCH COURSE BY ID::ERROR OCCURED", error);
         const err = error as SupaBaseReqError;
 
+        const errorObj = {
+            code: err.code || "SERVER ERROR",
+            message: err.message || 'Unable to find course',
+        }
+
+        return ServerResponse.error(errorObj, StatusCodes.SERVER_ERROR);
+    }
+
+
+    if (!course) {
         return ServerResponse.error({
-            code: err.code || "NOT FOUND",
-            message: err.message || 'Could not find course'
-        }, StatusCodes.SERVER_ERROR)
+            code: "NOT FOUND",
+            message: 'Could not find course'
+        }, StatusCodes.NOT_FOUND)
     }
     
 
-    const payload = {
-        ...course.data,
-        departments
-    }
+    // try {
 
-    return ServerResponse.ok(payload)
+    //     departments = await course.departments.fetch<DepartmentTbRow[]>();
+    // } catch (error) {
+    //     logger.error("FETCH C DEPARTMENT ::ERROR OCCURED", error);
+    //     const err = error as SupaBaseReqError;
+
+    //     const errorObj = {
+    //         code: err.code || "SERVER ERROR",
+    //         message: err.message || 'Unable to find course',
+    //     }
+
+    //     return ServerResponse.error(errorObj, StatusCodes.SERVER_ERROR);
+    // }
+
+
+    
+    
+
+    // const payload = {
+    //     ...course.data,
+    //     departments
+    // }
+
+    return ServerResponse.ok(course.data);
 }

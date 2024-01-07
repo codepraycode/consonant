@@ -1,10 +1,7 @@
 import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
-import SuperBase from "@/lib/superbase";
 import { NextRequest, NextResponse } from "next/server";
-import contents from '@/data/contents.json';
-// import { SuperBaseStorageError } from "@/helpers/superbase.helper";
 import logger from "@/utils/logger";
-import { Material, SupaBaseReqError, SuperBaseStorageErrorTypes } from "@/types/superbase";
+import { SupaBaseReqError, SuperBaseStorageErrorTypes } from "@/types/superbase";
 import { PostMaterialDTO } from "@/utils/dto";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import { MaterialTbRow } from "@/types/superbase/table";

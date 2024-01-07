@@ -63,11 +63,11 @@ export async function fetchDbRow<T=SupabaseData>(
  * @param	string 	column  table columns seperated by comma
  * @return 	A list of Facultys
  */
-export async function fetchDbRows<T=SupabaseData>(table:SupaBaseTableNames, column = SupaBaseDatbaseTableColumns): Promise<T[]> {
+export async function fetchDbRows<T=SupabaseData>(table:SupaBaseTableNames): Promise<T[]> {
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
-        .select(column)
+        .select()
     );
     
 

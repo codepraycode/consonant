@@ -131,7 +131,7 @@ export async function deleteDbRow(table:SupaBaseTableNames, index:string, value:
  * @param	string 	column  table columns seperated by comma
  * @return 	A list of Materials
  */
-export async function searchMaterials({field, query}:Record<string, string>): Promise<MaterialTbRow[]> {
+export async function searchMaterials(field: string, query: string): Promise<MaterialTbRow[]> {
     const table = SupaBaseTableNames.MATERIALS
     // const columnName = column || '*'
 

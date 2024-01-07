@@ -3,6 +3,7 @@ import SuperBase from "@/lib/superbase";
 import { SupaBaseReqError } from "@/types/superbase";
 import { CourseTbRow } from "@/types/superbase/table";
 import logger from "@/utils/logger";
+import { searchMaterials } from "@/utils/supabase-table";
 import { NextRequest } from "next/server";
 
 
@@ -19,12 +20,14 @@ export async function GET(req:NextRequest) {
     }
 
 
-    const query = await SuperBase.material.search({
-        field:'title',
-        query: search
-    });
+    // const query = await SuperBase.material.search({
+    //     field:'title',
+    //     query: search
+    // });
 
 
+    // Search materials with the title field;
+    const query = await searchMaterials('title', search);
 
     return ServerResponse.ok({search, query})
 }

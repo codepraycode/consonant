@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import '../assets/styles/styles.scss';
-import { SearchProvider } from '@/context/SearchContext';
 
 import AppLayout from '@/components/Layout/AppLayout';
+import Header from '@/components/Header';
+import { AuthContextProvider } from '@/context/AuthContext';
 
 
 
 // Setup site Metadata
-export const metadata = {
+export const metadata:Metadata = {
     title: 'Consonant',
     description: ''
 }
@@ -28,15 +29,15 @@ export default function RootLayout({ children }:IRootLayout ) {
                         <div className='gradient'/>
                     </div>
 
-                    <main className='relative app container mx-auto'>
-                        {/* <Nav/> */}
-                            
-                        <SearchProvider>
-                            {children}
 
-                        </SearchProvider>
+                    <AuthContextProvider>
+                        <Header />
                         
-                    </main>
+                        <main className='relative'>
+                            {children}
+                        </main>
+                    </AuthContextProvider>
+
                 </AppLayout>
             </body>
         </html>

@@ -145,6 +145,18 @@
         padding-block: 5.3rem;
     }
 }
+.pb {
+    &-1 {
+        padding-bottom: 1rem;
+    }
+
+    &-2 {
+        padding-bottom: 2.3rem;
+    }
+    &-5 {
+        padding-bottom: 5.3rem;
+    }
+}
 
 .px {
     &-1 {
@@ -184,9 +196,12 @@
         font-size: clamp(1rem, 40%, 2rem);
     }
 
-    &-2,
-    &-md-2 {
+    &-2 {
         font-size: 2rem;
+    }
+
+    &-md-2 {
+        font-size: clamp(.5rem, 5vw, 2rem);
     }
 
     &-3,
@@ -239,4 +254,14 @@
 
 .text-small {
     font-size: .7rem;
+}
+
+.sticky {
+    position: sticky;
+    top: 0;
+    
+}
+
+.bg-blur {
+    backdrop-filter: blur(5px);
 }

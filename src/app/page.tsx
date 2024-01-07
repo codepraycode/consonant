@@ -1,21 +1,20 @@
 import {SearchedFileList} from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
-import { setupSuperbase } from "@/lib/superbase";
-// import { upload, fetchResource } from '@/lib/cloudinary';
+import { SearchProvider } from "@/context/SearchContext";
 
-// upload("/home/codepraycode/Downloads/nobox.png")
-// upload("/home/codepraycode/Downloads/SEN-2-202 LECTURE NOTES-Copy (1).pdf")
-// fetchResource("vtfotty6pr8utpenemlc").then(data=>console.log("Asset", data));
-setupSuperbase()
 
 export default function Home() {
     
     return (
-        <>
-            <header>
+        <SearchProvider>
+
+            <section className="container mx-auto">
                 <h1 className="fs-3 fw-800 text-center">
                     Consonant
                 </h1>
+
+
+
                 <p className="fs-1 text-center">
                     Consonant is an open-source resource point for students of various faculties across FUTA
                 </p>
@@ -26,10 +25,14 @@ export default function Home() {
                 {/* Search input */}
                 <SearchFiles />
 
-            </header>
+            </section>
 
-            <SearchedFileList />
-            <br/><br/><br/>
-        </>
+
+            <section className="container mx-auto mt-2">
+
+                <SearchedFileList />
+            </section>
+            {/* <br/><br/><br/> */}
+        </SearchProvider>
     )
 }

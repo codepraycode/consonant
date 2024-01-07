@@ -1,10 +1,9 @@
 
-import { Asset, FetchParam, SupaBaseTableNames, SuperBaseData } from "@/types/superbase";
+import { SupaBaseTableNames, SuperBaseData } from "@/types/superbase";
 import logger from "@/utils/logger";
 import BucketManager from "../bucket";
 import { AssetTbRow } from "@/types/superbase/table";
-import { AssetDto } from "@/types/dto";
-import { BaseModel } from "./base";
+import { BaseModel } from "../../../utils/supabase-table";
 
 
 /**

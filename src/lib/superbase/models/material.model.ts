@@ -5,7 +5,7 @@ import {
 import logger from "@/utils/logger";
 import AssetModel from "./asset.model";
 import { AssetTbRow, MaterialTbRow } from "@/types/superbase/table";
-import { BaseModel, insertDbRow } from "./base";
+import { BaseModel, insertDbRow } from "../../../utils/supabase-table";
 
 
 /**
@@ -35,6 +35,11 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
     updated_at: string | Date;
 
     table = SupaBaseTableNames.MATERIALS;
+
+    static get table() {
+        return SupaBaseTableNames.MATERIALS
+    }
+
     /* =============== Static attributes ================ */
     protected static assetManager = AssetModel
 

@@ -1,6 +1,6 @@
 import { FacultyTbRow } from "@/types/superbase/table";
 import logger from "@/utils/logger";
-import { BaseModel } from "./base";
+import { BaseModel } from "../../../utils/supabase-table";
 import { SupaBaseTableNames } from "@/types/superbase";
 
 
@@ -36,6 +36,11 @@ class FacultyModel extends BaseModel implements FacultyTbRow{
 
     /* =============== Static attributes ================ */
     table = SupaBaseTableNames.FACULTY;
+
+
+    static get table() {
+        return SupaBaseTableNames.FACULTY
+    }
 
 
     /* =============== Constructor ================ */

@@ -1,18 +1,14 @@
-/* A relationship relator
- Connects a model to another model
- For many to many relationships
- */
-
-import { SuperbaseMeta } from "@/helpers/superbase.helper";
 import { QueryFilter } from "@/types/superbase";
 
 
-class ManyToManyManger<T> extends SuperbaseMeta {
+const supabase = global._supabaseInstance;
+
+
+export class ManyToManyManger<T> {
 
     constructor(private model: any, private target:any) {
-        super()
 
-        if (!this.model.tb || !this.target.tb) throw new Error("Each table must contain 'tb'")
+        if (!this.model.table || !this.target.table) throw new Error("Each table must contain 'table'")
     }
 
 
@@ -20,20 +16,20 @@ class ManyToManyManger<T> extends SuperbaseMeta {
 
 
     private prefix_query(query:string) {
-        return this.target.tb + '.' + query
+        return this.target.table + '.' + query
     }
 
 
     private async runFetch(filter?:QueryFilter) {
 
-        const normalFetch = () => SuperbaseMeta.db
+        const normalFetch = () => supabase
             .from(this.model.tb)
-            .select(`${this.target.tb}(*)`)
+            .select(`${this.target.table}(*)`)
             .eq('id', this.model.id)
 
-        const filterFetch = () => SuperbaseMeta.db
+        const filterFetch = () => supabase
         .from(this.model.tb)
-        .select(`${this.target.tb}(*)`)
+        .select(`${this.target.table}(*)`)
         .eq('id', this.model.id)
         .eq(
             this.prefix_query(filter!.at),
@@ -56,7 +52,7 @@ class ManyToManyManger<T> extends SuperbaseMeta {
         if (data.length < 1) return [];
 
 
-        return data[0][this.target.tb] as R;
+        return data[0][this.target.table] as R;
     
     }
 
@@ -69,7 +65,7 @@ class ManyToManyManger<T> extends SuperbaseMeta {
 
         if (data.length < 1) return null;
 
-        const paylod = data[0][this.target.tb]
+        const paylod = data[0][this.target.table]
 
         if (paylod.length < 1) throw({
             code: 'NOT FOUND',
@@ -79,6 +75,3 @@ class ManyToManyManger<T> extends SuperbaseMeta {
         return paylod[0] as T
     }
 }
-
-
-export { ManyToManyManger }

@@ -1,9 +1,8 @@
-import { Department, FetchParam,
+import {
     SupaBaseTableNames,
-    SuperBaseData } from "@/types/superbase";
+} from "@/types/superbase";
 import logger from "@/utils/logger";
-import FacultyModel from "./faculty.model";
-import { BaseModel } from "./base";
+import { BaseModel } from "../../../utils/supabase-table";
 import { DepartmentTbRow } from "@/types/superbase/table";
 // import { ManyToManyManger } from "./relator";
 
@@ -37,6 +36,9 @@ class DepartmentModel extends BaseModel implements DepartmentTbRow {
 
     table =  SupaBaseTableNames.DEPARTMENT;
 
+    static get table() {
+        return SupaBaseTableNames.DEPARTMENT
+    }
 
     /* =============== Constructor ================ */
     constructor(instanceData: DepartmentTbRow){

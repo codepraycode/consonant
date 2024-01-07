@@ -2,9 +2,9 @@
 import { SupaBaseTableNames } from "@/types/superbase";
 import { CourseTbRow, DepartmentTbRow } from "@/types/superbase/table";
 import logger from "@/utils/logger";
-import { ManyToManyManger } from "./relator";
 import DepartmentModel from "./department.model";
-import { BaseModel } from "./base";
+import { BaseModel } from "../../../utils/supabase-table";
+import { ManyToManyManger } from "@/utils/supabase-relation";
 
 
 /**
@@ -38,11 +38,16 @@ class CourseModel extends BaseModel implements CourseTbRow {
 
     /* =============== Static attributes ================ */
     // static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.COURSE;
-    table = SupaBaseTableNames.FACULTY;
     departments = new ManyToManyManger<DepartmentTbRow>(
         this,
         DepartmentModel
     )
+    
+    table = SupaBaseTableNames.FACULTY;
+
+    static get table() {
+        return SupaBaseTableNames.FACULTY
+    }
 
     /* =============== Constructor ================ */
     constructor(instanceData: CourseTbRow){        

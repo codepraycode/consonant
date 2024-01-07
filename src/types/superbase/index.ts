@@ -103,6 +103,7 @@ export enum SupaBaseTableNames {
 }
 
 export enum SupaBaseDatbaseTableColumns {
+    ALL   = '*',
     ASSET   = 'id, created_at, updated_at, path, fullPath, access, download, storage_id',
     FACULTY = 'id, created_at, updated_at, name, short',
     COURSE  = 'id, created_at, updated_at, name, code, title',
@@ -115,7 +116,7 @@ export enum SupaBaseDatbaseTableColumns {
 // Database interface
 
 export type QueryFilter = {
-    at: string,
+    where: string,
     is: string
 }
 

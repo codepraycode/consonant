@@ -3,7 +3,7 @@ import { SupaBaseTableNames, SuperBaseData } from "@/types/superbase";
 import logger from "@/utils/logger";
 import BucketManager from "../bucket";
 import { AssetTbRow } from "@/types/superbase/table";
-import { BaseModel } from "../../../utils/supabase-table";
+import { BaseModel, fetchDbRow } from "../../../utils/supabase-table";
 
 
 /**
@@ -146,6 +146,17 @@ class AssetModel extends BaseModel implements AssetTbRow {
         return data as AssetTbRow;
     }
 
+
+    static async fetchById(id:string) {
+
+        return fetchDbRow<AssetModel>(
+            this.table,
+            {
+                where: 'id',
+                is: id
+            }
+        )
+    }
     
 }
 

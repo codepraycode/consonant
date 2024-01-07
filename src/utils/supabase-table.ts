@@ -37,13 +37,16 @@ export async function insertDbRow<T=SupabaseData>(table:SupaBaseTableNames, doc:
  * @param	string 	id	frow id
  * @return a new instance of FacultyModel or null if data does not exist
  */
-export async function fetchDbRow<T=SupabaseData>(table:SupaBaseTableNames, column:SupaBaseDatbaseTableColumns, filter:QueryFilter): Promise<T | null> {
+export async function fetchDbRow<T=SupabaseData>(
+    table:SupaBaseTableNames,
+    // column:SupaBaseDatbaseTableColumns = SupaBaseDatbaseTableColumns.ALL,
+    filter:QueryFilter): Promise<T | null> {
     const supabase = global._supabaseInstance;
     const { data, error } = handleDatabaseReponse(
         await supabase
         .from(table)
-        .select(column)
-        .eq(filter.at, filter.is)
+        .select()
+        .eq(filter.where, filter.is)
     );
     
 

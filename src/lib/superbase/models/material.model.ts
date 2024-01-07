@@ -190,18 +190,23 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
 
     static async fetchById(id:string) {
 
-        return fetchDbRow<MaterialModel>(
+        const material =  await fetchDbRow<MaterialTbRow>(
             this.table,
             {
                 where: 'id',
                 is: id
             }
         )
+
+
+        if (!material) return null;
+
+        return new this(material);
     }
 
     static async fetchAll() {
 
-        return fetchDbRows<MaterialModel>(
+        return fetchDbRows<MaterialTbRow>(
             this.table            
         )
     }

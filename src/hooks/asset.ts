@@ -13,11 +13,13 @@ const useAsset = (assetId:string)=>{
         (()=>{
 
             if (!assetId) return
+            if (asset) return
+
             fetchAsset(assetId)
             .then((data)=>setAsset(()=>data))
             .catch(err=>console.error(err))
         })()
-    }, [assetId])
+    }, [assetId, asset])
 
 
     return asset;

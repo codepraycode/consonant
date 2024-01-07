@@ -1,13 +1,9 @@
 import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
 import { NextRequest } from "next/server";
-import contents from '@/data/contents.json';
-import { SupaBaseReqError, SuperBaseStorageErrorTypes } from "@/types/superbase";
-import SuperBase from "@/lib/superbase";
-import MaterialModel from "@/lib/superbase/models/material.model";
+import { SupaBaseReqError } from "@/types/superbase";
 import logger from "@/utils/logger";
-import CourseModel from "@/lib/superbase/models/course.model";
 import AssetModel from "@/lib/superbase/models/asset.model";
-import { fetchDbRow } from "@/utils/supabase-table";
+
 
 
 type req = { params: { id: string } };

@@ -149,13 +149,17 @@ class AssetModel extends BaseModel implements AssetTbRow {
 
     static async fetchById(id:string) {
 
-        return fetchDbRow<AssetModel>(
+        const asset = await fetchDbRow<AssetTbRow>(
             this.table,
             {
                 where: 'id',
                 is: id
             }
         )
+
+        if (!asset) return null;
+
+        return new this(asset);
     }
     
 }

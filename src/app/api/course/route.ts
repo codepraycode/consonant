@@ -1,5 +1,4 @@
 import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
-import SuperBase from "@/lib/superbase";
 import CourseModel from "@/lib/superbase/models/course.model";
 import { SupaBaseReqError } from "@/types/superbase";
 import { CourseTbRow } from "@/types/superbase/table";

@@ -38,16 +38,3 @@ export const supabase = (() =>{
 
 
 export const setupSuperbase = async ()=> BucketManager.setupBucket({bucket: BucketType.RESOURCES});
-
-
-class SuperBase {
-
-    // static asset = AssetModel;
-    // static faculty = FacultyModel;
-    // static course = CourseModel;
-    // static department = DepartmentModel;
-    // static material = MaterialModel;
-
-}
-
-export default SuperBase;

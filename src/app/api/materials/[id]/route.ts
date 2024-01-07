@@ -1,8 +1,6 @@
 import ServerResponse, { StatusCodes } from "@/helpers/response.helper";
 import { NextRequest } from "next/server";
-import contents from '@/data/contents.json';
-import { SupaBaseReqError, SuperBaseStorageErrorTypes } from "@/types/superbase";
-import SuperBase from "@/lib/superbase";
+import { SupaBaseReqError } from "@/types/superbase";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import logger from "@/utils/logger";
 

@@ -39,14 +39,19 @@ const FilePreview = ({file, asset}: {file: Material, asset: Asset | null}) => (
                 {/* Download */}
                 <button 
                     className="icon icon-download btn box-shadow"
-                    onClick={()=>window.open(asset?.access)}
+                    onClick={()=>asset && window.open(asset.access)}
+                    // onClick={()=>asset && console.log(asset)}
                     aria-disabled={!asset}
+                    disabled={!asset}
                 />
                 <button
                     className="icon icon-link btn box-shadow"
-                    onClick={()=>window.open(asset?.download)}
+                    onClick={()=>asset && window.open(asset.download)}
                     // download={true}
-                    aria-disabled={!asset}/>
+                    aria-disabled={!asset}
+                    disabled={!asset}
+                />
+                    
             </div>
         </div>
 

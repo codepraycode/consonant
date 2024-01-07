@@ -140,19 +140,23 @@ class CourseModel extends BaseModel implements CourseTbRow {
 
     static async fetchById(id:string) {
 
-        return fetchDbRow<CourseModel>(
+        const course = await fetchDbRow<CourseTbRow>(
             this.table,
             {
                 where: 'id',
                 is: id
             }
         )
+
+        if (!course) return null;
+
+        return new this(course);
     }
 
 
     static async fetchAll() {
 
-        return fetchDbRows<CourseModel>(this.table);
+        return fetchDbRows<CourseTbRow>(this.table);
     }
     
 

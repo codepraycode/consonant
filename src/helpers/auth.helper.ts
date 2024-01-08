@@ -1,3 +1,4 @@
+import { SITE_URL } from "@/env";
 import { supabase } from "@/lib/superbase";
 import logger from "@/utils/logger";
 
@@ -31,11 +32,11 @@ export const passwordlessSignIn = async (email: string) => {
     const auth = supabase.auth;
 
     
-    const { data, error } = handleAuthResponse(
+    const { error } = handleAuthResponse(
         await auth.signInWithOtp({
             email,
             options: {
-                emailRedirectTo: 'https://consonant.codepraycode.me/auth/callback/',
+                emailRedirectTo: `${SITE_URL}/auth/callback/`,
                 shouldCreateUser: false
             }
         })
@@ -66,7 +67,7 @@ export async function sessionAvailable(): Promise<boolean> {
     const auth = supabase.auth;
     
     
-    const { data, error } = await auth.getSession()
+    const { error } = await auth.getSession()
     // console.log({data, error})
 
     if (error) throw({

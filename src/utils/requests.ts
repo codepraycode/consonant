@@ -17,7 +17,7 @@ export async function searchMaterials(query:string){
 }
 
 
-export async function fetchAdminMaterials(): Promise<Material[]> {
+export async function fetchAdminMaterials(): Promise<MaterialTbRow[]> {
 
     const user = await getUser();
 
@@ -32,7 +32,7 @@ export async function fetchAdminMaterials(): Promise<Material[]> {
 
     if (error) throw error;
 
-    return data
+    return data as MaterialTbRow[]
 }
 
 

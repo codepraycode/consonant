@@ -6,10 +6,13 @@ import { ChangeEvent, useMemo, useState } from "react";
 import { useFormik } from "formik";
 import { postMaterial } from "@/utils/requests";
 import { useRouter } from "next/navigation";
+import { useAdminContext } from "@/context/AdminContext";
 
 export const MaterialUploadForm = ()=>{
 
     const router = useRouter();
+
+    const {loading:adminLoading, error:adminError, postNewMaterial} = useAdminContext();
     const {loading, courses, error} = useCourses();
 
     const [submitting, setSubmitting] = useState(false)
@@ -25,6 +28,12 @@ export const MaterialUploadForm = ()=>{
      onSubmit: values => {
     //    console.log(JSON.stringify(values, null, 2));
         // console.log(values)
+        handleSubmit(values)
+     }
+   });
+
+
+    function handleSubmit(values:any) {
         const {title, course, asset} = values
         const data = new FormData();
 
@@ -35,14 +44,20 @@ export const MaterialUploadForm = ()=>{
         setSubmitting(true);
         setSubmitError(null);
 
-        postMaterial(data).then(()=>{
-            router.replace('/admin');
-        }).catch(err=>{
+        postNewMaterial(data)
+        .then(()=>{
+            formik.resetForm({
+                values: {
+                    title: '',
+                    course: '',
+                    asset: '',
+                },
+            });
+        })
+        .catch((err: any)=>{
             setSubmitError(err.message);
         }).finally(()=>setSubmitting(false))
-     }
-   });
-
+   }
 
     const course_options = useMemo(()=>{
         if (!courses) return []
@@ -55,10 +70,13 @@ export const MaterialUploadForm = ()=>{
         })
     },[courses])
 
+
+    const formError = submitError || adminError;
+
     return (
         <form className="upload-form" onSubmit={formik.handleSubmit}>
             {submitting && <span>Submitting...</span>}
-            {submitError && <span>{submitError}</span>}
+            {formError && <span>{formError}</span>}
             <TextInput
                 name="title"
                 label="Enter material label"

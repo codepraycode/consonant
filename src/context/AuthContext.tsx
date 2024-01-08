@@ -1,6 +1,7 @@
 'use client'
 
-import { createContext, useContext } from "react";
+import { getUser } from "@/helpers/auth.helper";
+import { createContext, useContext, useEffect, useState } from "react";
 
 
 const initialAuthState = {
@@ -16,9 +17,20 @@ export const AuthContextProvider = ({children}: any)=>{
 
     // const router = useRouter();
 
+    // const [checkedAuth, setCheckAuth] = useState<boolean | null>(null);
 
-    const context = {
-    }
+
+    // useEffect(()=>{
+    //     (()=>{
+    //         getUser().finally(()=>setCheckAuth(true))
+    //     })()
+    // }, [checkedAuth])
+
+
+    const context = {}
+
+
+    // if (checkedAuth === null) return null;
 
     return (
         <AuthContext.Provider value={context}>

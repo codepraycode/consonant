@@ -1,5 +1,6 @@
 import { AdminMaterials } from "@/components/FileLists";
 import { MaterialUploadForm } from "@/components/forms";
+import { AdminContextProvider } from "@/context/AdminContext";
 
 
 const UploadSection = () => (
@@ -43,7 +44,7 @@ const AdminFileLists = () => (
 const AdminPage = () => {
     
     return (
-        <>
+        <AdminContextProvider>
             <section className="admin-split">
 
 
@@ -52,7 +53,7 @@ const AdminPage = () => {
                 <AdminFileLists />
     
             </section>
-        </>
+        </AdminContextProvider>
     )
 }
 

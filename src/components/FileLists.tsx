@@ -1,12 +1,10 @@
 'use client'
 import useSearch from "@/context/SearchContext";
 import { Material } from "@/types/superbase";
-import { getMaterialCacheKey } from "@/utils/cache";
-import { fetchAdminMaterials } from "@/utils/requests";
 import { formatDateDistance } from "@/utils/time";
-import { useQuery } from "@tanstack/react-query";
 import Link from "next/link"
 import SpinnerPreloader from "./Preloader";
+import { useAdminContext } from "@/context/AdminContext";
 
 
 
@@ -60,16 +58,13 @@ export const SearchedFileList = () => {
 }
 
 export const AdminMaterials = () => {
-    const {isLoading:loading, data, error} = useQuery({
-        queryKey: [getMaterialCacheKey('admin')],
-        queryFn: fetchAdminMaterials
-    })
+    const {materials, loading, error} = useAdminContext();
 
     if (loading) return <h4 className="fw-400">Loading your files...</h4>
 
     if (error) return <h4 className="fs-3 fw-400">Error loading your files</h4>
     
-    if (data) return <FileListing files={data} admin altMessage="You have no materials"/>
+    if (materials) return <FileListing files={materials} admin altMessage="You have no materials"/>
 
     return null;
 }

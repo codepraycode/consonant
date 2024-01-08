@@ -58,10 +58,10 @@ export class PostMaterialDTO extends DTO {
                 field: 'asset',
                 message: 'Asset is required'
             },
-            // {
-            //     field: 'owner',
-            //     message: 'Owner is required'
-            // },
+            {
+                field: 'user',
+                message: 'User is required'
+            },
         ]
     }    
 

@@ -265,3 +265,21 @@
 .bg-blur {
     backdrop-filter: blur(5px);
 }
+
+.text-overflow {
+    overflow: hidden;
+    white-space: nowrap;
+    display: inline-block;
+    text-overflow: ellipsis;
+
+    // max-width: 20%;
+
+    width: 9rem;
+
+    // background-color: red;
+
+    @include mixins.md() {
+        width: fit-content;
+        
+    }
+}

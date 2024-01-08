@@ -39,15 +39,14 @@ export async function insertDbRow<T=SupabaseData>(table:SupaBaseTableNames, doc:
  */
 export async function fetchDbRow<T=SupabaseData>(
     table:SupaBaseTableNames,
-    // column:SupaBaseDatbaseTableColumns = SupaBaseDatbaseTableColumns.ALL,
     filter:QueryFilter): Promise<T | null> {
     
         const { data, error } = handleDatabaseReponse(
-        await supabase
-        .from(table)
-        .select()
-        .eq(filter.where, filter.is)
-    );
+            await supabase
+            .from(table)
+            .select()
+            .eq(filter.where, filter.is)
+        );
     
 
     if (error) throw error;
@@ -68,6 +67,21 @@ export async function fetchDbRows<T=SupabaseData>(table:SupaBaseTableNames): Pro
         await supabase
         .from(table)
         .select()
+    );
+    
+
+    if (error) throw error;
+
+    return data as T[];
+}
+
+
+export async function fetchFilteredDbRows<T=SupabaseData>(table:SupaBaseTableNames, index:string, id:string): Promise<T[]> {
+    const { data, error } = handleDatabaseReponse(
+        await supabase
+        .from(table)
+        .select()
+        .eq(index, id)
     );
     
 

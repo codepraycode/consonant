@@ -11,6 +11,7 @@ const Header = () => {
     
 
     const router = useRouter();
+    const pathname = usePathname()
     const [showMenu, setShowMenu] = useState(false);
 
     
@@ -21,8 +22,13 @@ const Header = () => {
     return (
         <header>
 
+            {pathname !== '/' && <h1>
+                <Link href={"/"}>Consonant</Link>
+            </h1>}
+
             <nav className="nav" role="navigation">
-                {/* <h1>Consonant</h1> */}
+
+
                 <ul className="nav-list" role="list">
                     {!user && (
                         <li>
@@ -36,7 +42,7 @@ const Header = () => {
                     {user && <li>
                         <Link
                             href={"#"}
-                            className="nav-list-dropdown-anchor"
+                            className="nav-list-dropdown-anchor text-overflow"
                             data-open={showMenu}
 
                             onClick={(e)=>{
@@ -62,7 +68,7 @@ const Header = () => {
 
                                         await signOut();
 
-                                        router.replace('/auth/login');
+                                        router.replace('/');
                                     }}
                                 >Logout</Link>
                             </li>

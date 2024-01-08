@@ -5,8 +5,15 @@ import { DocumentUpload, Select, TextInput } from "./Form";
 import { ChangeEvent, useMemo, useState } from "react";
 import { useFormik } from "formik";
 import { postMaterial } from "@/utils/requests";
+import { useRouter } from "next/navigation";
+import { useAdminContext } from "@/context/AdminContext";
+import HandlerButton from "./Form/HandlerButton";
+import { values } from "lodash";
 
 export const MaterialUploadForm = ()=>{
+
+
+    const {loading:adminLoading, error:adminError, postNewMaterial} = useAdminContext();
     const {loading, courses, error} = useCourses();
 
     const [submitting, setSubmitting] = useState(false)
@@ -22,6 +29,12 @@ export const MaterialUploadForm = ()=>{
      onSubmit: values => {
     //    console.log(JSON.stringify(values, null, 2));
         // console.log(values)
+        handleSubmit(values)
+     }
+   });
+
+
+    function handleSubmit(values:any) {
         const {title, course, asset} = values
         const data = new FormData();
 
@@ -29,26 +42,23 @@ export const MaterialUploadForm = ()=>{
         data.set('course', course)
         data.set('asset', asset)
 
-        // console.log(data.get('title'));
-        // console.log(data.get('course'));
-        // console.log(data.get('asset'));
-
         setSubmitting(true);
         setSubmitError(null);
 
-        postMaterial(data).then(()=>{
-            window.location.href = '/admin';
-        }).catch(err=>{
+        postNewMaterial(data)
+        .then(()=>{
+            formik.resetForm({
+                values: {
+                    title: '',
+                    course: '',
+                    asset: '',
+                },
+            });
+        })
+        .catch((err: any)=>{
             setSubmitError(err.message);
         }).finally(()=>setSubmitting(false))
-     }
-   });
-
-
-   formik.handleChange = (e:ChangeEvent)=>{
-    console.log(e)
    }
-
 
     const course_options = useMemo(()=>{
         if (!courses) return []
@@ -62,66 +72,80 @@ export const MaterialUploadForm = ()=>{
     },[courses])
 
 
-    const handleSubmit = (e:any) => {
-        e.preventDefault()
-        const data = new FormData(e.target);
+    const formError = submitError || adminError;
 
-        console.log(data.get('title'));
-        console.log(data.get('course'));
-        console.log(data.get('asset'));
-    }
-
+    const touched = (()=>{
+        return formik.values.asset !== formik.initialValues.asset ||
+               formik.values.course !== formik.initialValues.course ||
+               formik.values.title !== formik.initialValues.title
+    })();
 
     return (
-        <form className="upload-form" onSubmit={formik.handleSubmit}>
-            {submitting && <span>Submitting...</span>}
-            {submitError && <span>{submitError}</span>}
-            <TextInput
-                name="title"
-                label="Enter material label"
-                onChange={(val)=>{
-                    formik.setFieldValue('title', val);
-                }}
-                value={formik.values.title}
-            />
-
-            <Select
-                name="course"
-                label="Select course for this material"
-                options={course_options}
-                onChange={(val)=>{
-                    formik.setFieldValue('course', val);
-                }}
-                value={formik.values.course}
-            />
-
-            <DocumentUpload
-                name="asset"
-                onChange={(file)=>{
-                    formik.setFieldValue('asset', file);
-                }}
-                remove={()=>{
-                    formik.setFieldValue('asset', null);
-                }}
-                value={formik.values.asset as unknown as File}
-            />
+        <>
+            
 
 
-            <button
-                type="submit"
-                className="btn"
-                style={{
-                    display:'block',
-                    width: '100%',
-                    paddingBlock:'.8rem',
-                    background: 'rgb(60, 59, 59)',
-                    border:0,
-                    color:'white',
-                    borderRadius: '.2rem'
-                }}
-            >
-                Upload File
-            </button>
-        </form>
+            <div className="d-flex align-center justify-between">
+                <h1 className="mt-5 px-1">Upload Resource</h1>
+
+                {touched && <HandlerButton
+                    label="Reset form"
+                    onClick={()=>{
+                        formik.resetForm();
+                    }}
+                />}
+            </div>
+
+            <form className="upload-form" onSubmit={formik.handleSubmit}>
+                {submitting && <span>Submitting...</span>}
+                {formError && <span>{formError}</span>}
+                <TextInput
+                    name="title"
+                    label="Enter material label"
+                    onChange={(val)=>{
+                        formik.setFieldValue('title', val);
+                    }}
+                    value={formik.values.title}
+                />
+
+                <Select
+                    name="course"
+                    label="Select course for this material"
+                    options={course_options}
+                    onChange={(val)=>{
+                        formik.setFieldValue('course', val);
+                    }}
+                    value={formik.values.course}
+                />
+
+                <DocumentUpload
+                    name="asset"
+                    onChange={(file)=>{
+                        formik.setFieldValue('asset', file);
+                    }}
+                    remove={()=>{
+                        formik.setFieldValue('asset', null);
+                    }}
+                    value={formik.values.asset as unknown as File}
+                />
+
+
+                <button
+                    type="submit"
+                    className="btn"
+                    style={{
+                        display:'block',
+                        width: '100%',
+                        paddingBlock:'.8rem',
+                        background: 'rgb(60, 59, 59)',
+                        border:0,
+                        color:'white',
+                        borderRadius: '.2rem'
+                    }}
+                >
+                    Upload File
+                </button>
+            </form>
+        </>
     )
 }

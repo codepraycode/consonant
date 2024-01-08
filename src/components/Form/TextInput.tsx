@@ -23,7 +23,7 @@ export const TextInput = (props: TextInputProps) => {
                 placeholder={placeholder || label}
                 className="box-shadow"
                 onChange={(e)=>onChange(e.target.value)}
-                // value={value || ''}
+                value={value || ''}
             />
         </div>
     )

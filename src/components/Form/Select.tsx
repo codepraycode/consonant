@@ -1,4 +1,4 @@
-import { useState, useCallback, useRef } from "react"
+import { useState, useCallback, useRef, useMemo } from "react"
 
 
 
@@ -21,7 +21,7 @@ interface SelectInputProps {
 export const Select = (props: SelectInputProps) => {
 
     const {
-        name, label, placeholder, multiple, options, onChange
+        name, label, placeholder, multiple, options, onChange, value
     } = props
 
 
@@ -29,7 +29,6 @@ export const Select = (props: SelectInputProps) => {
 
 
     const [active, setActive] = useState(false);
-    const [selected, setSelected] = useState<Option | null>(null);
 
 
     const handleBlur = useCallback((e: { currentTarget: any; }) => {
@@ -55,9 +54,16 @@ export const Select = (props: SelectInputProps) => {
         // selectRef.current.setAttribute('value', item.value);// = item.value
         
         onChange(item.value)
-        setSelected(()=>item);
+        // setSelectedId(()=>item.value);
         setActive(false)
     }
+
+
+    const selected = useMemo(()=>{
+        return options.find(item=>{
+            return item.value === value;
+        })
+    }, [options, value])
 
 
     return(

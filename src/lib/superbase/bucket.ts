@@ -55,8 +55,8 @@ class BucketManager {
             return {
                 data: null,
                 error: {
-                    code: null,
-                    message: null
+                    code: 'UPLOAD ERROR',
+                    message: "Could not upload file",
                 }
             }
         }

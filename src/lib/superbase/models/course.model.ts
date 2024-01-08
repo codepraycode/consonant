@@ -38,15 +38,18 @@ class CourseModel extends BaseModel implements CourseTbRow {
 
     /* =============== Static attributes ================ */
     // static _cls: SuperBaseDatbaseNames = SuperBaseDatbaseNames.COURSE;
-    departments = new ManyToManyManger<DepartmentTbRow>(
-        this,
-        DepartmentModel
-    )
     
     table = SupaBaseTableNames.COURSE;
 
     static get table() {
         return SupaBaseTableNames.COURSE
+    }
+
+    get department() {
+        return new ManyToManyManger<DepartmentTbRow>(
+            this,
+            DepartmentModel
+        )
     }
 
     /* =============== Constructor ================ */

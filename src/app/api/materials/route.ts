@@ -6,6 +6,8 @@ import { PostMaterialDTO } from "@/utils/dto";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import { MaterialTbRow } from "@/types/superbase/table";
 import CourseModel from "@/lib/superbase/models/course.model";
+import { getUser } from "@/helpers/auth.helper";
+import { supabase } from "@/lib/superbase";
 
 
 
@@ -16,11 +18,23 @@ export async function GET(req: NextRequest, res:NextResponse) {
         This covers get for admin
     */
 
-    let materials:MaterialTbRow[];
 
+    const headers = req.headers;
+
+    const isAdmin = headers.has('admin-id');
+
+
+    let materials:MaterialTbRow[], userId: string | undefined;
+
+
+    if (isAdmin) {
+        userId = headers.get('admin-id') as (string | undefined);
+        console.log("FETCHING ADMIN FILES")
+    }
+    
+    
     try {
-
-        materials = await MaterialModel.fetchAll();
+        materials = await MaterialModel.fetchAll(userId);
     } catch (error) {
         logger.error("FETCH MATERIAL BY ID::ERROR OCCURED", error);
         const err = error as SupaBaseReqError;

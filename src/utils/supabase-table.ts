@@ -77,6 +77,21 @@ export async function fetchDbRows<T=SupabaseData>(table:SupaBaseTableNames): Pro
 }
 
 
+export async function fetchFilteredDbRows<T=SupabaseData>(table:SupaBaseTableNames, id:string): Promise<T[]> {
+    const { data, error } = handleDatabaseReponse(
+        await supabase
+        .from(table)
+        .select()
+        .eq('id', id)
+    );
+    
+
+    if (error) throw error;
+
+    return data as T[];
+}
+
+
 
 export async function updateDbRow<T=SupabaseData>(
     table:SupaBaseTableNames,

@@ -5,7 +5,7 @@ import {
 import logger from "@/utils/logger";
 import AssetModel from "./asset.model";
 import { AssetTbRow, MaterialTbRow } from "@/types/superbase/table";
-import { BaseModel, fetchDbRow, fetchDbRows, insertDbRow } from "../../../utils/supabase-table";
+import { BaseModel, fetchDbRow, fetchDbRows, fetchFilteredDbRows, insertDbRow } from "../../../utils/supabase-table";
 
 
 /**
@@ -204,10 +204,16 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
         return new this(material);
     }
 
-    static async fetchAll() {
+    static async fetchAll(id?:string) {
 
-        return fetchDbRows<MaterialTbRow>(
-            this.table            
+        if (!id) return fetchDbRows<MaterialTbRow>(
+            this.table
+        )
+
+
+        return fetchFilteredDbRows<MaterialTbRow>(
+            this.table,
+            id
         )
     }
     

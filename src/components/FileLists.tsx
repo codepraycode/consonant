@@ -56,7 +56,7 @@ export const SearchedFileList = () => {
     
     
     
-    return <FileListing files={ searchResult } altMessage="No materials found"/>    
+    return <FileListing files={ searchResult } altMessage="No materials found"/>
 }
 
 export const AdminMaterials = () => {
@@ -69,7 +69,7 @@ export const AdminMaterials = () => {
 
     if (error) return <h4 className="fs-3 fw-400">Error loading your files</h4>
     
-    if (data) return <FileListing files={data} admin/>
+    if (data) return <FileListing files={data} admin altMessage="You have no materials"/>
 
     return null;
 }

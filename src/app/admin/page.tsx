@@ -1,9 +1,6 @@
 import { AdminMaterials } from "@/components/FileLists";
 import { MaterialUploadForm } from "@/components/forms";
 
-import Link from "next/link";
-
-
 
 const UploadSection = () => (
     <div className="admin-upload">

@@ -79,6 +79,7 @@ export async function POST(req: NextRequest) {
     }
 
     if (!courseData || courseResolveError) {
+        logger.error("CREATE MATERIALS::RESOLUTION ERROR::", courseResolveError);
         logger.error("CREATE MATERIALS::INVALID COURSE ENTRY::", course);
         return ServerResponse.error({
             code: SuperBaseStorageErrorTypes.DEFAULT,

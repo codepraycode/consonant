@@ -5,8 +5,11 @@ import { DocumentUpload, Select, TextInput } from "./Form";
 import { ChangeEvent, useMemo, useState } from "react";
 import { useFormik } from "formik";
 import { postMaterial } from "@/utils/requests";
+import { useRouter } from "next/navigation";
 
 export const MaterialUploadForm = ()=>{
+
+    const router = useRouter();
     const {loading, courses, error} = useCourses();
 
     const [submitting, setSubmitting] = useState(false)
@@ -29,25 +32,16 @@ export const MaterialUploadForm = ()=>{
         data.set('course', course)
         data.set('asset', asset)
 
-        // console.log(data.get('title'));
-        // console.log(data.get('course'));
-        // console.log(data.get('asset'));
-
         setSubmitting(true);
         setSubmitError(null);
 
         postMaterial(data).then(()=>{
-            window.location.href = '/admin';
+            router.replace('/admin');
         }).catch(err=>{
             setSubmitError(err.message);
         }).finally(()=>setSubmitting(false))
      }
    });
-
-
-   formik.handleChange = (e:ChangeEvent)=>{
-    console.log(e)
-   }
 
 
     const course_options = useMemo(()=>{
@@ -60,17 +54,6 @@ export const MaterialUploadForm = ()=>{
             }
         })
     },[courses])
-
-
-    const handleSubmit = (e:any) => {
-        e.preventDefault()
-        const data = new FormData(e.target);
-
-        console.log(data.get('title'));
-        console.log(data.get('course'));
-        console.log(data.get('asset'));
-    }
-
 
     return (
         <form className="upload-form" onSubmit={formik.handleSubmit}>

@@ -213,7 +213,8 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
 
         return fetchFilteredDbRows<MaterialTbRow>(
             this.table,
-            id
+            'user',
+            id,
         )
     }
     

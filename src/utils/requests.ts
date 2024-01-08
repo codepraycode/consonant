@@ -69,6 +69,10 @@ export async function fetchCourse(): Promise<Course[]> {
 
 
 export async function postMaterial(formData: FormData): Promise<void> {
+
+    const user = await getUser();
+
+    formData.append('user', user.id);
     const res = await fetch(`/api/materials`, {
         method:'POST',
         body: formData

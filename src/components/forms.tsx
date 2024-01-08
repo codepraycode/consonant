@@ -30,14 +30,7 @@ export const MaterialUploadForm = ()=>{
     //    console.log(JSON.stringify(values, null, 2));
         // console.log(values)
         handleSubmit(values)
-     },
-    //  onReset: (values)=>{
-    //     console.log("Reset form");
-
-    //     values.title = '';
-    //     values.asset = '';
-    //     values.course = ''
-    //  }
+     }
    });
 
 

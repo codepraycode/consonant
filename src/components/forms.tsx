@@ -88,8 +88,8 @@ export const MaterialUploadForm = ()=>{
             <div className="d-flex align-center justify-between">
                 <h1 className="mt-5 px-1">Upload Resource</h1>
 
-                {touched && <HandlerButton
-                    label="Reset form"
+                {(touched && !submitting) && <HandlerButton
+                    label="Reset"
                     onClick={()=>{
                         formik.resetForm();
                     }}
@@ -101,7 +101,7 @@ export const MaterialUploadForm = ()=>{
                 {formError && <span>{formError}</span>}
                 <TextInput
                     name="title"
-                    label="Enter material label"
+                    label="Enter a label for searching"
                     onChange={(val)=>{
                         formik.setFieldValue('title', val);
                     }}
@@ -110,7 +110,7 @@ export const MaterialUploadForm = ()=>{
 
                 <Select
                     name="course"
-                    label="Select course for this material"
+                    label="Select course for this resource"
                     options={course_options}
                     onChange={(val)=>{
                         formik.setFieldValue('course', val);
@@ -133,6 +133,7 @@ export const MaterialUploadForm = ()=>{
                 <button
                     type="submit"
                     className="btn"
+                    disabled={submitting}
                     style={{
                         display:'block',
                         width: '100%',
@@ -143,7 +144,7 @@ export const MaterialUploadForm = ()=>{
                         borderRadius: '.2rem'
                     }}
                 >
-                    Upload File
+                    {submitting ? 'Uploading...' : "Upload"}
                 </button>
             </form>
         </>

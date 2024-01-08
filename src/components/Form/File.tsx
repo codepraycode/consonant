@@ -22,40 +22,7 @@ export const DocumentUpload = (props:UploadProps) => {
 
     const elemRef = useRef<HTMLInputElement | null>(null)
 
-    // const handleUpload = () => {
-    //     if (!file) return;
-
-    //     const fd = new FormData();
-    //     fd.append("file", file)
-
-    //     setMessage("Uploading...")
-    //     setProgress((prev)=>({
-    //         ...prev,
-    //         started: true,
-    //     }));
-
-
-    //     axios.post('https://httpbin.org/post', fd, {
-    //         onUploadProgress: (progressEvent) => {
-
-    //             // console.log(progressEvent.progress! * 100)
-    //             setProgress((prev)=>({
-    //                 ...prev,
-    //                 pc: progressEvent.progress! * 100
-    //             }));
-    //         },
-    //         headers: {
-    //             "Custom-Header": "value"
-    //         }
-    //     }).then((res)=>{
-    //         setMessage("Uploaded!")
-    //         console.log(res.data)
-    //     })
-    //     .catch(err=>{
-    //         setMessage("Upload Failed!")
-    //         console.error(err)
-    //     })
-    // }
+    
 
     function onDragenter(e: any) {
         e.stopPropagation();
@@ -85,7 +52,7 @@ export const DocumentUpload = (props:UploadProps) => {
 
     return(
         <div className="form-group box-shadow  doc-upload">
-            <h3>Upload Files</h3>
+            <h3>Add file</h3>
 
             <div
                 className="drop_box"

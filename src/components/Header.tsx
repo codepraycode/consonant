@@ -42,7 +42,7 @@ const Header = () => {
                     {user && <li>
                         <Link
                             href={"#"}
-                            className="nav-list-dropdown-anchor"
+                            className="nav-list-dropdown-anchor text-overflow"
                             data-open={showMenu}
 
                             onClick={(e)=>{

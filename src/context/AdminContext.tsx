@@ -91,7 +91,7 @@ export const AdminContextProvider = ({children}: any)=>{
 
         try {
             const data = await fetchAdminMaterials()
-            console.log("Dataaa", data);
+            
             dispatch({
                 type: 'loaded',
                 payload: data

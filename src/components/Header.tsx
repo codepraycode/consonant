@@ -68,7 +68,7 @@ const Header = () => {
 
                                         await signOut();
 
-                                        router.replace('/auth/login');
+                                        router.replace('/');
                                     }}
                                 >Logout</Link>
                             </li>

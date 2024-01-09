@@ -16,7 +16,8 @@ export const metadata:Metadata = {
     // canonical:"https://consonant.codepraycode.me",
     keywords: ["Consonant", "Federal University of Technology Akure ", "FUTA", "codepraycode"],
     openGraph: {
-        images: '../assets/images/consonant-og2.png',
+        url:"https://consonant.codepraycode.me",
+        images: './consonant-og2.png',
     },
     // twitter={{
     // handle: '@codepraycode',

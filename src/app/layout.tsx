@@ -11,8 +11,18 @@ import AppSEO from '@/components/Seo';
 
 // Setup site Metadata
 export const metadata:Metadata = {
-    title: 'Consonant',
-    description: ''
+    title:"Consonant",
+    description:"open-source resource point for students of various faculties in FUTA",
+    // canonical:"https://consonant.codepraycode.me",
+    keywords: ["Consonant", "Federal University of Technology Akure ", "FUTA", "codepraycode"],
+    openGraph: {
+        images: '../assets/images/consonant-og2.png',
+    },
+    // twitter={{
+    // handle: '@codepraycode',
+    // site: 'https://consonant.codepraycode.me',
+    // cardType: 'summary_large_image',
+    // }}
 }
 
 

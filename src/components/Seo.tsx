@@ -19,15 +19,6 @@ const AppSEO = () => (
             alt: 'Consonant',
             type: 'image/png',
           },
-        //   {
-        //     url: '../assets/images/consonant-og.png',
-        //     width: 900,
-        //     height: 800,
-        //     alt: 'Consonant',
-        //     type: 'image/png',
-        //   },
-        //   { url: 'https://www.example.com/og-image03.jpg' },
-        //   { url: 'https://www.example.com/og-image04.jpg' },
         ],
         site_name: 'Consonant',
       }}

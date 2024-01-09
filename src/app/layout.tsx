@@ -4,6 +4,7 @@ import '../assets/styles/styles.scss';
 import AppLayout from '@/components/Layout/AppLayout';
 import Header from '@/components/Header';
 import { AuthContextProvider } from '@/context/AuthContext';
+import AppSEO from '@/components/Seo';
 // import AppSEO from '@/components/Seo';
 
 
@@ -23,7 +24,7 @@ export default function RootLayout({ children }:IRootLayout ) {
     return (
         <html lang='en'>
             <body>
-                {/* <AppSEO/> */}
+                <AppSEO/>
                 <AppLayout>
 
                     <div className='main-bg'>

@@ -9,12 +9,12 @@ const AppSEO = () => (
       canonical="https://consonant.codepraycode.me"
       openGraph={{
         url: 'https://consonant.codepraycode.me',
-        title: 'Open Graph Title',
-        description: 'Open Graph Description',
+        title: 'Consonant',
+        description: 'Consonant | Open-source resource point for students of various faculties',
         images: [
           {
-            url: '../assets/images/consonant-og.png',
-            width: 800,
+            url: 'https://consonant.codepraycode.me/consonant-og2.png',
+            width: 1200,
             height: 600,
             alt: 'Consonant',
             type: 'image/png',
@@ -29,7 +29,7 @@ const AppSEO = () => (
         //   { url: 'https://www.example.com/og-image03.jpg' },
         //   { url: 'https://www.example.com/og-image04.jpg' },
         ],
-        site_name: 'YourSiteName',
+        site_name: 'Consonant',
       }}
       twitter={{
         handle: '@codepraycode',

@@ -4,9 +4,10 @@ import MaterialModel from '@/lib/superbase/models/material.model';
 
 export interface SearchContextProps {
     searchResult: MaterialModel[],
+    searchQuery: string,
     loading: boolean,
     error: any
-    updateSearch: (result: MaterialModel[]) => void,
+    updateSearch: (result: MaterialModel[], query:string) => void,
     setLoading: () => void,
     setError: (err:any) => void,
 }
@@ -26,19 +27,22 @@ const SearchReducer = (state:any, action:any) => {
             return {
                 ...state,
                 loading: true,
-                searchResult: []
+                searchResult: [],
+                searchQuery: ''
             }
         case 'loaded':
             return {
                 ...state,
                 loading: false,
-                searchResult: action.payload
+                searchResult: action.payload.result,
+                searchQuery: action.payload.query
             }
         case 'error':
             return {
                 ...state,
                 loading: false,
                 searchResult: [],
+                searchQuery: '',
                 error: action.payload
             }
         default:
@@ -60,11 +64,12 @@ export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
 
     const context: SearchContextProps = {
         searchResult: state.searchResult,
+        searchQuery: state.searchQuery,
         loading: state.loading,
         error: state.error,
-        updateSearch: (result:MaterialModel[])=>dispatch({
+        updateSearch: (result:MaterialModel[], query:string)=>dispatch({
             type: 'loaded',
-            payload: result
+            payload: {result, query}
         }),
         setLoading: ()=>dispatch({
             type: 'loading'

@@ -115,12 +115,12 @@
     text-align: center;
     
 
-    margin-top:5rem;
+    margin-top:2rem;
 
 
     @include mixins.md() {
         & {
-            margin-top: 15rem;
+            margin-top: 8rem;
         }
     }
 }

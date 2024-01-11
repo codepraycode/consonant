@@ -23,7 +23,7 @@ const SearchFiles = (props: SearchProps) => {
         searchMaterials(query)
         .then((results)=>{
 
-            updateSearch(results);
+            updateSearch(results, query);
         })
         .catch((err)=>{
             console.error(err)

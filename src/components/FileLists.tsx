@@ -46,7 +46,7 @@ const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admi
 
 
 export const SearchedFileList = () => {
-    const { searchResult, loading } = useSearch();
+    const { searchResult,searchQuery, loading } = useSearch();
 
     if (loading) return <section className="preloader-center">
         <SpinnerPreloader/>
@@ -54,17 +54,19 @@ export const SearchedFileList = () => {
     
     
     
-    return <FileListing files={ searchResult } altMessage="No materials found"/>
+    return <FileListing files={ searchResult } altMessage={searchQuery ? "No material found": 'Enter a keyword related to the material you seek'}/>
 }
 
 export const AdminMaterials = () => {
     const {materials, loading, error} = useAdminContext();
 
-    if (loading) return <h4 className="fw-400">Loading your files...</h4>
+    if (loading) return <section className="preloader-center">
+        <SpinnerPreloader/>
+    </section>
 
     if (error) return <h4 className="fs-3 fw-400">Error loading your files</h4>
     
-    if (materials) return <FileListing files={materials} admin altMessage="You have no materials"/>
+    if (materials) return <FileListing files={materials} admin altMessage="You have no material"/>
 
     return null;
 }

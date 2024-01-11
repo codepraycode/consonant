@@ -23,7 +23,7 @@ const Header = () => {
         <header>
 
             {pathname !== '/' && <h1>
-                <Link href={"/"}>Consonant</Link>
+                <Link href={"/"} className="logo">Consonant</Link>
             </h1>}
 
             <nav className="nav" role="navigation">

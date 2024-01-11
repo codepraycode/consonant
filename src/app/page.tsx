@@ -1,6 +1,5 @@
 import {SearchedFileList} from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
-import AppSEO from "@/components/Seo";
 import { SearchProvider } from "@/context/SearchContext";
 
 

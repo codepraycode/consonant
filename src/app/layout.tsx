@@ -4,8 +4,6 @@ import '../assets/styles/styles.scss';
 import AppLayout from '@/components/Layout/AppLayout';
 import Header from '@/components/Header';
 import { AuthContextProvider } from '@/context/AuthContext';
-import AppSEO from '@/components/Seo';
-// import AppSEO from '@/components/Seo';
 
 
 
@@ -13,17 +11,11 @@ import AppSEO from '@/components/Seo';
 export const metadata:Metadata = {
     title:"Consonant",
     description:"open-source resource point for students of various faculties in FUTA",
-    // canonical:"https://consonant.codepraycode.me",
     keywords: ["Consonant", "Federal University of Technology Akure ", "FUTA", "codepraycode"],
     openGraph: {
         url:"https://consonant.codepraycode.me",
         images: 'https://consonant.codepraycode.me/consonant-og2.png',
     },
-    // twitter={{
-    // handle: '@codepraycode',
-    // site: 'https://consonant.codepraycode.me',
-    // cardType: 'summary_large_image',
-    // }}
 }
 
 
@@ -35,7 +27,6 @@ export default function RootLayout({ children }:IRootLayout ) {
     return (
         <html lang='en'>
             <body>
-                <AppSEO/>
                 <AppLayout>
 
                     <div className='main-bg'>

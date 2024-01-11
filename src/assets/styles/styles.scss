@@ -1,7 +1,8 @@
 @use './variables' as *;
 @use './mixins' as mixins;
 
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat+Alternates:wght@600&family=Poppins:wght@300;400;500;700;800&display=swap');
+
 @import './reset';
 @import './theme';
 @import './utilities';
@@ -856,4 +857,10 @@ header {
             }
         }
     }
+}
+
+
+.logo {
+    font-family: 'Montserrat Alternates', sans-serif;
+    font-weight: 600;
 }

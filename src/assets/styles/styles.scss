@@ -369,15 +369,30 @@ header {
     }
 }
 
-
 .icon {
     display: inline-block;
-    width: 4rem;
+    width: 2rem;
     aspect-ratio: 1;
 
     background-position: center;
     background-size: contain;
 
+    text-indent: 100%;
+    white-space: nowrap;
+    overflow: hidden;
+
+
+    &-sm {
+        width: 1.5rem;
+    }
+
+    &.clickable {
+        cursor: pointer;
+        &.disabled,
+        &:disabled {
+            cursor: not-allowed;
+        }
+    }
 }
 
 .icon {
@@ -398,6 +413,12 @@ header {
     }
     &-check {
         background-image: url('/images/icons/check.svg');
+    }
+    &-reset {
+        background-image: url('/images/icons/reset.svg');
+    }
+    &-trash {
+        background-image: url('/images/icons/trash.svg');
     }
     &-times,
     &-cross {
@@ -466,22 +487,12 @@ header {
     flex-direction: column;
 
     .img-preview {
-        width: 250px;
-    }
-
-
-    h2 {
-        font-size: 2rem;
-        margin: 0;
+        width: 200px;
     }
 
     @include mixins.md {
         flex-direction: row;
         align-items: center;
-
-        .img-preview {
-            width: 300px;
-        }
 
         h2 {
             font-size: 3rem;
@@ -567,8 +578,10 @@ header {
         width: 100%;
         
         border: 0;
+        padding: .5rem 1rem;
 
-        padding: .9rem 1rem;
+        font-size: .8rem;
+        font-weight: 300;
 
         &::placeholder {
             opacity: .6;
@@ -591,16 +604,16 @@ header {
         background-color: $white;
 
         position: absolute;
-        // margin-top: 1rem;
         top: 100%;
         width: 100%;
 
         opacity: 0;
+        // visibility: hidden;
         
         
         border-radius: .3rem;
 
-        padding: 1rem;
+        padding: 0rem 1rem;
 
         z-index: 1;
         pointer-events: none;
@@ -616,8 +629,8 @@ header {
 
         // margin-block: .5rem;
         height: 2.5rem;
-
         column-gap: .6rem;
+
         .checkbox {
             display: inline-block;
             height: 1rem;
@@ -631,22 +644,17 @@ header {
             text-align: left;
             background-color: transparent;
             border: 0;
-            cursor: pointer;
+            cursor: pointer;            
         }
     }
 
     .icon {
         // display: inline-block;
         width: 1.5rem;
-        border-color: red;
         transition: transform 200ms linear;
     }
 
     .select-btn[data-show="true"] {
-
-        // & ~.select-btn {
-        //     background-color: red;
-        // }
 
         .icon {
             transform: rotate(180deg);
@@ -654,6 +662,7 @@ header {
 
         & ~ .options {
             opacity: 1;
+            // visibility: visible;
             transform: translateY(0);
             pointer-events: auto;
         }
@@ -663,14 +672,8 @@ header {
 
 
 .doc-upload {
-    border-radius: .7rem;
-
-    padding: 1rem 1.5rem;
-
-    h3 {
-        font-size: 1rem;
-        font-weight: 500;
-    }
+    border-radius: .2rem;
+    padding: .5rem 1rem;
 
     h4 {
         font-size: .8rem;
@@ -696,46 +699,30 @@ header {
         font-size: .8rem;
     }
 
+    .preview {
+        position: relative;
+        border: 1px solid #a3a3a3;
+        text-align: left;
+        padding: .5rem;
+        
+        .icon-times {
+            background-color: transparent;
+            position: absolute;
+            right: 0;
+            cursor: pointer;
+    
+            padding: 0;
+            top: 5px;
+            float: right;
+        }
+    }
+
+
     .drop_box {
-        margin: 1rem 0;
-        padding: 1.5rem;
+        padding: 1rem;
         text-align: center;
         border: 3px dotted #a3a3a3;
         border-radius: .2rem;
-
-
-        .preview {
-            position: relative;
-            border: 1px solid #a3a3a3;
-            text-align: left;
-            padding: .5rem;
-
-            & .icon,
-            & .progress {
-                position: absolute;
-
-                top: 15px;
-                right: 3px;
-
-                margin-block: auto;
-
-                // background-color: red;
-            }
-
-            & .icon {
-                background-color: transparent;
-                cursor: pointer;
-
-                padding: 0;
-                top: 5px;
-            }
-        }
-
-
-        button:disabled {
-            opacity: .6;
-            cursor: not-allowed;
-        }
     }
 }
 
@@ -821,6 +808,10 @@ header {
 
     & .admin-files {
         margin-top: 6rem;
+
+        h1 {
+            font-size: 1.3rem;
+        }
         & .file-content {
             margin-inline: auto;
         }
@@ -862,5 +853,6 @@ header {
 
 .logo {
     font-family: 'Montserrat Alternates', sans-serif;
+    text-transform: uppercase;
     font-weight: 600;
 }

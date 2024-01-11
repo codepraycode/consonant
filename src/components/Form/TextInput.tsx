@@ -5,6 +5,7 @@ interface TextInputProps {
     value?: string,
     placeholder?: string,
     className?: string,
+    disabled?:boolean,
     onChange:(val:string | File)=>void,
 }
 
@@ -24,6 +25,7 @@ export const TextInput = (props: TextInputProps) => {
                 className="box-shadow"
                 onChange={(e)=>onChange(e.target.value)}
                 value={value || ''}
+                readOnly={props.disabled}
             />
         </div>
     )

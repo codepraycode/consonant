@@ -9,6 +9,7 @@ import { getMaterialCacheKey } from "@/utils/cache";
 import { Asset, Material } from "@/types/superbase";
 import useMaterial from "@/hooks/material";
 import useAsset from "@/hooks/asset";
+import Icon from "./Icon";
 
 
 const FilePreview = ({file, asset}: {file: Material, asset: Asset | null}) => (
@@ -25,7 +26,7 @@ const FilePreview = ({file, asset}: {file: Material, asset: Asset | null}) => (
 
         <div>
             <div className="details-preview">
-                <h2>{file.title}</h2>
+                <h3>{file.title}</h3>
 
                 {/* <Tags items={file.departments}/> */}
                 <p>{file.owner && `By ${file.owner.firstName}`} <span className="fw-800 dot-sep">
@@ -37,20 +38,9 @@ const FilePreview = ({file, asset}: {file: Material, asset: Asset | null}) => (
             <div className="cta">
 
                 {/* Download */}
-                <button 
-                    className="icon icon-download btn box-shadow"
-                    onClick={()=>asset && window.open(asset.access)}
-                    // onClick={()=>asset && console.log(asset)}
-                    aria-disabled={!asset}
-                    disabled={!asset}
-                />
-                <button
-                    className="icon icon-link btn box-shadow"
-                    onClick={()=>asset && window.open(asset.download)}
-                    // download={true}
-                    aria-disabled={!asset}
-                    disabled={!asset}
-                />
+
+                <Icon name="download" label="Download File" onClick={()=>asset && window.open(asset.download)}/>
+                <Icon name="link" label="Copy link to share" onClick={()=>asset && window.open(asset.access)}/>
                     
             </div>
         </div>

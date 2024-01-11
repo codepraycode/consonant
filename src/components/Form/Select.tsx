@@ -92,7 +92,7 @@ export const Select = (props: SelectInputProps) => {
                     options.map((item)=>(
                         <li className="option-item" key={item.key} onClick={()=>handleSelect(item)}>
                             {multiple && <span className="checkbox" />}
-                            <button type="button">{item.label}</button>
+                            <button type="button" title={item.label}>{item.label}</button>
                         </li>
                     ))
                 }

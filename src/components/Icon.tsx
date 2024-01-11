@@ -1,10 +1,10 @@
 
 
 
-const Icon = ({name, label, onClick}:{name:string, label?:string, onClick?:()=>void}) => {
+const Icon = ({name, label, onClick, small}:{name:string, label?:string, small?:boolean, onClick?:()=>void}) => {
     return (
         <span
-            className={`icon icon-sm icon-${name} ${onClick ? 'clickable': ''}`}
+            className={`icon ${small ? 'icon-sm' : ''} icon-${name} ${onClick ? 'clickable': ''}`}
             title={label || name}
             onClick={()=>onClick && onClick()}
         >

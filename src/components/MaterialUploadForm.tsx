@@ -89,7 +89,7 @@ const MaterialUploadForm = ()=>{
             
 
 
-            <div className="d-flex align-center justify-between px-1">
+            <div className="d-flex align-center justify-between">
                 <h1>Upload Resource</h1>
 
                 {(touched && !submitting) && (
@@ -101,9 +101,9 @@ const MaterialUploadForm = ()=>{
             </div>
 
             <form className="upload-form" onSubmit={formik.handleSubmit}>
-                {submitting && <span>Submitting...</span>}
-                {formError && <span>{formError}</span>}
 
+                {submitting && <span className="my-1">Submitting...</span>}
+                {formError && <span className="text-error my-1">{formError}</span>}
 
                 <DocumentUpload
                     name="asset"

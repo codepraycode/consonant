@@ -6,8 +6,6 @@ import { PostMaterialDTO } from "@/utils/dto";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import { MaterialTbRow } from "@/types/superbase/table";
 import CourseModel from "@/lib/superbase/models/course.model";
-import { getUser } from "@/helpers/auth.helper";
-import { supabase } from "@/lib/superbase";
 
 
 
@@ -70,21 +68,24 @@ export async function POST(req: NextRequest) {
     const {course} = validData;
 
     // Validate if course is valid
-    let courseResolveError = null, courseData;
-    try {
+    if (course) {
 
-        courseData = await CourseModel.fetchById(course as string);
-    } catch(err) {
-        courseResolveError = err;
-    }
-
-    if (!courseData || courseResolveError) {
-        logger.error("CREATE MATERIALS::RESOLUTION ERROR::", courseResolveError);
-        logger.error("CREATE MATERIALS::INVALID COURSE ENTRY::", course);
-        return ServerResponse.error({
-            code: SuperBaseStorageErrorTypes.DEFAULT,
-            message: "Could not resolve course entry",
-        })
+        let courseResolveError = null, courseData;
+        try {
+    
+            courseData = await CourseModel.fetchById(course as string);
+        } catch(err) {
+            courseResolveError = err;
+        }
+    
+        if (!courseData || courseResolveError) {
+            logger.error("CREATE MATERIALS::RESOLUTION ERROR::", courseResolveError);
+            logger.error("CREATE MATERIALS::INVALID COURSE ENTRY::", course);
+            return ServerResponse.error({
+                code: SuperBaseStorageErrorTypes.DEFAULT,
+                message: "Could not resolve course entry",
+            })
+        }
     }
 
 

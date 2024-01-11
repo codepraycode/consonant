@@ -3,9 +3,9 @@ import {
     ValidData,
     SupaBaseTableNames} from "@/types/superbase";
 import logger from "@/utils/logger";
-import AssetModel from "./asset.model";
-import { AssetTbRow, MaterialTbRow } from "@/types/superbase/table";
+import {  MaterialTbRow, StorageAsset } from "@/types/superbase/table";
 import { BaseModel, fetchDbRow, fetchDbRows, fetchFilteredDbRows, insertDbRow } from "../../../utils/supabase-table";
+import BucketManager from "../bucket";
 
 
 /**
@@ -30,18 +30,22 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
     id: string;
     title: string;
     course: string;  // course id
-    asset: string; // asset id
+    asset_access: string; // asset id
+    asset_download: string;
+    asset_id: string;
     created_at: string | Date;
     updated_at: string | Date;
+    user: string;
 
     table = SupaBaseTableNames.MATERIALS;
-
     static get table() {
         return SupaBaseTableNames.MATERIALS
     }
 
+
+    static bucket =  new BucketManager();
+
     /* =============== Static attributes ================ */
-    protected static assetManager = AssetModel
 
     /* =============== Constructor ================ */
     constructor(instanceData: MaterialTbRow){        
@@ -54,7 +58,10 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
             updated_at,
 
             title, 
-            asset,
+            asset_access,
+            asset_download,
+            asset_id,
+            user,
             course
         } = instanceData;
 
@@ -71,8 +78,11 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
 
 
         this.title = title;
-        this.asset = asset;
-        this.course = course;
+        this.asset_access = asset_access;
+        this.asset_download = asset_download;
+        this.asset_id = asset_id;
+        this.course = course || '';
+        this.user = user
     }
 
 
@@ -112,8 +122,11 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
             created_at: this.created_at,
             updated_at: this.updated_at,
             title: this.title,
-            asset: this.asset,
+            asset_access: this.asset_access,
+            asset_download: this.asset_download,
+            asset_id: this.asset_id,
             course: this.course,
+            user: this.user
         }
 
         if (exclude) this.exclude_on_update.forEach((field)=>{
@@ -142,7 +155,7 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
 
         const payload = {
             ...rest,
-            asset: assetData.id
+            ...assetData
         }
 
 
@@ -156,10 +169,10 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
     }
 
 
-    protected static async saveAsset(asset:File): Promise<AssetTbRow> {
+    protected static async saveAsset(asset:File): Promise<StorageAsset> {
         // First upload Asset
         // Link asset to material and upload
-        const {data, error} = await this.assetManager.bucket.upload({
+        const {data, error} = await this.bucket.upload({
             path: (asset as File).name,
             asset: (asset as File)
         });
@@ -171,20 +184,11 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
         }
 
 
-        const assetTable = this.assetManager.table
-        const assetData = {
-            path: data.path,
-            fullPath: data.fullPath,
-            access: data.access,
-            download: data.download,
-            storage_id: data.id as string,
+        return {
+            asset_access: data.access,
+            asset_download: data.download,
+            asset_id: data.id
         }
-
-
-        return await insertDbRow<AssetTbRow>(
-            assetTable,
-            assetData as AssetTbRow
-        )
     }
 
 

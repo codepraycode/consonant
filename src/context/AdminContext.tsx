@@ -1,5 +1,6 @@
 'use client'
 
+import MaterialModel from "@/lib/superbase/models/material.model";
 import { MaterialTbRow } from "@/types/superbase/table";
 import { getMaterialCacheKey } from "@/utils/cache";
 import { fetchAdminMaterials, postMaterial } from "@/utils/requests";
@@ -8,7 +9,7 @@ import { createContext, useContext, useEffect, useReducer, useState } from "reac
 
 
 interface AdminState {
-    materials: MaterialTbRow[],
+    materials: MaterialModel[],
     loading: boolean,
     error: string | null,
     postNewMaterial: (data: FormData)=>Promise<void>;

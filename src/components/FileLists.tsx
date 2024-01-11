@@ -1,14 +1,14 @@
 'use client'
 import useSearch from "@/context/SearchContext";
-import { Material } from "@/types/superbase";
 import { formatDateDistance } from "@/utils/time";
 import Link from "next/link"
 import SpinnerPreloader from "./Preloader";
 import { useAdminContext } from "@/context/AdminContext";
+import MaterialModel from "@/lib/superbase/models/material.model";
 
 
 
-const FileListItem = ({file, admin}: {file:Material, admin?:boolean}) => (
+const FileListItem = ({file, admin}: {file:MaterialModel, admin?:boolean}) => (
 
     <Link
         href={`/files/${file.id}`}
@@ -23,8 +23,8 @@ const FileListItem = ({file, admin}: {file:Material, admin?:boolean}) => (
 
             {/* <Tags small/> */}
             <small className="text-small">
-                By {file.owner?.firstName}
-                <span className="fw-800 dot-sep">&#183;</span>
+                {/* By {file.user?.firstName}
+                <span className="fw-800 dot-sep">&#183;</span> */}
                 { formatDateDistance(file.created_at as Date) }
             </small>
         </div>
@@ -32,7 +32,7 @@ const FileListItem = ({file, admin}: {file:Material, admin?:boolean}) => (
 )
 
 
-const FileListing = ({ files, admin, altMessage}: { files: Material[], admin?:boolean, altMessage?:string}) => {
+const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admin?:boolean, altMessage?:string}) => {
 
     return (
         <div className="file-listing" data-admin={admin}>

@@ -1,12 +1,12 @@
 'use client'
 import { FC, ReactNode, createContext, useContext, useReducer } from 'react';
-import { MaterialTbRow } from '@/types/superbase/table';
+import MaterialModel from '@/lib/superbase/models/material.model';
 
 export interface SearchContextProps {
-    searchResult: MaterialTbRow[],
+    searchResult: MaterialModel[],
     loading: boolean,
     error: any
-    updateSearch: (result: MaterialTbRow[]) => void,
+    updateSearch: (result: MaterialModel[]) => void,
     setLoading: () => void,
     setError: (err:any) => void,
 }
@@ -55,13 +55,6 @@ const searchInitialState = {
 
 export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
 
-    // const {isLoading:loading, data, error} = useQuery({
-    //     queryKey: ['contents'],
-    //     queryFn: fetchContents
-    // })
-
-    // const [searchResult, setSearchResult] = useState<MaterialTbRow[]>([]);
-
     const [state, dispatch] = useReducer(SearchReducer, searchInitialState);
 
 
@@ -69,7 +62,7 @@ export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
         searchResult: state.searchResult,
         loading: state.loading,
         error: state.error,
-        updateSearch: (result:MaterialTbRow[])=>dispatch({
+        updateSearch: (result:MaterialModel[])=>dispatch({
             type: 'loaded',
             payload: result
         }),

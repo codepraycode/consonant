@@ -1,6 +1,6 @@
 
 
-import { Asset, BucketName, BucketOptions,
+import { BucketName, BucketOptions,
         BucketType, StorageAccessConfig,
         StorageUploadConfig, SuperBaseStorageErrorTypes, SuperBaseStorageReponse
 } from "@/types/superbase";
@@ -37,7 +37,6 @@ class BucketManager {
     async getFileLink(config:StorageAccessConfig, storage:BucketName = BucketType.RESOURCES) {
         const {data} =  supabase.storage
             .from(storage).getPublicUrl(config.path, config.options)
-        
         return data.publicUrl
     }
 
@@ -82,7 +81,7 @@ class BucketManager {
         data.download = download;
 
         return {
-            data: {...(data as Asset)},
+            data,
             error
         }
     }

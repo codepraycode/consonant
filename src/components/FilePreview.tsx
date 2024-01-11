@@ -1,18 +1,14 @@
 'use client';
 
 import Image from "next/image";
-import Tags from "./Tag";
 import { formatDateDistance } from "@/utils/time";
-import { useQuery } from "@tanstack/react-query";
-import { fetchMaterial } from "@/utils/requests";
-import { getMaterialCacheKey } from "@/utils/cache";
-import { Asset, Material } from "@/types/superbase";
 import useMaterial from "@/hooks/material";
 import useAsset from "@/hooks/asset";
 import Icon from "./Icon";
+import MaterialModel from "@/lib/superbase/models/material.model";
 
 
-const FilePreview = ({file, asset}: {file: Material, asset: Asset | null}) => (
+const FilePreview = ({ file }: {file: MaterialModel}) => (
     <section className="file-preview">
         <div className="img-preview">
             <Image
@@ -29,9 +25,12 @@ const FilePreview = ({file, asset}: {file: Material, asset: Asset | null}) => (
                 <h3>{file.title}</h3>
 
                 {/* <Tags items={file.departments}/> */}
-                <p>{file.owner && `By ${file.owner.firstName}`} <span className="fw-800 dot-sep">
+                <p>
+                    {/* {file.owner && `By ${file.owner.firstName}`} <span className="fw-800 dot-sep">
                     &#183;
-                    </span> { formatDateDistance(file.created_at as Date) }</p>
+                    </span> */}
+                    { formatDateDistance(file.created_at as Date) }
+                </p>
             </div>
 
 
@@ -39,8 +38,8 @@ const FilePreview = ({file, asset}: {file: Material, asset: Asset | null}) => (
 
                 {/* Download */}
 
-                <Icon name="download" label="Download File" onClick={()=>asset && window.open(asset.download)}/>
-                <Icon name="link" label="Copy link to share" onClick={()=>asset && window.open(asset.access)}/>
+                <Icon name="download" label="Download File" onClick={()=>window.open(file.asset_download)}/>
+                <Icon name="link" label="Copy link to share" onClick={()=>window.open(file.asset_access)}/>
                     
             </div>
         </div>
@@ -63,7 +62,7 @@ const FileDisplay = ({id}:{id:string}) => {
 
     if (error) template = <h3 className="fs-2 fw-700 text-center">{error.message}</h3>
 
-    if (data) template = <FilePreview file={data} asset={asset}/>
+    if (data) template = <FilePreview file={data} />
     
 
     return template;

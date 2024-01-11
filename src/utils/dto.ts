@@ -50,10 +50,10 @@ export class PostMaterialDTO extends DTO {
                 field: 'title',
                 message: 'title is required'
             },
-            {
-                field: 'course',
-                message: 'Course is required'
-            },
+            // {
+            //     field: 'course',
+            //     message: 'Course is required'
+            // },
             {
                 field: 'asset',
                 message: 'Asset is required'

@@ -1,5 +1,4 @@
 export * from './database.types';
-export * from '../entities.types';
 import SupabaseClient from '@supabase/supabase-js/dist/module/SupabaseClient'
 // import {Bucket} from '@supabase/storage-js/src/lib/types'
 import {StorageError} from '@supabase/storage-js/src/lib/errors'

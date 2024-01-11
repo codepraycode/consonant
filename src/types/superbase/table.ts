@@ -5,19 +5,16 @@ interface TbRow {
     updated_at: string | Date,
 }
 
-export interface AssetTbRow extends TbRow {
-    path: string,
-    fullPath: string,
-    access: string,
-    download: string,
-    storage_id: string,
+export interface StorageAsset {
+    asset_access: string,
+    asset_download: string,
+    asset_id: string,
 }
 
-
-export interface MaterialTbRow extends TbRow {
+export interface MaterialTbRow extends TbRow, StorageAsset{
     title: string,
-    course: string,
-    asset: string,
+    course?: string,
+    user: string
 }
 
 

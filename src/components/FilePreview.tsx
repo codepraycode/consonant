@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { formatDateDistance } from "@/utils/time";
 import useMaterial from "@/hooks/material";
-import useAsset from "@/hooks/asset";
 import Icon from "./Icon";
 import MaterialModel from "@/lib/superbase/models/material.model";
 
@@ -53,7 +52,6 @@ const FilePreview = ({ file }: {file: MaterialModel}) => (
 
 const FileDisplay = ({id}:{id:string}) => {
     const {loading, data, error} = useMaterial(id);
-    const asset = useAsset(data?.asset as string)
 
 
     let template = <h3 className="fs-2 fw-700 text-center">Oops, file not found</h3>

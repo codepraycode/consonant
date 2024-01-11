@@ -9,7 +9,7 @@ export default function Home() {
         <SearchProvider>
 
             <section className="container mx-auto">
-                <h1 className="fs-3 fw-800 text-center">
+                <h1 className="fs-3 fw-800 text-center logo">
                     Consonant
                 </h1>
 

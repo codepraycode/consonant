@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import { useAdminContext } from "@/context/AdminContext";
 import HandlerButton from "./Form/HandlerButton";
 import DocumentUpload from "./Form/DocumentUpload";
+import Icon from "./Icon";
 
 const MaterialUploadForm = ()=>{
 
@@ -88,15 +89,15 @@ const MaterialUploadForm = ()=>{
             
 
 
-            <div className="d-flex align-center justify-between">
-                <h1 className="mt-5 px-1">Upload Resource</h1>
+            <div className="d-flex align-center justify-between px-1">
+                <h1>Upload Resource</h1>
 
-                {(touched && !submitting) && <HandlerButton
-                    label="Reset"
-                    onClick={()=>{
-                        formik.resetForm();
-                    }}
-                />}
+                {(touched && !submitting) && (
+                    <Icon
+                        name="reset" label="Reset form"
+                        onClick={()=>formik.resetForm()}
+                    />)
+                }
             </div>
 
             <form className="upload-form" onSubmit={formik.handleSubmit}>

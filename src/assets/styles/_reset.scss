@@ -88,8 +88,11 @@ select {
 
 button {
     color: inherit;
+    &:disabled {
+        opacity: .6;
+        cursor: not-allowed;
+    }
 }
-
 
 input {
     font-family: inherit;
@@ -104,6 +107,15 @@ input {
 
     &.no-outline:focus {
         outline: none;
+    }
+
+    &:read-only {
+        cursor: not-allowed;
+        color: grey;
+
+        background-color: rgba(128, 128, 128, 0.116) !important;
+        box-shadow: none;
+
     }
 }
 

@@ -1,6 +1,6 @@
 import { AdminMaterials } from "@/components/FileLists";
 import HandlerButton from "@/components/Form/HandlerButton";
-import { MaterialUploadForm } from "@/components/forms";
+import MaterialUploadForm from "@/components/MaterialUploadForm";
 import { AdminContextProvider } from "@/context/AdminContext";
 
 

@@ -1,13 +1,14 @@
 'use client';
 
 import { useCourses } from "@/hooks";
-import { DocumentUpload, Select, TextInput } from "./Form";
+import { Select } from "./Form";
 import { useMemo, useState } from "react";
 import { useFormik } from "formik";
 import { useAdminContext } from "@/context/AdminContext";
 import HandlerButton from "./Form/HandlerButton";
+import DocumentUpload from "./Form/DocumentUpload";
 
-export const MaterialUploadForm = ()=>{
+const MaterialUploadForm = ()=>{
 
 
     const {loading:adminLoading, error:adminError, postNewMaterial} = useAdminContext();
@@ -29,6 +30,18 @@ export const MaterialUploadForm = ()=>{
         handleSubmit(values)
      }
    });
+
+    const course_options = useMemo(()=>{
+        if (!courses) return []
+        return courses.map((item)=>{
+            return {
+                key: item.id as string,
+                label: item.code + `${item.title ? '-'+item.title : ''} `,
+                value: item.id as string
+            }
+        })
+    },[courses])
+
 
 
     function handleSubmit(values:any) {
@@ -55,27 +68,20 @@ export const MaterialUploadForm = ()=>{
         .catch((err: any)=>{
             setSubmitError(err.message);
         }).finally(()=>setSubmitting(false))
-   }
-
-    const course_options = useMemo(()=>{
-        if (!courses) return []
-        return courses.map((item)=>{
-            return {
-                key: item.id as string,
-                label: item.code + `${item.title ? '-'+item.title : ''} `,
-                value: item.id as string
-            }
-        })
-    },[courses])
-
+    }
 
     const formError = submitError || adminError;
 
-    const touched = (()=>{
-        return formik.values.asset !== formik.initialValues.asset ||
+    const touched = formik.values.asset !== formik.initialValues.asset ||
                formik.values.course !== formik.initialValues.course ||
                formik.values.title !== formik.initialValues.title
-    })();
+    
+
+    const onboardFile = (file: File) => {
+        const title = file.name.replace(/\.[^/.]+$/, "");
+        formik.setFieldValue('title', title);
+        formik.setFieldValue('asset', file);
+    }
 
     return (
         <>
@@ -96,13 +102,16 @@ export const MaterialUploadForm = ()=>{
             <form className="upload-form" onSubmit={formik.handleSubmit}>
                 {submitting && <span>Submitting...</span>}
                 {formError && <span>{formError}</span>}
-                <TextInput
-                    name="title"
-                    label="Enter a label for searching"
-                    onChange={(val)=>{
-                        formik.setFieldValue('title', val);
+
+
+                <DocumentUpload
+                    name="asset"
+                    onChange={onboardFile}
+                    remove={()=>{
+                        formik.setFieldValue('asset', null);
                     }}
-                    value={formik.values.title}
+                    value={formik.values.asset as unknown as File}
+                    label={formik.values.title}
                 />
 
                 <Select
@@ -114,18 +123,6 @@ export const MaterialUploadForm = ()=>{
                     }}
                     value={formik.values.course}
                 />
-
-                <DocumentUpload
-                    name="asset"
-                    onChange={(file)=>{
-                        formik.setFieldValue('asset', file);
-                    }}
-                    remove={()=>{
-                        formik.setFieldValue('asset', null);
-                    }}
-                    value={formik.values.asset as unknown as File}
-                />
-
 
                 <button
                     type="submit"
@@ -147,3 +144,5 @@ export const MaterialUploadForm = ()=>{
         </>
     )
 }
+
+export default MaterialUploadForm;

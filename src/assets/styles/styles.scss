@@ -487,22 +487,12 @@ header {
     flex-direction: column;
 
     .img-preview {
-        width: 250px;
-    }
-
-
-    h2 {
-        font-size: 2rem;
-        margin: 0;
+        width: 200px;
     }
 
     @include mixins.md {
         flex-direction: row;
         align-items: center;
-
-        .img-preview {
-            width: 300px;
-        }
 
         h2 {
             font-size: 3rem;

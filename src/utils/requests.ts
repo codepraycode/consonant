@@ -1,8 +1,8 @@
 // Interact with data source
-import { Asset, Course, Material } from '@/types/superbase';
 import users from '../data/users.json';
-import { MaterialTbRow } from '@/types/superbase/table';
+import { CourseTbRow, MaterialTbRow } from '@/types/superbase/table';
 import { getUser } from '@/helpers/auth.helper';
+import MaterialModel from '@/lib/superbase/models/material.model';
 
 type Content = Record<string, any>
 
@@ -36,7 +36,7 @@ export async function fetchAdminMaterials(): Promise<MaterialTbRow[]> {
 }
 
 
-export async function fetchMaterial(id:string): Promise<Material> {
+export async function fetchMaterial(id:string): Promise<MaterialModel> {
     const res = await fetch(`/api/materials/${id}`);
 
     const { data, error} = await res.json();
@@ -46,17 +46,7 @@ export async function fetchMaterial(id:string): Promise<Material> {
     return data
 }
 
-export async function fetchAsset(id:string): Promise<Asset> {
-    const res = await fetch(`/api/asset/${id}`);
-
-    const { data, error} = await res.json();
-
-    if (error) throw error;
-
-    return data
-}
-
-export async function fetchCourse(): Promise<Course[]> {
+export async function fetchCourse(): Promise<CourseTbRow[]> {
     const res = await fetch(`/api/course`);
 
     const { data, error} = await res.json();

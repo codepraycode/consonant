@@ -1,7 +1,7 @@
 
 
-import { BucketName, BucketOptions,
-        BucketType, StorageAccessConfig,
+import { BucketOptions,
+        StorageAccessConfig,
         StorageUploadConfig, SuperBaseStorageErrorTypes, SuperBaseStorageReponse
 } from "@/types/superbase";
 import logger from "@/utils/logger";
@@ -10,7 +10,7 @@ import { supabase } from ".";
 
 
 
-
+const BucketName = 'resources';
 class BucketManager {
 
     createBucket = ({
@@ -28,19 +28,19 @@ class BucketManager {
                 }
             );
 
-    getBucket = (bucket: BucketName) => {
+    getBucket = (bucket: string) => {
         
         return supabase
             .storage
             .getBucket(bucket);}
 
-    async getFileLink(config:StorageAccessConfig, storage:BucketName = BucketType.RESOURCES) {
+    async getFileLink(config:StorageAccessConfig, storage:string = BucketName) {
         const {data} =  supabase.storage
             .from(storage).getPublicUrl(config.path, config.options)
         return data.publicUrl
     }
 
-    async upload(config: StorageUploadConfig, storage:BucketName = BucketType.RESOURCES) {
+    async upload(config: StorageUploadConfig, storage:string = BucketName) {
 
         let req;
         try {
@@ -93,7 +93,7 @@ class BucketManager {
         if (global.__alreadySetupStorage) return;
 
         const { data, error } = handleStorageResponse(
-            await this.getBucket(BucketType.RESOURCES) as SuperBaseStorageReponse
+            await this.getBucket(BucketName) as SuperBaseStorageReponse
         );
 
 

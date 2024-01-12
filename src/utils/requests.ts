@@ -1,10 +1,8 @@
 // Interact with data source
-import users from '../data/users.json';
 import { CourseTbRow, MaterialTbRow } from '@/types/superbase/table';
 import { getUser } from '@/helpers/auth.helper';
 import MaterialModel from '@/lib/superbase/models/material.model';
 
-type Content = Record<string, any>
 
 export async function searchMaterials(query:string){
     const res = await fetch(`/api/course/search?q=${query}`);
@@ -73,10 +71,4 @@ export async function postMaterial(formData: FormData): Promise<void> {
     if (error) throw error;
 
     return data
-}
-
-
-
-function fetchUsers(): Content[] {
-    return users
 }

@@ -24,15 +24,15 @@ export interface SuperBaseDatabaseError {
 }
 
 
-export type BucketName = 'test-resource';
+// export type BucketName = 'resources';
 
-export enum BucketType {
-    RESOURCES = 'test-resource'
-}
+// export enum BucketType {
+//     RESOURCES = 'resource'
+// }
 
 
 export interface BucketOptions {
-    bucket: BucketType,
+    bucket: string,
     is_public?: boolean,
     maxSize?: number
 }

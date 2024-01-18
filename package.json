@@ -21,7 +21,7 @@
     "react": "^18",
     "react-dom": "^18",
     "sass": "^1.69.5",
-    "simple-toast-messages": "^2.0.1"
+    "toast-noty": "^1.1.1"
   },
   "devDependencies": {
     "@tanstack/eslint-plugin-query": "^5.12.1",

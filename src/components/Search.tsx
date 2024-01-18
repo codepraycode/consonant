@@ -1,6 +1,5 @@
 'use client'
 import useSearch, { SearchContextProps } from "@/context/SearchContext";
-import Tags from "./Tag"
 import { useCallback } from "react";
 import debounce from 'lodash/debounce';
 import { searchMaterials } from "@/utils/requests";

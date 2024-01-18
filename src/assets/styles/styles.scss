@@ -454,8 +454,6 @@ header {
     row-gap: 1.3rem;
 }
 
-
-
 .material {
     width: 330px;
     height: 140px;
@@ -527,7 +525,52 @@ header {
     }
 }
 
+.material-preview {
 
+    padding-top: 3rem;
+    display: flex;
+    align-items: center;
+
+    flex-direction: column;
+
+    .img-preview {
+        width: 200px;
+    }
+
+    @include mixins.md {
+        flex-direction: row;
+        align-items: center;
+
+        h2 {
+            font-size: 3rem;
+        }
+    }
+
+
+
+    p {
+        font-size: .7rem;
+        color: $lm-text;
+    }
+
+
+    .cta {
+        display: flex;
+        gap: 1rem;
+
+
+        button {
+            padding: 1rem;
+            border-radius: .5rem;
+
+            display: block;
+            background-color: transparent;
+            border: 0;
+
+            width: 40px;
+        }
+    }
+}
 
 .btn.upload {
     padding: .2rem 1rem;

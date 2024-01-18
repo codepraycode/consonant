@@ -28,7 +28,7 @@ export default function Home() {
             </section>
 
 
-            <section className="container mx-auto mt-2">
+            <section className="container mx-auto my-2 ">
 
                 <SearchedFileList />
             </section>

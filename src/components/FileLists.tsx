@@ -7,10 +7,11 @@ import { useAdminContext } from "@/context/AdminContext";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import Icon from "./Icon";
 import { MaterialTbRow } from "@/types/superbase/table";
+import copy from "copy-to-clipboard";
 
 
 
-const FileListItem = ({file, admin}: {file:MaterialTbRow, admin?:boolean}) => (
+const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boolean, copyLink:(id:string)=>void}) => (
 
     <article
         className="material box-shadow"
@@ -42,7 +43,7 @@ const FileListItem = ({file, admin}: {file:MaterialTbRow, admin?:boolean}) => (
                         </>):(
                         <>
                             <Icon name="download" label="Download File" onClick={()=>window.open(file.asset_download)}/>
-                            <Icon name="link" label="Copy link to share" onClick={()=>window.open(file.asset_access)}/>
+                            <Icon name="link" label="Copy link to share" onClick={()=>copyLink(file.id)}/>
                         </>
 
                     )
@@ -60,7 +61,16 @@ const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admi
         <div className="material-listing" data-admin={admin}>
             {files.length < 1 && <h4 className="preloader-center placeholder text-grey">{altMessage}</h4>}
             {
-                files.map((item)=> <FileListItem key={item.id} file={item} admin={admin}/>)
+                files.map((item)=> <FileListItem
+                    key={item.id}
+                    file={item}
+                    admin={admin}
+                    copyLink={(id:string)=>{
+                        const link = `${window.location.origin}/files/${id}`;
+
+                        copy(link);
+                    }}
+                    />)
             }
         </div>
     )
@@ -74,7 +84,10 @@ export const SearchedFileList = () => {
         <SpinnerPreloader/>
     </section>
     
-    return <FileListing files={ searchResult } altMessage={searchQuery ? "No material found": 'Enter a keyword related to the material you seek in your search'}/>
+    return <FileListing
+        files={ searchResult }
+        altMessage={searchQuery ? "No material found": 'Enter a keyword related to the material you seek in your search'}
+    />
 }
 
 export const AdminMaterials = () => {

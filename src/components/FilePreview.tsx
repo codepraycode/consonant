@@ -5,10 +5,11 @@ import { formatDateDistance } from "@/utils/time";
 import useMaterial from "@/hooks/material";
 import Icon from "./Icon";
 import MaterialModel from "@/lib/superbase/models/material.model";
+import copy from "copy-to-clipboard";
 
 
 const FilePreview = ({ file }: {file: MaterialModel}) => (
-    <section className="file-preview">
+    <section className="material-preview">
         <div className="img-preview">
             <Image
                 src={"/images/icons/file.svg"}
@@ -22,12 +23,8 @@ const FilePreview = ({ file }: {file: MaterialModel}) => (
         <div>
             <div className="details-preview">
                 <h3>{file.title}</h3>
-
-                {/* <Tags items={file.departments}/> */}
+                
                 <p>
-                    {/* {file.owner && `By ${file.owner.firstName}`} <span className="fw-800 dot-sep">
-                    &#183;
-                    </span> */}
                     { formatDateDistance(file.created_at as Date) }
                 </p>
             </div>
@@ -38,11 +35,16 @@ const FilePreview = ({ file }: {file: MaterialModel}) => (
                 {/* Download */}
 
                 <Icon name="download" label="Download File" onClick={()=>window.open(file.asset_download)}/>
-                <Icon name="link" label="Copy link to share" onClick={()=>window.open(file.asset_access)}/>
-                    
+                <Icon
+                    name="link"
+                    label="Copy link to share"
+                    onClick={()=>{
+                        const link = `${window.location.origin}/files/${file.id}`;
+                        copy(link);
+                    }}
+                />
             </div>
         </div>
-
         {/* Feeds */}
     </section>
 );

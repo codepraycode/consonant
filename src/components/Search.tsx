@@ -21,8 +21,7 @@ const SearchFiles = (props: SearchProps) => {
 
         setLoading();
         searchMaterials(query)
-        .then((results)=>{
-
+        .then((results)=>{            
             updateSearch(results, query);
         })
         .catch((err)=>{
@@ -39,7 +38,7 @@ const SearchFiles = (props: SearchProps) => {
         <form className={`search-group ${props.className}`}>
             <input
                 className="w-full bg-white search_input d-block mx-auto box-shadow"
-                placeholder={loading ? "Loading...." : "Search for resources"}
+                placeholder={loading ? "Loading...." : "Search for resources e.g CSC"}
                 name="search-files"
                 onChange={(e)=>handleSearch(e.target.value)}
                 autoComplete="off"

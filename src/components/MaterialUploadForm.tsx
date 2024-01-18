@@ -90,14 +90,14 @@ const MaterialUploadForm = ()=>{
 
 
             <div className="d-flex align-center justify-between">
-                <h1>Upload Resource</h1>
+                <h1>Upload Material</h1>
 
-                {(touched && !submitting) && (
+                {/* {(touched && !submitting) && (
                     <Icon
                         name="reset" label="Reset form"
                         onClick={()=>formik.resetForm()}
                     />)
-                }
+                } */}
             </div>
 
             <form className="upload-form" onSubmit={formik.handleSubmit}>
@@ -114,7 +114,7 @@ const MaterialUploadForm = ()=>{
                     value={formik.values.asset as unknown as File}
                     label={formik.values.title}
                 />
-
+{/* 
                 <Select
                     name="course"
                     label="Select course for this resource"
@@ -123,7 +123,7 @@ const MaterialUploadForm = ()=>{
                         formik.setFieldValue('course', val);
                     }}
                     value={formik.values.course}
-                />
+                /> */}
 
                 <button
                     type="submit"

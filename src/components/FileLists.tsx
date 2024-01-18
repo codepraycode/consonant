@@ -5,38 +5,60 @@ import Link from "next/link"
 import SpinnerPreloader from "./Preloader";
 import { useAdminContext } from "@/context/AdminContext";
 import MaterialModel from "@/lib/superbase/models/material.model";
+import Icon from "./Icon";
+import { MaterialTbRow } from "@/types/superbase/table";
 
 
 
-const FileListItem = ({file, admin}: {file:MaterialModel, admin?:boolean}) => (
+const FileListItem = ({file, admin}: {file:MaterialTbRow, admin?:boolean}) => (
 
-    <Link
-        href={`/files/${file.id}`}
-        onClick={(e)=>admin && e.preventDefault()}
-        className="file-content box-shadow"
-        // title={admin && 'Click to edit'}
+    <article
+        className="material box-shadow"
+        data-admin={admin}
     >
-        <span className="icon icon-file"/>
 
-        <div>
+        <div className="material__header">
+            <span className="icon icon-file"/>
+
             <h3>{ file.title }</h3>
-
-            {/* <Tags small/> */}
-            <small className="text-small">
-                {/* By {file.user?.firstName}
-                <span className="fw-800 dot-sep">&#183;</span> */}
-                { formatDateDistance(file.created_at as Date) }
-            </small>
         </div>
-    </Link>
+
+        <div className="material__meta">
+
+            <div className="">
+                <span className="tag">pdf</span>
+                <span className="dot-sep">&#183;</span>
+                <small className="text-small">
+                    { formatDateDistance(file.created_at as Date) }
+                </small>
+            </div>
+
+            <div className="call-to-action">
+                {
+                    admin ? (
+                        <>
+                            <Icon name="edit" label="Edit material" onClick={()=>console.log("Edit:", file.id)}/>
+                            <Icon name="trash" label="Delete Material" onClick={()=>console.log("Delete:", file.id)}/>
+                        </>):(
+                        <>
+                            <Icon name="download" label="Download File" onClick={()=>window.open(file.asset_download)}/>
+                            <Icon name="link" label="Copy link to share" onClick={()=>window.open(file.asset_access)}/>
+                        </>
+
+                    )
+                }
+            </div>
+
+        </div>
+    </article>
 )
 
 
 const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admin?:boolean, altMessage?:string}) => {
 
     return (
-        <div className="file-listing" data-admin={admin}>
-            {files.length < 1 && <h4 className="preloader-center fs-2 text-grey">{altMessage}</h4>}
+        <div className="material-listing" data-admin={admin}>
+            {files.length < 1 && <h4 className="preloader-center placeholder text-grey">{altMessage}</h4>}
             {
                 files.map((item)=> <FileListItem key={item.id} file={item} admin={admin}/>)
             }
@@ -52,9 +74,7 @@ export const SearchedFileList = () => {
         <SpinnerPreloader/>
     </section>
     
-    
-    
-    return <FileListing files={ searchResult } altMessage={searchQuery ? "No material found": 'Enter a keyword related to the material you seek'}/>
+    return <FileListing files={ searchResult } altMessage={searchQuery ? "No material found": 'Enter a keyword related to the material you seek in your search'}/>
 }
 
 export const AdminMaterials = () => {

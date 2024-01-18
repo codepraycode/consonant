@@ -18,7 +18,7 @@ const UploadSection = () => (
 
 const AdminFileLists = () => (
     <div className="admin-files">
-        <div className="d-flex align-center justify-between sticky bg-blur px-1">
+        <div className="d-flex align-center justify-between sticky bg-blur px-1 py-1">
             <h1 className="fw-500">Your files</h1>
 
             <HandlerButton />

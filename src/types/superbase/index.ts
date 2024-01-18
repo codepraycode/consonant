@@ -41,7 +41,7 @@ export interface BucketOptions {
 // ? Refer to https://supabase.com/docs/reference/javascript/storage-from-upload
 export interface StorageUploadConfig {
     path: string,
-    asset: File,
+    asset: File | Blob,
     fileOptions?: {
         cacheControl?: string,
         contentType?: string,

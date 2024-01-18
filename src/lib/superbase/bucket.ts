@@ -142,3 +142,6 @@ class BucketManager {
 
 
 export default BucketManager;
+
+
+export const setupSuperbase = async ()=> BucketManager.setupBucket({bucket: BucketName});

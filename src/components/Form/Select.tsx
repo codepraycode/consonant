@@ -37,9 +37,15 @@ export const Select = (props: SelectInputProps) => {
       // Give browser time to focus the next element
       requestAnimationFrame(() => {
         // Check if the new focused element is a child of the original container
-        if (!currentTarget!.contains(document.activeElement)) {
-        //   onBlur();
-        setActive(false)
+
+        try {
+
+            if (!currentTarget!.contains(document.activeElement)) {
+            //   onBlur();
+            setActive(false)
+            }
+        } catch(err){
+            setActive(false)
         }
       });
     },

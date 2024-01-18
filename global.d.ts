@@ -6,4 +6,4 @@ declare global {
     var window: Window & typeof globalThis
 }
 
-declare var document: Document;
+declare var document: any;

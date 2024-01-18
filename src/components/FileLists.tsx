@@ -25,13 +25,13 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
         <div className="material__header">
             <span className="icon icon-file"/>
 
-            <h3>{ file.title }</h3>
+            <h3>{ file.title.split('.').slice(0, -1).join('.') }</h3>
         </div>
 
         <div className="material__meta">
 
             <div className="">
-                <span className="tag">pdf</span>
+                <span className="tag">{file.title.split('.').pop()}</span>
                 <span className="dot-sep">&#183;</span>
                 <small className="text-small">
                     { formatDateDistance(file.created_at as Date) }

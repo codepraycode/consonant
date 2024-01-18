@@ -5,3 +5,5 @@ declare global {
     var __alreadySetupStorage: boolean
     var window: Window & typeof globalThis
 }
+
+declare var document: Document;

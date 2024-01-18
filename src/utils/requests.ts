@@ -19,6 +19,8 @@ export async function fetchAdminMaterials(): Promise<MaterialTbRow[]> {
 
     const user = await getUser();
 
+    if (!user) throw new Error("User must be authenticated!");
+
     // console.log(user);
     const res = await fetch('/api/materials', {
         headers: {
@@ -59,6 +61,8 @@ export async function fetchCourse(): Promise<CourseTbRow[]> {
 export async function postMaterial(formData: FormData): Promise<void> {
 
     const user = await getUser();
+
+    if (!user) throw new Error("User must be authenticated!");
 
     formData.append('user', user.id);
     const res = await fetch(`/api/materials`, {

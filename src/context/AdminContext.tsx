@@ -2,10 +2,8 @@
 
 import MaterialModel from "@/lib/superbase/models/material.model";
 import { MaterialTbRow } from "@/types/superbase/table";
-import { getMaterialCacheKey } from "@/utils/cache";
 import { fetchAdminMaterials, postMaterial } from "@/utils/requests";
-import { useQuery } from "@tanstack/react-query";
-import { createContext, useContext, useEffect, useReducer, useState } from "react";
+import { createContext, useContext, useEffect, useReducer } from "react";
 
 
 interface AdminState {

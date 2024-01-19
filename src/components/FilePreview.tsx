@@ -6,7 +6,7 @@ import useMaterial from "@/hooks/material";
 import Icon from "./Icon";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import copy from "copy-to-clipboard";
-import { useToasts } from "toast-noty";
+import { toast } from "react-toastify";
 
 
 const FilePreview = ({ file, copyLink }: {file: MaterialModel, copyLink:(link:string)=>void}) => (
@@ -58,9 +58,6 @@ const FileDisplay = ({id}:{id:string}) => {
     const {loading, data, error} = useMaterial(id);
 
 
-    const { createToast } = useToasts();
-
-
     let template = <h3 className="fs-2 fw-700 text-center">Oops, file not found</h3>
     
     if (loading) template = <h3 className="fs-2 fw-700 text-center">Loading...</h3>
@@ -73,14 +70,18 @@ const FileDisplay = ({id}:{id:string}) => {
             const copied = copy(link);
 
             const config = {
-                type: !copied ? 'danger' : 'success',
                 title: !copied ? 'Failed to copy link': 'Copied Material link',
                 message: !copied ? 'Could not copy material link, try again after a while'
                                     :'You can now share the link with others',
-                duration: 3.5
+                duration: 2000
             }
 
-            createToast(config);
+            
+            toast(config.title, {
+                hideProgressBar: true,
+                autoClose: config.duration,
+                type: !copied ? 'error' : 'success'
+            });
         }}/>
     
 

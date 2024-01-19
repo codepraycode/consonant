@@ -1,19 +1,15 @@
 'use client'
 import useSearch from "@/context/SearchContext";
 import { formatDateDistance } from "@/utils/time";
-import Link from "next/link"
 import SpinnerPreloader from "./Preloader";
 import { useAdminContext } from "@/context/AdminContext";
 import MaterialModel from "@/lib/superbase/models/material.model";
 import Icon from "./Icon";
 import { MaterialTbRow } from "@/types/superbase/table";
 import copy from "copy-to-clipboard";
-import { useToasts } from "toast-noty";
-import { title } from "process";
-// import { PositionEnum, SimpleToastMessages } from "simple-toast-messages";
+import { toast } from "react-toastify";
 
 
-// const Toast = SimpleToastMessages.getInstance();
 
 const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boolean, copyLink:(id:string)=>void}) => (
 
@@ -60,8 +56,6 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
 
 
 const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admin?:boolean, altMessage?:string}) => {
-    
-    const { createToast } = useToasts();
 
     return (
         <div className="material-listing" data-admin={admin}>
@@ -76,14 +70,19 @@ const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admi
 
                         const  copied = copy(link);
                         const config = {
-                            type: !copied ? 'danger' : 'success',
                             title: !copied ? 'Failed to copy link': 'Copied Material link',
                             message: !copied ? 'Could not copy material link, try again after a while'
                                                 :'You can now share the link with others',
-                            duration: 3.5
+                            duration: 2000,
+                            type: !copied ? 'error' : 'success'
                         }
 
-                        createToast(config);
+                        toast(config.title, {
+                            hideProgressBar: true,
+                            autoClose: 2000,
+                            type: !copied ? 'error' : 'success'
+                        });
+
                     }}
                     />)
             }

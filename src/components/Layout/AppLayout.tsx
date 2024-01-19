@@ -2,8 +2,8 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools' 
-import { ToastsProvider } from "toast-noty";
-
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const queryClient = new QueryClient();
 
@@ -13,9 +13,9 @@ const AppLayout = ({children}:{children: React.ReactNode}) => {
     return (
         <QueryClientProvider client={queryClient}>
 
-            <ToastsProvider>
-                {children}
-            </ToastsProvider>
+            {children}
+
+            <ToastContainer/>
 
             <ReactQueryDevtools initialIsOpen={false} />
         </QueryClientProvider>

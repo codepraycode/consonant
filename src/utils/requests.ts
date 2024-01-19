@@ -21,7 +21,6 @@ export async function fetchAdminMaterials(): Promise<MaterialTbRow[]> {
 
     if (!user) throw new Error("User must be authenticated!");
 
-    // console.log(user);
     const res = await fetch('/api/materials', {
         headers: {
             'admin-id': user.id

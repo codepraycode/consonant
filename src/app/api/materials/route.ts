@@ -27,7 +27,6 @@ export async function GET(req: NextRequest, res:NextResponse) {
 
     if (isAdmin) {
         userId = headers.get('admin-id') as (string | undefined);
-        console.log("FETCHING ADMIN FILES")
     }
     
     

@@ -50,7 +50,6 @@ class BucketManager {
                 config.fileOptions || {}
             ) as SuperBaseStorageReponse
         } catch(err){
-            console.error(err);
             return {
                 data: null,
                 error: {

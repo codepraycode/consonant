@@ -25,9 +25,6 @@ export async function insertDbRow<T=SupabaseData>(table:SupaBaseTableNames, doc:
 
     if (error) throw error;
 
-    // console.log(data)
-
-    // if (model) new model.createInstance(data[0]);
     return data[0] as T;
 }
 
@@ -51,7 +48,6 @@ export async function fetchDbRow<T=SupabaseData>(
 
     if (error) throw error;
 
-    // console.log(data)
     if (data.length < 1) return null;
     return data[0] as T;
 }
@@ -108,10 +104,6 @@ export async function updateDbRow<T=SupabaseData>(
     
 
     if (error) throw error;
-
-    // console.log(data)
-    // return data;
-    // return null
 
     return data[0] as T;
 }

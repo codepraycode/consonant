@@ -27,8 +27,6 @@ const LoginPage = () => {
 
             if (loading) return;
 
-
-            // console.log(values)
             handleLogin(values.email);
         },
     });
@@ -41,8 +39,6 @@ const LoginPage = () => {
             setFeedback(()=>({message:data.message}))
         })
         .catch(error=>{
-            console.error(error)
-
             return setFeedback(()=>({
                 message:error.message || 'Could not authenticate',
                 error:true

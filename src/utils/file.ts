@@ -20,9 +20,5 @@ export const writeToTmp = (file:File, folder:string = 'resource'):string => {
 
     const filePath = path.join(storageDir, slugify(file.name))
 
-    // console.log(filePath)
-
-    // writeFileSync(filePath, file)
-
     return filePath
 }

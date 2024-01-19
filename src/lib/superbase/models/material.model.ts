@@ -163,8 +163,6 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
             table,
             payload as MaterialTbRow
         )
-
-        // console.log(data)
         return new this(data);
     }
 

@@ -22,7 +22,6 @@ export async function GET(req: NextRequest, {params}: req) {
     try {
 
         course = await CourseModel.fetchById(id);
-        // console.log(departments)
     } catch (error) {
         logger.error("FETCH COURSE BY ID::ERROR OCCURED", error);
         const err = error as SupaBaseReqError;
@@ -42,31 +41,6 @@ export async function GET(req: NextRequest, {params}: req) {
             message: 'Could not find course'
         }, StatusCodes.NOT_FOUND)
     }
-    
-
-    // try {
-
-    //     departments = await course.departments.fetch<DepartmentTbRow[]>();
-    // } catch (error) {
-    //     logger.error("FETCH C DEPARTMENT ::ERROR OCCURED", error);
-    //     const err = error as SupaBaseReqError;
-
-    //     const errorObj = {
-    //         code: err.code || "SERVER ERROR",
-    //         message: err.message || 'Unable to find course',
-    //     }
-
-    //     return ServerResponse.error(errorObj, StatusCodes.SERVER_ERROR);
-    // }
-
-
-    
-    
-
-    // const payload = {
-    //     ...course.data,
-    //     departments
-    // }
 
     return ServerResponse.ok(course.data);
 }

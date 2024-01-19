@@ -1,12 +1,3 @@
-
-import { SuperBaseClient } from '@/types/superbase';
-import BucketManager from './bucket';
-// import FacultyModel from './models/faculty.model';
-// import CourseModel from './models/course.model';
-// import DepartmentModel from './models/department.model';
-// import MaterialModel from './models/material.model';
-
-
 import { SupabaseClient, createClient } from "@supabase/supabase-js";
 
 
@@ -19,20 +10,9 @@ export const supabase = ((): SupabaseClient =>{
 
 
     if (!global._supabaseInstance) {
-        // console.log("Nothing")
-        global._supabaseInstance = createClient(SUPERBASE_URL, SUPERBASE_API_KEY,{
-            // auth: {
-            //     autoRefreshToken: false,
-            //     persistSession: false,
-            //     detectSessionInUrl: false
-            // }
-        });
+        global._supabaseInstance = createClient(SUPERBASE_URL, SUPERBASE_API_KEY);
     }
 
-    // console.log("Something", global._supabaseInstance)
     return global._supabaseInstance;
 })()
-
-
-// export const supabase = global._supabaseInstance;
 

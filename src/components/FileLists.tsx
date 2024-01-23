@@ -3,7 +3,6 @@ import useSearch from "@/context/SearchContext";
 import { formatDateDistance } from "@/utils/time";
 import SpinnerPreloader from "./Preloader";
 import { useAdminContext } from "@/context/AdminContext";
-import MaterialModel from "@/lib/superbase/models/material.model";
 import Icon from "./Icon";
 import { MaterialTbRow } from "@/types/superbase/table";
 import copy from "copy-to-clipboard";
@@ -55,7 +54,7 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
 )
 
 
-const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admin?:boolean, altMessage?:string}) => {
+const FileListing = ({ files, admin, altMessage}: { files: MaterialTbRow[], admin?:boolean, altMessage?:string}) => {
 
     return (
         <div className="material-listing" data-admin={admin}>
@@ -94,13 +93,18 @@ const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admi
 export const SearchedFileList = () => {
     const { searchResult,searchQuery, loading } = useSearch();
 
+
     if (loading) return <section className="preloader-center">
         <SpinnerPreloader/>
     </section>
     
     return <FileListing
-        files={ searchResult }
-        altMessage={searchQuery ? "No material found": 'Enter a keyword related to the material you seek in your search'}
+        files={ searchResult.documents }
+        altMessage={
+            searchQuery.q !== '' ? 
+            "No material found":
+            'Enter a keyword related to the material you seek on the mutal network'
+        }
     />
 }
 

@@ -27,7 +27,7 @@ export interface SearchContextProps {
     searchQuery: SearchParameters,
     loading: boolean,
     error: any,
-    handleSearch: (q:string)=>void,
+    handleSearch: (q:string, more?:boolean)=>void,
     searchExhausted: boolean
     // updateSearch: (result: MaterialModel[], query:string) => void,
     // setLoading: () => void,
@@ -57,8 +57,6 @@ const SearchReducer = (state:any, action:any) => {
             return {
                 ...state,
                 loading: true,
-                searchResult: [],
-                searchQuery: ''
             }
         case 'loaded':
             return {
@@ -114,7 +112,7 @@ export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
     const [state, dispatch] = useReducer(SearchReducer, searchInitialState);
 
 
-    const search = useCallback(async(q: string)=>{
+    const search = useCallback(async(q: string, more?:boolean)=>{
 
 
         if (state.loading) return;
@@ -139,7 +137,7 @@ export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
             q,
             query_by: 'title',
             per_page: 15,
-            offset: state.searchResult.documents.length
+            offset: !more ? 0 : state.searchResult.documents.length
         }
         
         runSearch(query_params)

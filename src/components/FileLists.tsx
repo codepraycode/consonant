@@ -54,7 +54,7 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
 )
 
 
-const FileListing = ({ files, admin, altMessage}: { files: MaterialTbRow[], admin?:boolean, altMessage?:string}) => {
+const FileListing = ({ files, admin, altMessage, more}: { files: MaterialTbRow[], admin?:boolean, more?: boolean, altMessage?:string}) => {
 
     return (
         <div className="material-listing" data-admin={admin}>
@@ -91,10 +91,12 @@ const FileListing = ({ files, admin, altMessage}: { files: MaterialTbRow[], admi
 
 
 export const SearchedFileList = () => {
-    const { searchResult,searchQuery, loading } = useSearch();
+    const { searchResult,searchQuery, loading, searchExhausted } = useSearch();
 
 
-    if (loading) return <section className="preloader-center">
+    const firstLoad = searchResult.found < 0 && loading;
+
+    if (firstLoad) return <section className="preloader-center">
         <SpinnerPreloader/>
     </section>
     
@@ -105,6 +107,7 @@ export const SearchedFileList = () => {
             "No material found":
             'Enter a keyword related to the material you seek on the mutal network'
         }
+        more={searchExhausted}
     />
 }
 

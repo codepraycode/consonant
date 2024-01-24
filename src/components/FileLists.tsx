@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import '../store/Search';
 import SearchStore from "../store/Search";
 import { observer } from "mobx-react-lite";
+import logger from "@/utils/logger";
 
 
 const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boolean, copyLink:(id:string)=>void}) => (
@@ -40,8 +41,8 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
                 {
                     admin ? (
                         <>
-                            <Icon name="edit" label="Edit material" onClick={()=>console.log("Edit:", file.id)}/>
-                            <Icon name="trash" label="Delete Material" onClick={()=>console.log("Delete:", file.id)}/>
+                            <Icon name="edit" label="Edit material" onClick={()=>logger.debug("Edit:", file.id)}/>
+                            <Icon name="trash" label="Delete Material" onClick={()=>logger.debug("Delete:", file.id)}/>
                         </>):(
                         <>
                             <Icon name="download" label="Download File" onClick={()=>window.open(file.asset_download)}/>

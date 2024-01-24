@@ -26,8 +26,6 @@ const MaterialUploadForm = ()=>{
      },
     //  validate,
      onSubmit: values => {
-    //    console.log(JSON.stringify(values, null, 2));
-        // console.log(values)
         handleSubmit(values)
      }
    });

@@ -1,5 +1,6 @@
 import Searcher from "@/lib/typesense"
 import { MaterialTbRow } from "@/types/superbase/table"
+import logger from "@/utils/logger"
 import { action, autorun, computed, makeAutoObservable, makeObservable, observable } from "mobx"
 
 type SearchState = {
@@ -105,7 +106,6 @@ class SearchStore {
     async search() {
         this.updateLoading(true)
         const parameters = this.searchParameters;
-        // console.log("Search Parameters:", parameters)
 
         const result = await runSearch(parameters);
 
@@ -122,7 +122,6 @@ class SearchStore {
         
         this.updateLoading(true)
         const parameters = this.searchParameters;
-        // console.log("Search Parameters:", parameters)
 
         parameters.offset = this.searchResult.documents.length;
 
@@ -159,8 +158,7 @@ class SearchStore {
 
 
     logSearchOperationDetails(){
-        // console.log("Updated state");
-        console.log(this.searchOperationDetails)
+        logger.debug(this.searchOperationDetails)
     }
 }
 

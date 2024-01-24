@@ -68,7 +68,6 @@ class ServerResponse {
         
         const {response, meta} = prepareResponseDTO(data, StatusCodes.CREATED)
 
-        // console.log(data, {response, meta})
         return NextResponse.json(
             response,
             // data,

@@ -96,9 +96,7 @@ const FileListing = ({ files, admin, altMessage, more}: { files: MaterialTbRow[]
 
 
 
-const LoadMore = ({query, onLoad}:{query:string, onLoad: ()=>void}) => {
-
-
+const LoadMore = ({loader}:{loader:()=>void}) => {
 
     useEffect(() => {
 
@@ -109,7 +107,7 @@ const LoadMore = ({query, onLoad}:{query:string, onLoad: ()=>void}) => {
                 document.documentElement.offsetHeight
             ) {
                 // loadMore();
-                onLoad();
+                loader();
             }
         };
 
@@ -118,11 +116,12 @@ const LoadMore = ({query, onLoad}:{query:string, onLoad: ()=>void}) => {
         return () => window.removeEventListener('scroll', handleScroll);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [query]);
+    }, []);
 
 
     return null;
 }
+
 
 export const SearchedFileList = observer(() => {
 
@@ -145,7 +144,7 @@ export const SearchedFileList = observer(() => {
             more={false}
         />
 
-        <LoadMore query={searchStore.query} onLoad={()=>console.log()}/>
+        <LoadMore loader={()=>searchStore.loadMore()}/>
     </>
 });
 

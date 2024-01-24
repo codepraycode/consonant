@@ -18,8 +18,7 @@ type SearchParameters = {
     q: string,
     query_by: string | string[],
     per_page?: number,
-    // offset:number,
-    nextOffset?: number
+    offset?:number
 }
 
 
@@ -65,6 +64,7 @@ class SearchStore {
             updateError: action,
             updateLoading: action,
             updateSearchResult: action,
+            loadMore: action,
             searchParameters: computed,
             searchOperationDetails: computed,
         });
@@ -108,6 +108,30 @@ class SearchStore {
         // console.log("Search Parameters:", parameters)
 
         const result = await runSearch(parameters);
+
+        this.updateSearchResult(result);
+        this.updateLoading(false)
+    }
+
+    async loadMore() {
+        const found = this.searchResult.found
+        const fetched = this.searchResult.documents.length
+
+
+        if (found === fetched) return;
+        
+        this.updateLoading(true)
+        const parameters = this.searchParameters;
+        // console.log("Search Parameters:", parameters)
+
+        parameters.offset = this.searchResult.documents.length;
+
+        const result = await runSearch(parameters);
+
+        result.documents = [
+            ...this.searchResult.documents,
+            ...result.documents
+        ]
 
         this.updateSearchResult(result);
         this.updateLoading(false)

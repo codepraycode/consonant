@@ -8,7 +8,9 @@ import { MaterialTbRow } from "@/types/superbase/table";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
 import { useEffect, useState } from "react";
-
+import '../store/Search';
+import SearchStore from "../store/Search";
+import { observer } from "mobx-react-lite";
 
 
 const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boolean, copyLink:(id:string)=>void}) => (
@@ -56,7 +58,7 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
 
 
 const FileListing = ({ files, admin, altMessage, more}: { files: MaterialTbRow[], admin?:boolean, more?: boolean, altMessage?:string}) => {
-
+    
     return (
         <div className="material-listing" data-admin={admin}>
             {files.length < 1 && <h4 className="preloader-center placeholder text-grey">{altMessage}</h4>}
@@ -92,6 +94,8 @@ const FileListing = ({ files, admin, altMessage, more}: { files: MaterialTbRow[]
 
 
 
+
+
 const LoadMore = ({query, onLoad}:{query:string, onLoad: ()=>void}) => {
 
 
@@ -120,11 +124,11 @@ const LoadMore = ({query, onLoad}:{query:string, onLoad: ()=>void}) => {
     return null;
 }
 
-export const SearchedFileList = () => {
-    const { searchResult,searchQuery, loading, loadMore, searchExhausted } = useSearch();
+export const SearchedFileList = observer(() => {
 
+    const searchStore = useSearch();
 
-    const firstLoad = searchResult.found < 0 && loading;
+    const firstLoad = searchStore.searchResult.found < 0 && searchStore.loading;
 
     if (firstLoad) return <section className="preloader-center">
         <SpinnerPreloader/>
@@ -132,18 +136,18 @@ export const SearchedFileList = () => {
     
     return <>
         <FileListing
-            files={ searchResult.documents }
+            files={ searchStore.searchResult.documents }
             altMessage={
-                searchQuery.q !== '' ? 
+                searchStore.query !== '' ? 
                 "No material found":
                 'Enter a keyword related to the material you seek on the mutal network'
             }
-            more={searchExhausted}
+            more={false}
         />
 
-        <LoadMore query={searchQuery.q} onLoad={()=>loadMore({searchQuery,searchResult})}/>
+        <LoadMore query={searchStore.query} onLoad={()=>console.log()}/>
     </>
-}
+});
 
 export const AdminMaterials = () => {
     const {materials, loading, error} = useAdminContext();

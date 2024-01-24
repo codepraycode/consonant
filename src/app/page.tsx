@@ -1,12 +1,13 @@
 import {SearchedFileList} from "@/components/FileLists";
 import SearchFiles from "@/components/Search";
-import { SearchProvider } from "@/context/SearchContext";
-
+import { SearchWrapper } from "@/context/SearchContext";
 
 export default function Home() {
+
     
+
     return (    
-        <SearchProvider>
+        <SearchWrapper>
 
             <section className="container mx-auto">
                 <h1 className="fs-3 fw-800 text-center logo">
@@ -23,16 +24,16 @@ export default function Home() {
 
 
                 {/* Search input */}
-                <SearchFiles />
+                <SearchFiles/>
 
             </section>
 
 
             <section className="container mx-auto my-2 ">
 
-                <SearchedFileList />
+                <SearchedFileList/>
             </section>
             {/* <br/><br/><br/> */}
-        </SearchProvider>
+        </SearchWrapper>
     )
 }

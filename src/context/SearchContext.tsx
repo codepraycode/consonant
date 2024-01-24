@@ -5,20 +5,25 @@ import { MaterialTbRow } from '@/types/superbase/table';
 import Searcher from '@/lib/typesense';
 
 
+type SearchState = {
+    searchResult: SearchResult,
+    searchQuery: SearchParameters
+}
 
 
-interface SearchResult {
+type SearchResult = {
     found: number,
     page?: number,
     documents: MaterialTbRow[]
 }
 
 
-interface SearchParameters {
+type SearchParameters = {
     q: string,
     query_by: string | string[],
     per_page?: number,
-    offset:number,
+    // offset:number,
+    nextOffset?: number
 }
 
 
@@ -27,7 +32,8 @@ export interface SearchContextProps {
     searchQuery: SearchParameters,
     loading: boolean,
     error: any,
-    handleSearch: (q:string, more?:boolean)=>void,
+    handleSearch: (q:string, prevState?:SearchState)=>void,
+    loadMore: (q:SearchState)=>void,
     searchExhausted: boolean
     // updateSearch: (result: MaterialModel[], query:string) => void,
     // setLoading: () => void,
@@ -107,15 +113,13 @@ async function runSearch(params:SearchParameters): Promise<SearchResult>{
 }
 
 
+
+
 export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
 
     const [state, dispatch] = useReducer(SearchReducer, searchInitialState);
 
-
-    const search = useCallback(async(q: string, more?:boolean)=>{
-
-
-        if (state.loading) return;
+    const search = async(q: string)=>{
 
         if (q === '') {
 
@@ -126,23 +130,22 @@ export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
             return
         }
 
-
         dispatch({
             type: 'loading'
-        })
+        });
 
-        // Construct the params
+
         const query_params = {
-            ...state.searchQuery,
             q,
             query_by: 'title',
             per_page: 15,
-            offset: !more ? 0 : state.searchResult.documents.length
+            offset: 0,
         }
-        
+
         runSearch(query_params)
         .then((result)=>{
-            dispatch({
+
+            return dispatch({
                 type: 'loaded',
                 payload: {
                     result,
@@ -159,32 +162,58 @@ export const SearchProvider: FC<{ children: ReactNode}> = ({ children }) => {
             });
         })
 
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
+    }
+
+    const loadMore = async (stateData: SearchState) => {
+        console.log(stateData);
+
+        const query_params = {
+            q: stateData.searchQuery.q,
+            query_by: 'title',
+            per_page: 15,
+            offset: stateData.searchResult.documents.length,
+        }
+
+        console.log(query_params)
+
+        runSearch(query_params)
+        .then((result)=>{
+
+            return dispatch({
+                type: 'loaded',
+                payload: {
+                    result: {
+                        ...result,
+                        documents: [
+                            ...stateData.searchResult.documents,
+                            ...result.documents
+                        ]
+                    },
+                    query: query_params
+                }
+            })
+        })
+        .catch((error:any)=>{
+
+            console.dir(error);
+            dispatch({
+                type: 'error',
+                payload: error.message || 'Could not perfom search'
+            });
+        })
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleSearch = useCallback(debounce(search, DEBOUNCE_TIMEOUT), []);
-
 
     const context: SearchContextProps = {
         searchResult: state.searchResult,
         searchQuery: state.searchQuery,
         loading: state.loading,
         error: state.error,
+        searchExhausted: state.searchResult.found === state.searchQuery.offset,
         handleSearch,
-        searchExhausted: state.searchResult.found === state.searchQuery.offset
-        // updateSearch: (result:MaterialModel[], query:string)=>dispatch({
-        //     type: 'loaded',
-        //     payload: {result, query}
-        // }),
-        // setLoading: ()=>dispatch({
-        //     type: 'loading'
-        // }),
-        // setError: (err:any)=>dispatch({
-        //     type: 'error',
-        //     payload: err
-        // })
+        loadMore
     }
     
     return (

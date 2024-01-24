@@ -7,6 +7,7 @@ import Icon from "./Icon";
 import { MaterialTbRow } from "@/types/superbase/table";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
 
 
 
@@ -90,8 +91,37 @@ const FileListing = ({ files, admin, altMessage, more}: { files: MaterialTbRow[]
 };
 
 
+
+const LoadMore = ({query, onLoad}:{query:string, onLoad: ()=>void}) => {
+
+
+
+    useEffect(() => {
+
+        // Add an event listener for scrolling
+        const handleScroll = () => {
+            if (
+                window.innerHeight + document.documentElement.scrollTop ===
+                document.documentElement.offsetHeight
+            ) {
+                // loadMore();
+                onLoad();
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Clean up the event listener when the component is unmounted
+        return () => window.removeEventListener('scroll', handleScroll);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [query]);
+
+
+    return null;
+}
+
 export const SearchedFileList = () => {
-    const { searchResult,searchQuery, loading, searchExhausted } = useSearch();
+    const { searchResult,searchQuery, loading, loadMore, searchExhausted } = useSearch();
 
 
     const firstLoad = searchResult.found < 0 && loading;
@@ -100,15 +130,19 @@ export const SearchedFileList = () => {
         <SpinnerPreloader/>
     </section>
     
-    return <FileListing
-        files={ searchResult.documents }
-        altMessage={
-            searchQuery.q !== '' ? 
-            "No material found":
-            'Enter a keyword related to the material you seek on the mutal network'
-        }
-        more={searchExhausted}
-    />
+    return <>
+        <FileListing
+            files={ searchResult.documents }
+            altMessage={
+                searchQuery.q !== '' ? 
+                "No material found":
+                'Enter a keyword related to the material you seek on the mutal network'
+            }
+            more={searchExhausted}
+        />
+
+        <LoadMore query={searchQuery.q} onLoad={()=>loadMore({searchQuery,searchResult})}/>
+    </>
 }
 
 export const AdminMaterials = () => {

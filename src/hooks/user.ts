@@ -11,7 +11,6 @@ export const useUser = () => {
 
             const user = await getUser();
 
-            // console.log("user", user)
             setUser(user);
         })()
     }, [])

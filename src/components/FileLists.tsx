@@ -3,12 +3,15 @@ import useSearch from "@/context/SearchContext";
 import { formatDateDistance } from "@/utils/time";
 import SpinnerPreloader from "./Preloader";
 import { useAdminContext } from "@/context/AdminContext";
-import MaterialModel from "@/lib/superbase/models/material.model";
 import Icon from "./Icon";
 import { MaterialTbRow } from "@/types/superbase/table";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
-
+import { useEffect, useState } from "react";
+import '../store/Search';
+import SearchStore from "../store/Search";
+import { observer } from "mobx-react-lite";
+import logger from "@/utils/logger";
 
 
 const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boolean, copyLink:(id:string)=>void}) => (
@@ -21,13 +24,13 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
         <div className="material__header">
             <span className="icon icon-file"/>
 
-            <h3>{ file.title.split('.').slice(0, -1).join('.') }</h3>
+            <h3 title={file.title}>{ file.title }</h3>
         </div>
 
         <div className="material__meta">
 
             <div className="">
-                <span className="tag">{file.title.split('.').pop()}</span>
+                <span className="tag" title={file.asset_type + ' file'}>{file.asset_type}</span>
                 <span className="dot-sep">&#183;</span>
                 <small className="text-small">
                     { formatDateDistance(file.created_at as Date) }
@@ -38,8 +41,8 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
                 {
                     admin ? (
                         <>
-                            <Icon name="edit" label="Edit material" onClick={()=>console.log("Edit:", file.id)}/>
-                            <Icon name="trash" label="Delete Material" onClick={()=>console.log("Delete:", file.id)}/>
+                            <Icon name="edit" label="Edit material" onClick={()=>logger.debug("Edit:", file.id)}/>
+                            <Icon name="trash" label="Delete Material" onClick={()=>logger.debug("Delete:", file.id)}/>
                         </>):(
                         <>
                             <Icon name="download" label="Download File" onClick={()=>window.open(file.asset_download)}/>
@@ -55,11 +58,14 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
 )
 
 
-const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admin?:boolean, altMessage?:string}) => {
+const FileListing = ({ files, admin, altMessage, error}: { files: MaterialTbRow[], error?:string | null, admin?:boolean, more?: boolean, altMessage?:string}) => {
+
+    if (!error && files.length < 1) return (
+        <h4 className="preloader-center placeholder text-grey">{altMessage}</h4>
+    )
 
     return (
         <div className="material-listing" data-admin={admin}>
-            {files.length < 1 && <h4 className="preloader-center placeholder text-grey">{altMessage}</h4>}
             {
                 files.map((item)=> <FileListItem
                     key={item.id}
@@ -86,23 +92,72 @@ const FileListing = ({ files, admin, altMessage}: { files: MaterialModel[], admi
                     }}
                     />)
             }
+
+            { error &&
+                <h4 className="preloader-center placeholder text-grey">
+                    {error}
+                </h4>
+            }
         </div>
     )
 };
 
 
-export const SearchedFileList = () => {
-    const { searchResult,searchQuery, loading } = useSearch();
 
-    if (loading) return <section className="preloader-center">
+
+
+const LoadMore = ({loader}:{loader:()=>void}) => {
+
+    useEffect(() => {
+
+        // Add an event listener for scrolling
+        const handleScroll = () => {
+            if (
+                window.innerHeight + document.documentElement.scrollTop ===
+                document.documentElement.offsetHeight
+            ) {
+                // loadMore();
+                loader();
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        // Clean up the event listener when the component is unmounted
+        return () => window.removeEventListener('scroll', handleScroll);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+
+    return null;
+}
+
+
+export const SearchedFileList = observer(() => {
+
+    const searchStore = useSearch();
+
+    const firstLoad = searchStore.searchResult.found < 0 && searchStore.loading;
+
+    if (firstLoad) return <section className="preloader-center">
         <SpinnerPreloader/>
     </section>
     
-    return <FileListing
-        files={ searchResult }
-        altMessage={searchQuery ? "No material found": 'Enter a keyword related to the material you seek in your search'}
-    />
-}
+    return <>
+        <FileListing
+            files={ searchStore.searchResult.documents }
+            altMessage={
+                searchStore.query !== '' ? 
+                "No material found, try searching with another keyword":
+                'Enter a keyword related to the material you seek on the mutal network'
+            }
+            error={searchStore.error}
+            more={false}
+        />
+
+        <LoadMore loader={()=>searchStore.loadMore()}/>
+    </>
+});
 
 export const AdminMaterials = () => {
     const {materials, loading, error} = useAdminContext();

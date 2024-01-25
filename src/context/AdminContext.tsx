@@ -2,6 +2,7 @@
 
 import MaterialModel from "@/lib/superbase/models/material.model";
 import { MaterialTbRow } from "@/types/superbase/table";
+import logger from "@/utils/logger";
 import { fetchAdminMaterials, postMaterial } from "@/utils/requests";
 import { createContext, useContext, useEffect, useReducer } from "react";
 
@@ -107,7 +108,7 @@ export const AdminContextProvider = ({children}: any)=>{
     const postNewMaterial = async (data: FormData) => {
         await postMaterial(data);
 
-        console.log("Data is submitted")
+        logger.debug("Data is submitted")
 
         return await fetchMaterials();
     }

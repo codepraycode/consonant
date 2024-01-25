@@ -42,7 +42,6 @@ export const passwordlessSignIn = async (email: string) => {
         })
     )
 
-    // console.log({data, error})
 
     if (error) throw (error)
 
@@ -57,7 +56,6 @@ export async function getUser() {
     const auth = supabase.auth;
     
     const { data: { user } } = await auth.getUser()
-    // console.log({data, error})
 
     return user;
 }
@@ -68,7 +66,6 @@ export async function sessionAvailable(): Promise<boolean> {
     
     
     const { error } = await auth.getSession()
-    // console.log({data, error})
 
     if (error) throw({
         message: error.message || 'Could not verify authentication, try again'
@@ -85,8 +82,6 @@ export async function signOut() {
 
         await auth.signOut()
     )
-
-    // console.log({data, error})
 
     if (error) throw (error);
 

@@ -3,6 +3,7 @@ import { useState, useRef, ChangeEvent } from "react"
 import axios from "axios"
 import { TextInput } from "."
 import { getDocumentType } from "@/utils/getDocType"
+import logger from "@/utils/logger"
 
 
 interface UploadProps {
@@ -39,7 +40,7 @@ const ReceiveUpload = ({name, onChange}: {name:string, onChange:(val:any)=>void}
         const files = dt.files;
 
         // handleFiles(files);
-        console.log(files)
+        logger.debug(files)
     }
 
     return (

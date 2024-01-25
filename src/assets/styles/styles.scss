@@ -481,10 +481,12 @@ header {
 
         h3 {
             width: 80%;
+            max-width: 100%;
             font-weight: 400;
             font-size: .8rem;
             margin: 0;
             padding: 0;
+            word-break: break-all;
         }
     }
 

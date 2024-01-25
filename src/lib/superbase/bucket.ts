@@ -54,7 +54,7 @@ class BucketManager {
                 data: null,
                 error: {
                     code: 'UPLOAD ERROR',
-                    message: "Could not upload file",
+                    message: "Could process this file to upload, processing " + config.path,
                 }
             }
         }

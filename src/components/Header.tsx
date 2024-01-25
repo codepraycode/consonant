@@ -30,13 +30,14 @@ const Header = () => {
 
 
                 <ul className="nav-list" role="list">
-                    {!user && (
+                    {/* Disabled user login */}
+                    {/* {!user && (
                         <li>
                             <Link
                                 href={"/auth/login"}
                             >Log In</Link>
                         </li>)
-                    }
+                    } */}
 
 
                     {user && <li>

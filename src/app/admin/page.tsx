@@ -2,6 +2,7 @@ import { AdminMaterials } from "@/components/FileLists";
 import HandlerButton from "@/components/Form/HandlerButton";
 import MaterialUploadForm from "@/components/MaterialUploadForm";
 import { AdminContextProvider } from "@/context/AdminContext";
+import { redirect } from "next/navigation";
 
 
 const UploadSection = () => (
@@ -35,6 +36,8 @@ const AdminFileLists = () => (
 
 
 const AdminPage = () => {
+
+    redirect('/'); // ! Disable admin page
     
     return (
         <AdminContextProvider>

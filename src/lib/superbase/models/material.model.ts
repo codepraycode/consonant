@@ -33,9 +33,11 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
     asset_access: string; // asset id
     asset_download: string;
     asset_id: string;
+    asset_type: string;
     created_at: string | Date;
     updated_at: string | Date;
     user: string;
+
 
     table = SupaBaseTableNames.MATERIALS;
     static get table() {
@@ -61,6 +63,7 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
             asset_access,
             asset_download,
             asset_id,
+            asset_type,
             user,
             course
         } = instanceData;
@@ -81,6 +84,7 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
         this.asset_access = asset_access;
         this.asset_download = asset_download;
         this.asset_id = asset_id;
+        this.asset_type = asset_type
         this.course = course || '';
         this.user = user
     }
@@ -185,7 +189,8 @@ class MaterialModel extends BaseModel implements MaterialTbRow {
         return {
             asset_access: data.access,
             asset_download: data.download,
-            asset_id: data.id
+            asset_id: data.id,
+            asset_type: data.asset_type
         }
     }
 

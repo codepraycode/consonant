@@ -44,6 +44,17 @@ async function runSearch(params:SearchParameters): Promise<SearchResult>{
     
 }
 
+
+function discernError(error: Error, alt_message?:string) {
+
+    console.error(error);
+    if (error.message.includes('Network Error')) {
+        return "Network error, please check your internet connection"
+    }
+
+    return alt_message || "Could not continue search";
+}
+
 class SearchStore {
     loading = false;
     error:string | null = null;
@@ -104,13 +115,24 @@ class SearchStore {
 
 
     async search() {
-        this.updateLoading(true)
-        const parameters = this.searchParameters;
+        this.updateLoading(true);
 
-        const result = await runSearch(parameters);
+        const parameters = this.searchParameters;
+        let result:SearchResult;
+
+        try {
+            result = await runSearch(parameters);
+        } catch (error: any) {
+            const reason = discernError(error, `Could not search for '${this.query}'`);
+
+            this.updateError(reason);
+            this.updateLoading(false);
+            return;
+        }
 
         this.updateSearchResult(result);
         this.updateLoading(false)
+        if (this.error) this.updateError(null);
     }
 
     async loadMore() {
@@ -125,7 +147,17 @@ class SearchStore {
 
         parameters.offset = this.searchResult.documents.length;
 
-        const result = await runSearch(parameters);
+        let result:SearchResult;
+
+        try {
+            result = await runSearch(parameters);
+        } catch (error: any) {
+            const reason = discernError(error, `Could not search for '${this.query}'`);
+
+            this.updateError(reason);
+            this.updateLoading(false);
+            return;
+        }
 
         result.documents = [
             ...this.searchResult.documents,
@@ -134,6 +166,7 @@ class SearchStore {
 
         this.updateSearchResult(result);
         this.updateLoading(false)
+        if (this.error) this.updateError(null);
     }
     
     

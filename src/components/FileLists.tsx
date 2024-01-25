@@ -58,11 +58,14 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
 )
 
 
-const FileListing = ({ files, admin, altMessage, more}: { files: MaterialTbRow[], admin?:boolean, more?: boolean, altMessage?:string}) => {
-    
+const FileListing = ({ files, admin, altMessage, error}: { files: MaterialTbRow[], error?:string | null, admin?:boolean, more?: boolean, altMessage?:string}) => {
+
+    if (!error && files.length < 1) return (
+        <h4 className="preloader-center placeholder text-grey">{altMessage}</h4>
+    )
+
     return (
         <div className="material-listing" data-admin={admin}>
-            {files.length < 1 && <h4 className="preloader-center placeholder text-grey">{altMessage}</h4>}
             {
                 files.map((item)=> <FileListItem
                     key={item.id}
@@ -88,6 +91,12 @@ const FileListing = ({ files, admin, altMessage, more}: { files: MaterialTbRow[]
 
                     }}
                     />)
+            }
+
+            { error &&
+                <h4 className="preloader-center placeholder text-grey">
+                    {error}
+                </h4>
             }
         </div>
     )
@@ -142,6 +151,7 @@ export const SearchedFileList = observer(() => {
                 "No material found":
                 'Enter a keyword related to the material you seek on the mutal network'
             }
+            error={searchStore.error}
             more={false}
         />
 

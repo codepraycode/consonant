@@ -9,6 +9,7 @@ export interface StorageAsset {
     asset_access: string,
     asset_download: string,
     asset_id: string,
+    asset_type: string
 }
 
 export interface MaterialTbRow extends TbRow, StorageAsset{

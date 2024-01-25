@@ -17,7 +17,7 @@ const SearchFiles = (props: SearchProps) => {
 
     const loading = searchStore.loading;
     const search = (val:string) => {
-        searchStore.updateQuery(val);
+        searchStore.updateQuery(val.trim());
     }
 
 
@@ -28,7 +28,7 @@ const SearchFiles = (props: SearchProps) => {
         <form className={`search-group ${props.className}`}>
             <input
                 className="w-full bg-white search_input d-block mx-auto box-shadow"
-                placeholder={loading ? "Loading...." : "Search for resources e.g CSC"}
+                placeholder={loading ? "Loading...." : "Search for materials e.g CSC 101"}
                 name="search-files"
                 onChange={(e)=>handleSearch(e.target.value)}
                 autoComplete="off"

@@ -3,11 +3,6 @@ import { MaterialTbRow } from "@/types/superbase/table"
 import logger from "@/utils/logger"
 import { action, autorun, computed, makeObservable, observable } from "mobx"
 
-type SearchState = {
-    searchResult: SearchResult,
-    searchQuery: SearchParameters
-}
-
 type SearchResult = {
     found: number,
     page?: number,
@@ -88,6 +83,10 @@ class SearchStore {
         autorun(()=>this.logSearchOperationDetails())
         autorun(()=>{
             if(this.query === '') {
+
+                if (this.searchResult.documents.length > 0) {
+                    this.updateSearchResult(defaultSearchResult);
+                }
                 return;
             }
 

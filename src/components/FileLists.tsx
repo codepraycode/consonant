@@ -24,13 +24,13 @@ const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boole
         <div className="material__header">
             <span className="icon icon-file"/>
 
-            <h3>{ file.title.split('.').slice(0, -1).join('.') }</h3>
+            <h3 title={file.title}>{ file.title }</h3>
         </div>
 
         <div className="material__meta">
 
             <div className="">
-                <span className="tag">{file.title.split('.').pop()}</span>
+                <span className="tag" title={file.asset_type + ' file'}>{file.asset_type}</span>
                 <span className="dot-sep">&#183;</span>
                 <small className="text-small">
                     { formatDateDistance(file.created_at as Date) }
@@ -148,7 +148,7 @@ export const SearchedFileList = observer(() => {
             files={ searchStore.searchResult.documents }
             altMessage={
                 searchStore.query !== '' ? 
-                "No material found":
+                "No material found, try searching with another keyword":
                 'Enter a keyword related to the material you seek on the mutal network'
             }
             error={searchStore.error}

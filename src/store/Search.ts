@@ -55,15 +55,17 @@ function discernError(error: Error, alt_message?:string) {
     return alt_message || "Could not continue search";
 }
 
+
+const defaultSearchResult = {
+    found: -1,
+    page:0,
+    documents:[]
+}
 class SearchStore {
     loading = false;
     error:string | null = null;
     query:string = '';
-    searchResult: SearchResult = {
-        found: -1,
-        page:0,
-        documents:[]
-    };
+    searchResult: SearchResult = defaultSearchResult;
 
     constructor() {
         
@@ -89,7 +91,7 @@ class SearchStore {
                 return;
             }
 
-
+            this.updateSearchResult(defaultSearchResult);
             this.search();
         })
         // autorun(this.logSearchOperationDetails)

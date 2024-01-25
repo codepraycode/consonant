@@ -1,7 +1,7 @@
 import Searcher from "@/lib/typesense"
 import { MaterialTbRow } from "@/types/superbase/table"
 import logger from "@/utils/logger"
-import { action, autorun, computed, makeAutoObservable, makeObservable, observable } from "mobx"
+import { action, autorun, computed, makeObservable, observable } from "mobx"
 
 type SearchState = {
     searchResult: SearchResult,

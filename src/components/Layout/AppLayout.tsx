@@ -12,7 +12,6 @@ const AppLayout = ({children}:{children: React.ReactNode}) => {
 
     return (
         <QueryClientProvider client={queryClient}>
-
             {children}
 
             <ToastContainer/>

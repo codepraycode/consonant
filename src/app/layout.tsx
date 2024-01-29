@@ -4,6 +4,7 @@ import '../assets/styles/styles.scss';
 import AppLayout from '@/components/Layout/AppLayout';
 import Header from '@/components/Header';
 import { AuthContextProvider } from '@/context/AuthContext';
+import { GoogleAnalytics } from '@next/third-parties/google'
 
 
 
@@ -41,9 +42,10 @@ export default function RootLayout({ children }:IRootLayout ) {
                             {children}
                         </main>
                     </AuthContextProvider>
-
                 </AppLayout>
             </body>
+
+            <GoogleAnalytics gaId="G-WGLYRQ3LBS" />
         </html>
     )
 }

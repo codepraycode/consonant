@@ -87,6 +87,10 @@ class SearchStore {
                 if (this.searchResult.documents.length > 0) {
                     this.updateSearchResult(defaultSearchResult);
                 }
+
+                if (this.error) {
+                    this.updateError(null);
+                }
                 return;
             }
 

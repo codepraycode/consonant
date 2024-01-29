@@ -370,8 +370,14 @@ header {
     }
 }
 
-.icon {
+
+button.icon {
+    background-color: transparent;
     display: inline-block;
+    border: 0;
+    text-indent: 10rem;
+}
+.icon {
     width: 2rem;
     aspect-ratio: 1;
 

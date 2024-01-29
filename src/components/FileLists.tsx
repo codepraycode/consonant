@@ -1,61 +1,15 @@
 'use client'
 import useSearch from "@/context/SearchContext";
-import { formatDateDistance } from "@/utils/time";
 import SpinnerPreloader from "./Preloader";
 import { useAdminContext } from "@/context/AdminContext";
-import Icon from "./Icon";
 import { MaterialTbRow } from "@/types/superbase/table";
 import copy from "copy-to-clipboard";
 import { toast } from "react-toastify";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import '../store/Search';
-import SearchStore from "../store/Search";
 import { observer } from "mobx-react-lite";
-import logger from "@/utils/logger";
+import FileListItem from "./FileItem";
 
-
-const FileListItem = ({file, admin, copyLink}: {file:MaterialTbRow, admin?:boolean, copyLink:(id:string)=>void}) => (
-
-    <article
-        className="material box-shadow"
-        data-admin={admin}
-    >
-
-        <div className="material__header">
-            <span className="icon icon-file"/>
-
-            <h3 title={file.title}>{ file.title }</h3>
-        </div>
-
-        <div className="material__meta">
-
-            <div className="">
-                <span className="tag" title={file.asset_type + ' file'}>{file.asset_type}</span>
-                <span className="dot-sep">&#183;</span>
-                <small className="text-small">
-                    { formatDateDistance(file.created_at as Date) }
-                </small>
-            </div>
-
-            <div className="call-to-action">
-                {
-                    admin ? (
-                        <>
-                            <Icon name="edit" label="Edit material" onClick={()=>logger.debug("Edit:", file.id)}/>
-                            <Icon name="trash" label="Delete Material" onClick={()=>logger.debug("Delete:", file.id)}/>
-                        </>):(
-                        <>
-                            <Icon name="download" label="Download File" onClick={()=>window.open(file.asset_download)}/>
-                            <Icon name="link" label="Copy link to share" onClick={()=>copyLink(file.id)}/>
-                        </>
-
-                    )
-                }
-            </div>
-
-        </div>
-    </article>
-)
 
 
 const FileListing = ({ files, admin, altMessage, error}: { files: MaterialTbRow[], error?:string | null, admin?:boolean, more?: boolean, altMessage?:string}) => {

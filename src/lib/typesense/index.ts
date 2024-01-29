@@ -23,7 +23,7 @@ import Typesense from 'typesense';
 // let host = 'localhost';
 // let port = 8108;
 // let protocol = 'http';
-// let apiKey = 'xzy';
+// let apiKey = 'SyC7d9Lg3vqdhJAy2foDsztCpNj4rz51';
 
 let host = 'ijkhmdwprn042bsxp-1.a1.typesense.net';
 let port = 443

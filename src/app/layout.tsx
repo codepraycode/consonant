@@ -5,7 +5,7 @@ import AppLayout from '@/components/Layout/AppLayout';
 import Header from '@/components/Header';
 import { AuthContextProvider } from '@/context/AuthContext';
 import { GoogleAnalytics } from '@next/third-parties/google'
-
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 
 // Setup site Metadata
@@ -46,6 +46,7 @@ export default function RootLayout({ children }:IRootLayout ) {
             </body>
 
             <GoogleAnalytics gaId="G-WGLYRQ3LBS" />
+            <SpeedInsights/>
         </html>
     )
 }

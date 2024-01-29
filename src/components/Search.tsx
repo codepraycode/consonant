@@ -11,7 +11,6 @@ interface SearchProps {
 const DEBOUNCE_TIMEOUT = 300;
 
 const SearchFiles = (props: SearchProps) => {
-    // const { handleSearch, loading } = useSearch() as SearchContextProps;
 
     const searchStore = useSearch();
 
@@ -32,6 +31,7 @@ const SearchFiles = (props: SearchProps) => {
                 name="search-files"
                 onChange={(e)=>handleSearch(e.target.value)}
                 autoComplete="off"
+                autoFocus
                 // disabled={loading}
             />
         </form>

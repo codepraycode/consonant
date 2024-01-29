@@ -39,7 +39,7 @@ const Searcher = new Typesense.Client({
     },
   ],
   apiKey,
-  connectionTimeoutSeconds: 2,
+  connectionTimeoutSeconds: 5,
 });
 
 export default Searcher;

@@ -20,15 +20,15 @@ import Typesense from 'typesense';
 // }
 
 
-let host = 'localhost';
-let port = 8108;
-let protocol = 'http';
-let apiKey = 'SyC7d9Lg3vqdhJAy2foDsztCpNj4rz51';
+// let host = 'localhost';
+// let port = 8108;
+// let protocol = 'http';
+// let apiKey = 'SyC7d9Lg3vqdhJAy2foDsztCpNj4rz51';
 
-// let host = 'ijkhmdwprn042bsxp-1.a1.typesense.net';
-// let port = 443
-// let protocol = 'https'
-// let apiKey = 'ivqLeC3srUz1XfneA4233Y4Irh6dUDPW';
+let host = 'ijkhmdwprn042bsxp-1.a1.typesense.net';
+let port = 443
+let protocol = 'https'
+let apiKey = 'ivqLeC3srUz1XfneA4233Y4Irh6dUDPW';
 
 const Searcher = new Typesense.Client({
   nodes: [

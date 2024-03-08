@@ -30,9 +30,9 @@ import Typesense from 'typesense';
 // let protocol = 'https'
 // let apiKey = 'ivqLeC3srUz1XfneA4233Y4Irh6dUDPW';
 
-let host = '34.229.115.84';
-let port = 8108
-let protocol = 'http'
+let host = 'search.consonant.codepraycode.me';
+let port = 443
+let protocol = 'https'
 let apiKey = 'XZFkeBxsCpddnJH6Om8PrxsE3ySxgRnJ';
 
 const Searcher = new Typesense.Client({

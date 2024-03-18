@@ -124,6 +124,7 @@ async function saveMaterialMetaData(client: SupabaseClient, material: MaterialDt
         user_id,
         asset_access,
         asset_type,
+        asset_path: upload_path,
         // asset_id: (upload as any).id,
     };
 

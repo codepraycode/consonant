@@ -44,3 +44,4 @@ ALTER TABLE auth.users ENABLE TRIGGER on_auth_user_created;
 -- Relate Material meta to user
 ALTER TABLE public.materials_meta
 ADD COLUMN user_id uuid REFERENCES public.users(id) ON DELETE CASCADE;
+-- make asset_type    not null
